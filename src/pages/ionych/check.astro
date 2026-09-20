@@ -1,13 +1,13 @@
 ---
 import Shell from '../../layouts/Shell.astro';
-import Tabs from '../../components/Tabs.astro';
+import Header from '../../components/Header.astro';
 import { heroes, heroById, checks, checkOrder, finalCheck } from '../../data/ionych.js';
 
 const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id] }));
 ---
 
 <Shell title="Сюжетный чек · Ионыч" screen="check">
-  <Tabs active="check" />
+  <Header active="check" />
 
   <main class="check">
     <section class="pick">

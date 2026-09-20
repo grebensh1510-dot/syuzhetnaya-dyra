@@ -1,0 +1,70 @@
+---
+/*
+ * CinematicPhoto — одна фотография, которая ведёт себя как кадр.
+ *
+ * Как вставить в любую страницу:
+ *   <CinematicPhoto src="/hero/ionych.jpg" alt="…">
+ *     …контент поверх…
+ *   </CinematicPhoto>
+ *
+ * Слои снизу вверх:
+ *   plate  — сама фотография, медленный наезд камеры (100 % → 106 %) со
+ *            сносом по горизонтали; animation-direction: alternate, поэтому
+ *            разворот происходит в точке нулевой скорости и стыка не видно;
+ *   light  — тёплая засветка, дышит с другим периодом, чем наезд, — от этого
+ *            движение перестаёт читаться как цикл;
+ *   fog    — два мягких пятна, ползут ещё на третьем периоде;
+ *   grain  — плёночное зерно, шаговая анимация, никаких GIF и картинок:
+ *            шум рисует feTurbulence прямо в data-URI;
+ *   scrim  — подложка под текст, иначе заголовок тонет в фотографии.
+ *
+ * Все движущиеся слои двигаются только через transform и opacity — это
+ * композитинг на видеокарте, без перерисовки. Периоды взаимно простые
+ * (19 / 23 / 31 с), чтобы рисунок не повторялся.
+ */
+const { src, alt = '', position = 'center 40%' } = Astro.props;
+---
+
+<div class="cine" data-cine>
+  <div
+    class="cine__plate"
+    role={alt ? 'img' : undefined}
+    aria-label={alt || undefined}
+    style={`background-image: url('${src}'); background-position: ${position};`}
+  >
+  </div>
+
+  <div class="cine__light" aria-hidden="true"></div>
+  <div class="cine__fog cine__fog--a" aria-hidden="true"></div>
+  <div class="cine__fog cine__fog--b" aria-hidden="true"></div>
+  <div class="cine__grain" aria-hidden="true"></div>
+  <div class="cine__scrim" aria-hidden="true"></div>
+
+  <div class="cine__content">
+    <slot />
+  </div>
+</div>
+
+<script>
+  // Единственное, ради чего здесь нужен JS: не гонять композитор, когда кадр
+  // не виден. Всё остальное делает CSS.
+  const frames = document.querySelectorAll('[data-cine]');
+  if (frames.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          e.target.dataset.paused = e.isIntersecting ? 'false' : 'true';
+        });
+      },
+      { rootMargin: '120px' }
+    );
+    frames.forEach((f) => io.observe(f));
+
+    document.addEventListener('visibilitychange', () => {
+      frames.forEach((f) => {
+        if (document.hidden) f.dataset.paused = 'true';
+        else f.dataset.paused = 'false';
+      });
+    });
+  }
+</script>

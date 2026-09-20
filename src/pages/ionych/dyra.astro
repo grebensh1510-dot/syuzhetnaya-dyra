@@ -1,13 +1,13 @@
 ---
 import Shell from '../../layouts/Shell.astro';
-import Tabs from '../../components/Tabs.astro';
+import Header from '../../components/Header.astro';
 import { warmup, matching } from '../../data/ionych.js';
 
 const task = matching[0];
 ---
 
 <Shell title="Тест-дыра № 2 · Ионыч" screen="dyra">
-  <Tabs active="dyra" />
+  <Header active="dyra" />
 
   <main class="exam">
     <header class="ds-head">

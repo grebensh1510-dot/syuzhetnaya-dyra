@@ -1,13 +1,13 @@
 ---
 import Shell from '../../layouts/Shell.astro';
-import Tabs from '../../components/Tabs.astro';
+import Header from '../../components/Header.astro';
 import { family, heroes, checks } from '../../data/ionych.js';
 
 const cards = [{ ...family, isFamily: true }, ...heroes];
 ---
 
 <Shell title="Досье героев · Ионыч" screen="dosye">
-  <Tabs active="dosye" />
+  <Header active="dosye" />
 
   <main class="dosye">
     <header class="ds-head">
