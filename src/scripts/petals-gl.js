@@ -61,7 +61,7 @@ function makeMaterial() {
     metalness: 0.0,
     side: THREE.DoubleSide,
     transparent: true,
-    opacity: 0.62,
+    opacity: 0.5,
     depthWrite: false,
   });
 
@@ -101,7 +101,7 @@ class Grain {
 
   reset(w, h, initial) {
     this.depth = Math.random();
-    this.scale = (13 + this.depth * 17) * (0.85 + Math.random() * 0.4);
+    this.scale = (12 + this.depth * 14) * (0.85 + Math.random() * 0.4);
     this.z = -420 + this.depth * 560;
     this.x = Math.random() * w - w / 2;
     this.y = initial ? Math.random() * h - h / 2 : h / 2 + 60;

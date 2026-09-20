@@ -1894,3 +1894,22 @@
     white-space: nowrap;
   }
 }
+
+/* Состав не должен липнуть к сноске о порядке прохождения. */
+.arh-note + .arh-cast {
+  margin-top: 48px;
+}
+
+@media (max-width: 560px) {
+  /* «Тест-дыра № 2» длиннее остальных: на узком экране подпись уходит
+     под название, иначе плашка ломается на две строки. */
+  .arh-tab {
+    grid-template-columns: 38px 1fr;
+    row-gap: 4px;
+  }
+
+  .arh-tab-sub {
+    grid-column: 2;
+    text-align: left;
+  }
+}
