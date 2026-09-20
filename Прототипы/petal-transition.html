@@ -1,0 +1,624 @@
+<title>Лепестковый переход</title>
+<style>
+  /* ───────────────────────── Tokens (design system: my-project/Референсы/design-system.md) ───────────────────────── */
+  :root{
+    --ivory:#F4EEE3;
+    --paper:#FBF8F2;
+    --ink:#231B18;
+    --ink-soft:#5C5049;
+    --wine:#6B1B24;
+    --wine-deep:#3F0E14;
+    --wine-soft:#8C3140;
+    --gold:#B08D4F;
+    --blush:#F0CFDA;
+    --shadow: 0 24px 60px -20px rgba(35,27,24,.35);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:var(--ivory);}
+  body{
+    color:var(--ink);
+    font-family:'EB Garamond', Georgia, 'Times New Roman', serif;
+    font-size:18px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3{
+    font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0;
+    text-wrap:balance;
+  }
+  em{
+    font-family:'Fraunces', Georgia, serif;
+    font-style:italic;
+    font-weight:500;
+    color:var(--wine);
+  }
+  p{margin:0;}
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:.5em;
+    font-family:'Inter', system-ui, sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--wine);
+  }
+  .eyebrow.on-dark{color:var(--blush);}
+
+  button{
+    font-family:'Inter', system-ui, sans-serif;
+    cursor:pointer;
+    border:none;
+    background:none;
+    color:inherit;
+  }
+  button:focus-visible, a:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
+  }
+
+  /* ───────────────────────── Layout scaffolding ───────────────────────── */
+  .section{
+    position:relative;
+    width:100%;
+    padding-block:min(14vh,120px);
+    display:none;
+  }
+  .section.is-active{display:block;}
+  .section--ivory{background:var(--ivory);}
+  .section--wine{background:var(--wine-deep); color:var(--ivory);}
+
+  .wrap{
+    max-width:1180px;
+    margin-inline:auto;
+    padding-inline:max(20px, 4vw);
+  }
+
+  .col{
+    max-width:62ch;
+  }
+  .col--wide{max-width:76ch;}
+
+  /* ───────────────────────── Hero (section 1) ───────────────────────── */
+  .hero{
+    display:flex;
+    flex-direction:column;
+    gap:28px;
+  }
+  .hero h1{
+    font-size:clamp(42px, 6.2vw, 78px);
+    line-height:.98;
+    max-width:14ch;
+  }
+  .hero .lede{
+    font-size:19px;
+    color:var(--ink-soft);
+    max-width:56ch;
+  }
+  .hero-stage{
+    position:relative;
+    margin-top:12px;
+    height:min(46vh, 380px);
+    border:1px solid rgba(35,27,24,.1);
+    border-radius:28px;
+    background:linear-gradient(160deg, var(--paper), #EFE6D6 70%);
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .hero-stage__hint{
+    font-family:'Inter', system-ui, sans-serif;
+    font-size:12.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    opacity:.65;
+    pointer-events:none;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 30px;
+    border-radius:999px;
+    background:var(--wine);
+    color:var(--ivory);
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    box-shadow:0 10px 30px -8px rgba(107,27,36,.55);
+    transition:transform .3s cubic-bezier(.22,.68,0,1), box-shadow .3s ease, background .3s ease;
+    align-self:flex-start;
+  }
+  .btn:hover{transform:translateY(-2px); background:var(--wine-soft);}
+  .btn--ghost{
+    background:transparent;
+    color:var(--ivory);
+    border:1px solid rgba(244,238,227,.45);
+    box-shadow:none;
+  }
+  .btn--ghost:hover{background:rgba(244,238,227,.1); border-color:var(--gold);}
+
+  /* ───────────────────────── Section 2: how it works ───────────────────────── */
+  .how{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:56px;
+    align-items:start;
+  }
+  .how h2{font-size:clamp(30px,4vw,44px); max-width:12ch;}
+  .steps{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+  .step{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:16px;
+    padding-block:18px;
+    border-top:1px dashed rgba(244,238,227,.18);
+  }
+  .step:first-child{border-top:none; padding-top:0;}
+  .step-tag{
+    font-family:'Inter', system-ui, sans-serif;
+    font-size:12px;
+    letter-spacing:.1em;
+    color:var(--gold);
+    white-space:nowrap;
+  }
+  .step p{color:rgba(244,238,227,.78); font-size:16.5px;}
+  .step strong{color:var(--ivory); font-weight:600; display:block; margin-bottom:4px; font-family:'Fraunces',serif;}
+
+  /* ───────────────────────── Section 3: catalog ───────────────────────── */
+  .catalog-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:24px;
+    flex-wrap:wrap;
+    margin-bottom:44px;
+  }
+  .catalog-head h2{font-size:clamp(30px,4vw,44px);}
+  .deck{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
+  }
+  .card{
+    position:relative;
+    border-radius:22px;
+    overflow:hidden;
+    aspect-ratio:3/4;
+    border:1px solid rgba(35,27,24,.08);
+    box-shadow:var(--shadow);
+    background:var(--paper);
+  }
+  .card__cover{
+    position:absolute; inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+  }
+  .card__cover span{
+    font-family:'Inter', system-ui, sans-serif;
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.7);
+  }
+  .card--sites .card__cover{background:linear-gradient(150deg, var(--wine) 0%, var(--wine-deep) 100%);}
+  .card--decks .card__cover{background:linear-gradient(150deg, #C7A465 0%, var(--gold) 55%, #8C6F3B 100%);}
+  .card--posts .card__cover{background:linear-gradient(150deg, #3A332E 0%, var(--ink) 70%);}
+  .card__tag{
+    position:absolute; top:14px; left:14px;
+    font-family:'Inter', system-ui, sans-serif;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ivory);
+    background:rgba(35,27,24,.35);
+    backdrop-filter:blur(6px);
+    padding:6px 12px;
+    border-radius:999px;
+  }
+  .card__caption{
+    position:absolute; left:0; right:0; bottom:0;
+    padding:20px 16px 16px;
+    background:linear-gradient(to top, rgba(0,0,0,.55), transparent);
+  }
+  .card__caption b{
+    display:block;
+    color:var(--ivory);
+    font-family:'Fraunces', serif;
+    font-size:17px;
+    font-weight:600;
+  }
+  .card__caption i{
+    display:block;
+    margin-top:2px;
+    color:rgba(244,238,227,.75);
+    font-size:12.5px;
+    font-style:normal;
+  }
+
+  .note{
+    margin-top:64px;
+    border-top:1px solid rgba(35,27,24,.1);
+    padding-top:28px;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:20px;
+    align-items:start;
+    color:var(--ink-soft);
+    font-size:15px;
+  }
+  .note .eyebrow{margin-top:3px;}
+  .note a{color:var(--wine); border-bottom:1px solid rgba(107,27,36,.35);}
+
+  /* ───────────────────────── Nav dots ───────────────────────── */
+  .dots{
+    position:fixed;
+    left:50%;
+    bottom:max(22px, env(safe-area-inset-bottom, 0px));
+    transform:translateX(-50%);
+    display:flex;
+    gap:10px;
+    padding:10px 14px;
+    background:rgba(251,248,242,.82);
+    border:1px solid rgba(35,27,24,.1);
+    border-radius:999px;
+    box-shadow:0 14px 34px -14px rgba(35,27,24,.3);
+    backdrop-filter:blur(10px);
+    z-index:60;
+  }
+  .dot{
+    width:9px; height:9px;
+    border-radius:50%;
+    background:rgba(107,27,36,.25);
+    transition:background .3s ease, transform .3s ease;
+    padding:0;
+  }
+  .dot.is-active{background:var(--wine); transform:scale(1.25);}
+  .dot:hover{background:var(--wine-soft);}
+
+  /* ───────────────────────── Petal canvas ───────────────────────── */
+  #petals{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:50;
+  }
+
+  @media (max-width:860px){
+    .how{grid-template-columns:1fr; gap:36px;}
+    .deck{grid-template-columns:1fr; gap:16px;}
+    .catalog-head{flex-direction:column; align-items:flex-start;}
+    .note{grid-template-columns:1fr;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .btn, .dot, .card{transition:none;}
+  }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap">
+
+<canvas id="petals" aria-hidden="true"></canvas>
+
+<!-- ============================================================ -->
+<!-- SECTION 1 — HERO                                              -->
+<!-- ============================================================ -->
+<section class="section section--ivory is-active" data-section="0">
+  <div class="wrap hero">
+    <span class="eyebrow">[ 01 ] Переходы</span>
+    <h1>Переход <em>лепестками</em> розы</h1>
+    <p class="lede">
+      На сайте-референсе Noomo для Valentime переход между сценами сделан
+      на настоящей 3D-модели розы (Three.js + GLB-меш с семью лепестками,
+      анимация на GSAP ScrollTrigger). Здесь — лёгкая 2D-версия того же
+      ощущения на canvas: без 3D-моделирования, но с той же физикой полёта.
+    </p>
+    <div class="hero-stage" id="stage">
+      <span class="hero-stage__hint">лепестки летят фоном — нажми «Смотреть переход»</span>
+    </div>
+    <button class="btn" id="toStep1" type="button">Смотреть переход →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 2 — HOW IT WORKS                                      -->
+<!-- ============================================================ -->
+<section class="section section--wine" data-section="1">
+  <div class="wrap how">
+    <div>
+      <span class="eyebrow on-dark">[ 02 ] Механика</span>
+      <h2 style="margin-top:18px;">Как устроен переход</h2>
+      <p style="margin-top:20px; color:rgba(244,238,227,.78); font-size:16.5px;">
+        Три фазы вместо одной длинной анимации — так переход читается как
+        жест, а не как случайный шум из лепестков.
+      </p>
+      <button class="btn btn--ghost" id="toStep2" type="button" style="margin-top:32px;">Каталог работ →</button>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="step-tag">00 → 180ms</span>
+        <p><strong>Спавн из точки клика</strong>Лепестки вылетают из места, где была нажата кнопка — не с потолка экрана, а из самого жеста.</p>
+      </div>
+      <div class="step">
+        <span class="step-tag">180 → 550ms</span>
+        <p><strong>Экран заметает</strong>Плотность лепестков достигает пика, старое содержимое скрыто под ними.</p>
+      </div>
+      <div class="step">
+        <span class="step-tag">550ms →</span>
+        <p><strong>Подмена под прикрытием</strong>Контент меняется незаметно для глаза, а лепестки продолжают падать и утекают за нижний край.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 3 — CATALOG                                           -->
+<!-- ============================================================ -->
+<section class="section section--ivory" data-section="2">
+  <div class="wrap">
+    <div class="catalog-head">
+      <div>
+        <span class="eyebrow">[ 03 ] Каталог</span>
+        <h2 style="margin-top:14px;">Тот же переход между разделами</h2>
+      </div>
+      <button class="btn" id="toStep0" type="button">Начать сначала ↺</button>
+    </div>
+
+    <div class="deck">
+      <article class="card card--sites">
+        <div class="card__cover"><span>превью работы</span></div>
+        <span class="card__tag">[ Сайты ]</span>
+        <div class="card__caption"><b>UniPal</b><i>лендинг · React + Vite</i></div>
+      </article>
+      <article class="card card--decks">
+        <div class="card__cover"><span>превью работы</span></div>
+        <span class="card__tag">[ Презентации ]</span>
+        <div class="card__caption"><b>Курс по типографике</b><i>слайд-дек · 12 экранов</i></div>
+      </article>
+      <article class="card card--posts">
+        <div class="card__cover"><span>превью работы</span></div>
+        <span class="card__tag">[ Посты ]</span>
+        <div class="card__caption"><b>Разбор референсов</b><i>пост · дизайн-система</i></div>
+      </article>
+    </div>
+
+    <div class="note">
+      <span class="eyebrow">[ Заметка ]</span>
+      <p>
+        Оригинал — <a href="https://valentime.noomoagency.com" target="_blank" rel="noopener">valentime.noomoagency.com</a> —
+        грузит собственную 3D-сцену (<code>/models/flowTest.glb</code>, семь мешей
+        лепестков на каждый цветок) и анимирует её в Three.js, синхронизируя с
+        скроллом через GSAP ScrollTrigger. Это отдельный производственный трек —
+        3D-моделирование розы + WebGL-сцена — и он не нужен, чтобы получить то же
+        ощущение на портфолио: canvas-версия на этой странице даёт визуально
+        близкий результат без 3D-ассетов.
+      </p>
+    </div>
+  </div>
+</section>
+
+<nav class="dots" aria-label="Разделы">
+  <button class="dot is-active" data-dot="0" aria-label="Раздел 1"></button>
+  <button class="dot" data-dot="1" aria-label="Раздел 2"></button>
+  <button class="dot" data-dot="2" aria-label="Раздел 3"></button>
+</nav>
+
+<script>
+(() => {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const canvas = document.getElementById('petals');
+  const ctx = canvas.getContext('2d');
+  let W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  function resize(){
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // ---- palette (matches CSS tokens) ----
+  const WINE_DEEP = [63, 14, 20];
+  const WINE      = [107, 27, 36];
+  const BLUSH     = [240, 207, 218];
+
+  function lerp(a,b,t){ return a + (b-a)*t; }
+  function mixColor(t){
+    // t: 0 = deep wine, 1 = blush (front/back petal shading)
+    const c = t < .5
+      ? [lerp(WINE_DEEP[0],WINE[0],t*2), lerp(WINE_DEEP[1],WINE[1],t*2), lerp(WINE_DEEP[2],WINE[2],t*2)]
+      : [lerp(WINE[0],BLUSH[0],(t-.5)*2), lerp(WINE[1],BLUSH[1],(t-.5)*2), lerp(WINE[2],BLUSH[2],(t-.5)*2)];
+    return `rgb(${c[0]|0},${c[1]|0},${c[2]|0})`;
+  }
+
+  class Petal{
+    constructor(x, y, opts={}){
+      this.x = x; this.y = y;
+      this.size = opts.size ?? (10 + Math.random()*14);
+      this.depth = opts.depth ?? Math.random();               // 0 far … 1 near
+      this.vy = (opts.vy ?? (30 + this.depth*70)) * (0.7 + Math.random()*0.6);
+      this.vx = opts.vx ?? (Math.random()*2-1) * 18;
+      this.swayAmp = 18 + Math.random()*34;
+      this.swayFreq = 0.6 + Math.random()*0.9;
+      this.swayPhase = Math.random()*Math.PI*2;
+      this.rot = Math.random()*Math.PI*2;
+      this.rotSpeed = (Math.random()*2-1) * (0.6 + this.depth*0.8);
+      this.turn = Math.random()*Math.PI*2;
+      this.turnSpeed = 1.2 + Math.random()*1.6;
+      this.age = 0;
+      this.life = opts.life ?? (4 + Math.random()*2.5);
+      this.fadeOut = opts.fadeOut ?? 0.9;
+      this.opacity = opts.startOpacity ?? 0;
+      this.fadeIn = 0.25 + Math.random()*0.2;
+      this.dead = false;
+    }
+    update(dt, t){
+      this.age += dt;
+      this.x += (this.vx + Math.sin(t*this.swayFreq + this.swayPhase) * this.swayAmp * dt);
+      this.y += this.vy * dt;
+      this.rot += this.rotSpeed * dt;
+      this.turn += this.turnSpeed * dt;
+
+      if (this.age < this.fadeIn) this.opacity = Math.min(1, this.age / this.fadeIn);
+      else if (this.age > this.life - this.fadeOut) {
+        this.opacity = Math.max(0, (this.life - this.age) / this.fadeOut);
+      } else this.opacity = 1;
+
+      if (this.age >= this.life || this.y - this.size > H + 40) this.dead = true;
+    }
+    draw(ctx){
+      if (this.opacity <= 0.01) return;
+      const scaleX = Math.max(0.22, Math.abs(Math.cos(this.turn)));
+      const shade = (Math.cos(this.turn) + 1) / 2; // 0 edge-dark .. 1 face-light
+      const s = this.size * (0.65 + this.depth*0.55);
+
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rot);
+      ctx.scale(scaleX, 1);
+      ctx.globalAlpha = this.opacity * (0.55 + this.depth*0.45);
+
+      const grad = ctx.createLinearGradient(0, -s, 0, s);
+      grad.addColorStop(0, mixColor(Math.min(1, shade + 0.25)));
+      grad.addColorStop(1, mixColor(Math.max(0, shade - 0.2)));
+      ctx.fillStyle = grad;
+
+      ctx.beginPath();
+      ctx.moveTo(0, -s);
+      ctx.bezierCurveTo(s*0.62, -s*0.55, s*0.5, s*0.35, 0, s);
+      ctx.bezierCurveTo(-s*0.5, s*0.35, -s*0.62, -s*0.55, 0, -s);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  let petals = [];
+  let clock = 0;
+  let ambientAcc = 0;
+  let ambientOn = true;
+
+  function spawnAmbient(dt){
+    if (!ambientOn || reduceMotion) return;
+    ambientAcc += dt;
+    const heroRect = document.getElementById('stage').getBoundingClientRect();
+    if (ambientAcc > 0.5 && petals.length < 26 && heroRect.bottom > 0 && heroRect.top < H) {
+      ambientAcc = 0;
+      const x = heroRect.left + Math.random()*heroRect.width;
+      const y = heroRect.top - 20 - Math.random()*40;
+      petals.push(new Petal(x, y, { size: 9+Math.random()*10, depth: Math.random()*0.7, vy: 22+Math.random()*20, life: 5+Math.random()*2 }));
+    }
+  }
+
+  function burst(originX, originY, count){
+    for (let i = 0; i < count; i++){
+      const delay = Math.random() * 0.18; // staggered spawn feel, handled via age offset
+      const angle = (Math.random()*Math.PI*0.9) - Math.PI*0.45; // fan out mostly downward/sideways
+      const speed = 220 + Math.random()*260;
+      const p = new Petal(
+        originX + (Math.random()*2-1)*40,
+        originY + (Math.random()*2-1)*20,
+        {
+          size: 12 + Math.random()*16,
+          depth: Math.random(),
+          vy: Math.cos(angle) * speed * 0.6 + 90,
+          vx: Math.sin(angle) * speed,
+          life: 1.1 + Math.random()*0.9,
+          fadeOut: 0.55,
+        }
+      );
+      p.age = -delay; // negative age => pops in slightly staggered
+      petals.push(p);
+    }
+  }
+
+  let last = performance.now();
+  function loop(now){
+    const dt = Math.min(0.05, (now-last)/1000);
+    last = now; clock += dt;
+
+    ctx.clearRect(0,0,W,H);
+    spawnAmbient(dt);
+
+    for (let i = petals.length-1; i>=0; i--){
+      const p = petals[i];
+      p.update(dt, clock);
+      if (p.age >= 0) p.draw(ctx);
+      if (p.dead) petals.splice(i,1);
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  // ---------------- Section / nav controller ----------------
+  const sections = Array.from(document.querySelectorAll('.section'));
+  const dots = Array.from(document.querySelectorAll('.dot'));
+  let active = 0;
+  let transitioning = false;
+
+  function setActive(index, originEl){
+    if (transitioning || index === active) return;
+    transitioning = true;
+    ambientOn = false;
+
+    const rect = originEl ? originEl.getBoundingClientRect() : {left:W/2, top:H/2, width:0, height:0};
+    const ox = rect.left + rect.width/2;
+    const oy = rect.top + rect.height/2;
+
+    if (reduceMotion){
+      swap(index);
+      transitioning = false;
+      ambientOn = true;
+      return;
+    }
+
+    // spawn burst in three quick waves for organic coverage
+    burst(ox, oy, 60);
+    setTimeout(() => burst(Math.random()*W, -20, 50), 90);
+    setTimeout(() => burst(Math.random()*W, -20, 50), 180);
+
+    setTimeout(() => swap(index), 560);
+    setTimeout(() => { transitioning = false; ambientOn = true; }, 1500);
+  }
+
+  function swap(index){
+    sections[active].classList.remove('is-active');
+    sections[index].classList.add('is-active');
+    dots[active].classList.remove('is-active');
+    dots[index].classList.add('is-active');
+    active = index;
+    window.scrollTo(0, 0);
+  }
+
+  document.getElementById('toStep1').addEventListener('click', (e) => setActive(1, e.currentTarget));
+  document.getElementById('toStep2').addEventListener('click', (e) => setActive(2, e.currentTarget));
+  document.getElementById('toStep0').addEventListener('click', (e) => setActive(0, e.currentTarget));
+  dots.forEach(d => d.addEventListener('click', (e) => setActive(Number(d.dataset.dot), e.currentTarget)));
+})();
+</script>

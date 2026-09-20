@@ -1,0 +1,16 @@
+---
+// Шторка героя: один компонент на всё приложение. Снизу на телефоне,
+// справа на десктопе, всегда возвращает туда, откуда открыли.
+---
+
+<div class="sheet" hidden>
+  <button class="sheet__scrim" type="button" aria-label="Закрыть карточку"></button>
+  <aside class="sheet__panel" role="dialog" aria-modal="true" aria-labelledby="sheet-name">
+    <header class="sheet__head">
+      <h2 class="sheet__name" id="sheet-name"></h2>
+      <p class="sheet__role"></p>
+      <button class="sheet__close" type="button" aria-label="Закрыть">Закрыть</button>
+    </header>
+    <dl class="sheet__fields"></dl>
+  </aside>
+</div>

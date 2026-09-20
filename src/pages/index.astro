@@ -1,0 +1,94 @@
+---
+import Shell from '../layouts/Shell.astro';
+import { work, heroes, questions, loveLine, places } from '../data/ionych.js';
+
+const quoteCount = new Set(
+  [
+    ...questions.flatMap((q) => q.options.map((o) => o.text)),
+    ...loveLine.map((l) => l.text),
+    ...places.map((p) => p.text),
+  ]
+).size;
+
+function plural(n, one, few, many) {
+  const m10 = n % 10;
+  const m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
+  return many;
+}
+
+const sections = [
+  {
+    num: 'I',
+    name: 'Справка',
+    sub: `${heroes.length} ${plural(heroes.length, 'герой', 'героя', 'героев')}`,
+    href: '/ionych/spravka/',
+  },
+  {
+    num: 'II',
+    name: 'Тест',
+    sub: `${questions.length} ${plural(questions.length, 'вопрос', 'вопроса', 'вопросов')}`,
+    href: '/ionych/test/',
+  },
+  {
+    num: 'III',
+    name: 'Экзамен',
+    sub: 'сопоставление',
+    href: '/ionych/ekzamen/',
+  },
+];
+---
+
+<Shell title={work.title} screen="title">
+  <main class="entry">
+    <header class="arh-plate">
+      <p class="arh-imprint">{work.author}</p>
+      <h1 class="arh-title">{work.title}</h1>
+      <p class="arh-year">MDCCCXCVIII</p>
+      <ul class="arh-tags">
+        {work.tags.slice(0, 3).map((t) => <li>{t}</li>)}
+      </ul>
+    </header>
+
+    <section class="arh-cast" aria-labelledby="cast-h">
+      <h2 class="arh-h" id="cast-h">Действующие лица</h2>
+      <ul class="arh-slips">
+        {
+          heroes.map((h) => (
+            <li class="arh-slip" data-short={h.short ? 'true' : undefined}>
+              <span class="arh-slip-name">{h.name}</span>
+              <span class="arh-slip-role">{h.aka ? `«${h.aka}»` : h.role}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="arh-count">
+        {quoteCount} {plural(quoteCount, 'выверенная цитата', 'выверенные цитаты', 'выверенных цитат')} в основе
+      </p>
+    </section>
+
+    <nav class="arh-tabs" aria-label="Разделы произведения">
+      {
+        sections.map((s) => (
+          <a class="arh-tab" href={s.href} data-petal-link>
+            <span class="arh-tab-num">{s.num}</span>
+            <span class="arh-tab-name">{s.name}</span>
+            <span class="arh-tab-sub">{s.sub}</span>
+          </a>
+        ))
+      }
+    </nav>
+
+    <p class="arh-note">
+      Не читали рассказ? Начните со справки — она не запирает тест, но без неё
+      ловушки работают против вас.
+    </p>
+  </main>
+
+  <script>
+    import { mountTitleScene, armSceneLinks } from '../scripts/petals.js';
+    mountTitleScene({ count: window.innerWidth < 760 ? 18 : 28 });
+    armSceneLinks();
+  </script>
+</Shell>

@@ -1,0 +1,123 @@
+---
+import Shell from '../../layouts/Shell.astro';
+import Tabs from '../../components/Tabs.astro';
+import HeroSheet from '../../components/HeroSheet.astro';
+import { work, heroes, heroById, loveLine, places } from '../../data/ionych.js';
+
+const facts = [
+  { key: 'Автор', value: work.author },
+  { key: 'Род', value: 'эпос' },
+  { key: 'Жанр', value: 'рассказ' },
+  { key: 'Направление', value: 'реализм' },
+];
+---
+
+<Shell title="Справка · Ионыч" screen="spravka">
+  <Tabs active="spravka" />
+
+  <main class="sheetpage">
+    <header class="sp-head">
+      <h1 class="sp-h1">Справка</h1>
+      <dl class="sp-facts">
+        {
+          facts.map((f) => (
+            <div class="sp-fact">
+              <dt>{f.key}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="sp-lead">
+        Ровно эти четыре факта спрашивают в разминке на вкладке «Экзамен».
+      </p>
+    </header>
+
+    <section class="sp-block" aria-labelledby="h-cast">
+      <h2 class="sp-h2" id="h-cast">Герои</h2>
+      <ul class="sp-cast">
+        {
+          heroes.map((h) => (
+            <li>
+              <button class="sp-card" type="button" data-open-hero={h.id} data-short={h.short ? 'true' : undefined}>
+                <span class="sp-card-name">{h.name}</span>
+                {h.aka && <span class="sp-card-aka">«{h.aka}»</span>}
+                <span class="sp-card-role">{h.role}</span>
+                {h.states && (
+                  <span class="sp-card-states">
+                    {h.states[0]} → {h.states[1]}
+                  </span>
+                )}
+                <span class="sp-card-fields">
+                  {Object.keys(h.fields).length} {Object.keys(h.fields).length === 1 ? 'поле' : 'поля'}
+                </span>
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="sp-note">
+        Поле без подтверждённой цитаты не показывается вовсе — никаких прочерков
+        и «не указано».
+      </p>
+    </section>
+
+    <section class="sp-block" aria-labelledby="h-love">
+      <h2 class="sp-h2" id="h-love">Любовная линия</h2>
+      <p class="sp-sub">
+        Единственное место справки, где материал устроен по времени, а не по героям.
+      </p>
+      <ol class="sp-line">
+        {
+          loveLine.map((l, i) => (
+            <li class="sp-step">
+              <span class="sp-step-num">{i + 1}</span>
+              <div class="sp-step-body">
+                <h3 class="sp-step-name">
+                  {l.step}
+                  <span class="sp-step-ch">глава {l.chapter}</span>
+                </h3>
+                <blockquote class="sp-quote">{l.text}</blockquote>
+                <p class="sp-src">{l.speaker}</p>
+                <p class="sp-why">{l.note}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="sp-block" aria-labelledby="h-places">
+      <h2 class="sp-h2" id="h-places">Места</h2>
+      <ul class="sp-places">
+        {
+          places.map((p) => (
+            <li class="sp-place">
+              <h3 class="sp-place-name">
+                {p.name}
+                <span class="sp-step-ch">глава {p.chapter}</span>
+              </h3>
+              <blockquote class="sp-quote">{p.text}</blockquote>
+              {p.speaker && <p class="sp-src">{p.speaker}</p>}
+              <p class="sp-why">{p.note}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+
+  <HeroSheet />
+
+  <script define:vars={{ heroData: heroById }} is:inline>
+    window.__HEROES__ = heroData;
+  </script>
+
+  <script>
+    import { mountSheet } from '../../scripts/sheet.js';
+    import { armSceneLinks, mountPetals } from '../../scripts/petals.js';
+    mountSheet();
+    mountPetals();
+    armSceneLinks();
+  </script>
+</Shell>

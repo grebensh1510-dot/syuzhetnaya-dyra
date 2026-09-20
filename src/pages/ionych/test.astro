@@ -1,0 +1,100 @@
+---
+import Shell from '../../layouts/Shell.astro';
+import Tabs from '../../components/Tabs.astro';
+import HeroSheet from '../../components/HeroSheet.astro';
+import { questions, heroById, speakerToHero } from '../../data/ionych.js';
+
+const roman = ['I', 'II', 'III', 'IV', 'V'];
+---
+
+<Shell title="Тест · Ионыч" screen="test">
+  <Tabs active="test" />
+
+  <main class="test" data-total={questions.length}>
+    <header class="test__bar">
+      <p class="prog-roman">
+        <span class="prog-roman__now" data-counter>{roman[0]}</span>
+        <span class="prog-roman__of">из {roman[questions.length - 1]}</span>
+      </p>
+    </header>
+
+    <div class="test__body">
+      {
+        questions.map((q, qi) => (
+          <section class="q" data-q={qi} hidden={qi > 0}>
+            <h1 class="q__trait" tabindex="-1">{q.trait}</h1>
+            <p class="q__prompt">{q.prompt}</p>
+
+            <ul class="q__options">
+              {q.options.map((o) => (
+                <li class="q__item">
+                  <button
+                    class="opt"
+                    type="button"
+                    data-correct={o.correct ? 'true' : 'false'}
+                    data-hero={speakerToHero[o.speaker]}
+                  >
+                    <span class="opt__mark" aria-hidden="true"></span>
+                    <span class="opt__text">{o.text}</span>
+                    <span class="opt__src">
+                      {o.speaker} · глава {o.chapter}
+                    </span>
+                  </button>
+
+                  <div class="verdict" hidden>
+                    <p class="verdict__head">
+                      <span class="verdict__word"></span>
+                    </p>
+                    <p class="verdict__why">{o.why}</p>
+
+                    <div class="verdict__right" hidden>
+                      <p class="verdict__right-lead">Верный ответ отмечен выше</p>
+                      <p class="verdict__right-src"></p>
+                      <p class="verdict__right-why"></p>
+                    </div>
+
+                    <button
+                      class="verdict__go"
+                      type="button"
+                      data-open-hero={speakerToHero[o.speaker]}
+                    >
+                      Карточка героя: {heroById[speakerToHero[o.speaker]].name}
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+
+      <section class="done" hidden>
+        <h1 class="done__h">Набор пройден</h1>
+        <p class="done__score">Верно <span data-score>0</span> из {questions.length}</p>
+        <ul class="done__errors" data-errors></ul>
+        <div class="done__actions">
+          <button class="done__again" type="button">Пройти заново</button>
+          <a class="done__back" href="/ionych/ekzamen/" data-petal-link>К экзамену</a>
+        </div>
+      </section>
+    </div>
+
+    <footer class="test__foot" hidden>
+      <button class="next" type="button">Следующий вопрос</button>
+    </footer>
+  </main>
+
+  <HeroSheet />
+
+  <script define:vars={{ heroData: heroById }} is:inline>
+    window.__HEROES__ = heroData;
+  </script>
+
+  <script>
+    import { mountTest } from '../../scripts/test.js';
+    import { mountPetals, armSceneLinks } from '../../scripts/petals.js';
+    mountTest();
+    mountPetals();
+    armSceneLinks();
+  </script>
+</Shell>

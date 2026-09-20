@@ -1,0 +1,143 @@
+/* Каркас: сброс, поведение шторки и холст лепестков.
+   Решений о внешности здесь нет — они все в world.css. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  margin: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.stage {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding-top: env(safe-area-inset-top, 0px);
+  position: relative;
+  z-index: 1;
+}
+
+/* Холст лепестков лежит поверх сцены, но не ловит касания. */
+.petals {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 260ms ease-out;
+}
+
+.petals[data-on='true'] {
+  opacity: 1;
+}
+
+/* ─── Шторка героя ─── */
+
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  pointer-events: none;
+}
+
+.sheet[hidden] {
+  display: none !important;
+}
+
+.sheet__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(16, 14, 13, 0.42);
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+  pointer-events: auto;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.sheet__panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 82dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  pointer-events: auto;
+  transform: translateY(101%);
+  transition: transform 260ms cubic-bezier(0.22, 0.8, 0.28, 1);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.sheet.is-open .sheet__scrim {
+  opacity: 1;
+}
+
+.sheet.is-open .sheet__panel {
+  transform: translateY(0);
+}
+
+@media (min-width: 900px) {
+  .sheet__panel {
+    left: auto;
+    top: 0;
+    bottom: 0;
+    width: min(420px, 38vw);
+    max-height: none;
+    transform: translateX(101%);
+  }
+
+  .sheet.is-open .sheet__panel {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet__panel,
+  .sheet__scrim,
+  .petals {
+    transition-duration: 1ms;
+  }
+}
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

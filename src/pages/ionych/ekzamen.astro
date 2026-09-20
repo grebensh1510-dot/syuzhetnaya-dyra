@@ -1,0 +1,119 @@
+---
+import Shell from '../../layouts/Shell.astro';
+import Tabs from '../../components/Tabs.astro';
+import HeroSheet from '../../components/HeroSheet.astro';
+import { heroById, warmup, matching } from '../../data/ionych.js';
+
+const task = matching[0];
+---
+
+<Shell title="Экзамен · Ионыч" screen="ekzamen">
+  <Tabs active="ekzamen" />
+
+  <main class="exam">
+    <section class="warm" aria-labelledby="h-warm">
+      <header class="warm__head">
+        <h1 class="sp-h1" id="h-warm">Разминка</h1>
+        <button class="warm__skip" type="button">Пропустить</button>
+      </header>
+      <p class="sp-sub">
+        Три коротких ответа с клавиатуры. Регистр и окончания не придираются.
+      </p>
+
+      <ol class="warm__list">
+        {
+          warmup.map((w) => (
+            <li class="warm__row" data-answers={w.answers.join('|')}>
+              <label class="warm__label" for={`w-${w.id}`}>
+                {w.ask}
+              </label>
+              <input
+                class="warm__input"
+                id={`w-${w.id}`}
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+                enterkeyhint="next"
+              />
+              <span class="warm__verdict" aria-live="polite"></span>
+            </li>
+          ))
+        }
+      </ol>
+      <button class="warm__check" type="button">Проверить</button>
+    </section>
+
+    <section class="match" aria-labelledby="h-match" data-answer={JSON.stringify(task.answer)}>
+      <h2 class="sp-h2" id="h-match">Сопоставление</h2>
+      <p class="match__kind">{task.kind}</p>
+      <p class="match__prompt">{task.prompt}</p>
+
+      <div class="match__col" aria-label="Позиции">
+        <p class="match__bank-h">Позиции</p>
+        <ol class="match__left">
+          {
+            task.left.map((l) => (
+              <li>
+                <button class="slot" type="button" data-key={l.key} aria-expanded="false">
+                  <span class="slot__key">{l.key}</span>
+                  <span class="slot__label">{l.label}</span>
+                  <span class="slot__pick" data-pick>выбрать</span>
+                </button>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+
+      <div class="match__bank" aria-label="Варианты">
+        <p class="match__bank-h">Варианты</p>
+        <ul class="match__options">
+          {
+            task.right.map((r) => (
+              <li>
+                <button class="bank" type="button" data-key={r.key}>
+                  <span class="bank__key">{r.key}</span>
+                  <span class="bank__label">{r.label}</span>
+                </button>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <p class="match__code">
+        Ответ: <span class="match__digits" data-digits>— — —</span>
+      </p>
+
+      <button class="match__check" type="button" disabled>Проверить</button>
+
+      <div class="match__verdict" hidden>
+        <p class="verdict__head"><span class="verdict__word"></span></p>
+        <ul class="match__rows" data-rows></ul>
+        <div class="match__extra">
+          <p class="match__extra-lead">Лишний вариант</p>
+          <p class="match__extra-text" data-extra-text></p>
+          <p class="match__extra-why">{task.extraWhy}</p>
+        </div>
+        <button class="match__again" type="button">Пройти заново</button>
+      </div>
+    </section>
+  </main>
+
+  <HeroSheet />
+
+  <script define:vars={{ heroData: heroById, taskData: task }} is:inline>
+    window.__HEROES__ = heroData;
+    window.__TASK__ = taskData;
+  </script>
+
+  <script>
+    import { mountExam } from '../../scripts/ekzamen.js';
+    import { mountSheet } from '../../scripts/sheet.js';
+    import { mountPetals, armSceneLinks } from '../../scripts/petals.js';
+    mountExam();
+    mountSheet();
+    mountPetals();
+    armSceneLinks();
+  </script>
+</Shell>

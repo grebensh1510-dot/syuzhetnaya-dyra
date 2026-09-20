@@ -1,0 +1,32 @@
+---
+// Три равные вкладки, всегда активные. Переход между ними — смена сцены,
+// поэтому каждая помечена data-petal-link: по ней летят лепестки.
+const { active } = Astro.props;
+
+const tabs = [
+  { id: 'spravka', name: 'Справка', num: 'I', href: '/ionych/spravka/' },
+  { id: 'test', name: 'Тест', num: 'II', href: '/ionych/test/' },
+  { id: 'ekzamen', name: 'Экзамен', num: 'III', href: '/ionych/ekzamen/' },
+];
+---
+
+<nav class="tabs" aria-label="Разделы произведения">
+  <a class="tabs__home" href="/" data-petal-link aria-label="К выбору произведения">Ионыч</a>
+  <ul class="tabs__list">
+    {
+      tabs.map((t) => (
+        <li>
+          <a
+            class="tabs__tab"
+            href={t.href}
+            data-petal-link={t.id === active ? undefined : true}
+            aria-current={t.id === active ? 'page' : undefined}
+          >
+            <span class="tabs__num">{t.num}</span>
+            <span class="tabs__name">{t.name}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

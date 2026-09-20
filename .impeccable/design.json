@@ -1,0 +1,895 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-19T15:29:06.738Z",
+  "title": "Design System: Сюжетная дыра — тренажёр «Ионыч»",
+  "extensions": {
+    "colorMeta": {
+      "arhiv-ivory": {
+        "role": "neutral",
+        "world": "arhiv",
+        "displayName": "Ivory Page",
+        "canonical": "#f4eee3",
+        "tonalRamp": [
+          "oklch(15% 0.016 82.8)",
+          "oklch(26.4% 0.016 82.8)",
+          "oklch(37.9% 0.016 82.8)",
+          "oklch(49.3% 0.016 82.8)",
+          "oklch(60.7% 0.016 82.8)",
+          "oklch(72.1% 0.016 82.8)",
+          "oklch(83.6% 0.016 82.8)",
+          "oklch(95% 0.016 82.8)"
+        ]
+      },
+      "arhiv-paper": {
+        "role": "neutral",
+        "world": "arhiv",
+        "displayName": "Book Paper",
+        "canonical": "#fbf8f2",
+        "tonalRamp": [
+          "oklch(15% 0.009 84.6)",
+          "oklch(26.4% 0.009 84.6)",
+          "oklch(37.9% 0.009 84.6)",
+          "oklch(49.3% 0.009 84.6)",
+          "oklch(60.7% 0.009 84.6)",
+          "oklch(72.1% 0.009 84.6)",
+          "oklch(83.6% 0.009 84.6)",
+          "oklch(95% 0.009 84.6)"
+        ]
+      },
+      "arhiv-ink": {
+        "role": "neutral",
+        "world": "arhiv",
+        "displayName": "Bistre Ink",
+        "canonical": "#231b18",
+        "tonalRamp": [
+          "oklch(15% 0.014 41.6)",
+          "oklch(26.4% 0.014 41.6)",
+          "oklch(37.9% 0.014 41.6)",
+          "oklch(49.3% 0.014 41.6)",
+          "oklch(60.7% 0.014 41.6)",
+          "oklch(72.1% 0.014 41.6)",
+          "oklch(83.6% 0.014 41.6)",
+          "oklch(95% 0.014 41.6)"
+        ]
+      },
+      "arhiv-ink-soft": {
+        "role": "neutral",
+        "world": "arhiv",
+        "displayName": "Softened Ink",
+        "canonical": "#6b5f57",
+        "tonalRamp": [
+          "oklch(15% 0.02 55.9)",
+          "oklch(26.4% 0.02 55.9)",
+          "oklch(37.9% 0.02 55.9)",
+          "oklch(49.3% 0.02 55.9)",
+          "oklch(60.7% 0.02 55.9)",
+          "oklch(72.1% 0.02 55.9)",
+          "oklch(83.6% 0.02 55.9)",
+          "oklch(95% 0.02 55.9)"
+        ]
+      },
+      "arhiv-wine": {
+        "role": "primary",
+        "world": "arhiv",
+        "displayName": "Wine",
+        "canonical": "#6b1b24",
+        "tonalRamp": [
+          "oklch(15% 0.112 18.8)",
+          "oklch(26.4% 0.112 18.8)",
+          "oklch(37.9% 0.112 18.8)",
+          "oklch(49.3% 0.112 18.8)",
+          "oklch(60.7% 0.112 18.8)",
+          "oklch(72.1% 0.112 18.8)",
+          "oklch(83.6% 0.112 18.8)",
+          "oklch(95% 0.112 18.8)"
+        ]
+      },
+      "arhiv-wine-deep": {
+        "role": "primary",
+        "world": "arhiv",
+        "displayName": "Deep Wine",
+        "canonical": "#3f0e14",
+        "tonalRamp": [
+          "oklch(15% 0.076 17.5)",
+          "oklch(26.4% 0.076 17.5)",
+          "oklch(37.9% 0.076 17.5)",
+          "oklch(49.3% 0.076 17.5)",
+          "oklch(60.7% 0.076 17.5)",
+          "oklch(72.1% 0.076 17.5)",
+          "oklch(83.6% 0.076 17.5)",
+          "oklch(95% 0.076 17.5)"
+        ]
+      },
+      "arhiv-gold": {
+        "role": "secondary",
+        "world": "arhiv",
+        "displayName": "Leaf Gold",
+        "canonical": "#b08d4f",
+        "tonalRamp": [
+          "oklch(15% 0.091 80.5)",
+          "oklch(26.4% 0.091 80.5)",
+          "oklch(37.9% 0.091 80.5)",
+          "oklch(49.3% 0.091 80.5)",
+          "oklch(60.7% 0.091 80.5)",
+          "oklch(72.1% 0.091 80.5)",
+          "oklch(83.6% 0.091 80.5)",
+          "oklch(95% 0.091 80.5)"
+        ]
+      },
+      "arhiv-blush": {
+        "role": "tertiary",
+        "world": "arhiv",
+        "displayName": "Blush",
+        "canonical": "#f0cfda",
+        "tonalRamp": [
+          "oklch(15% 0.04 355.8)",
+          "oklch(26.4% 0.04 355.8)",
+          "oklch(37.9% 0.04 355.8)",
+          "oklch(49.3% 0.04 355.8)",
+          "oklch(60.7% 0.04 355.8)",
+          "oklch(72.1% 0.04 355.8)",
+          "oklch(83.6% 0.04 355.8)",
+          "oklch(95% 0.04 355.8)"
+        ]
+      },
+      "arhiv-mark-red": {
+        "role": "tertiary",
+        "world": "arhiv",
+        "displayName": "Mark Red",
+        "canonical": "#d1352e",
+        "tonalRamp": [
+          "oklch(15% 0.194 27.8)",
+          "oklch(26.4% 0.194 27.8)",
+          "oklch(37.9% 0.194 27.8)",
+          "oklch(49.3% 0.194 27.8)",
+          "oklch(60.7% 0.194 27.8)",
+          "oklch(72.1% 0.194 27.8)",
+          "oklch(83.6% 0.194 27.8)",
+          "oklch(95% 0.194 27.8)"
+        ]
+      },
+      "arhiv-hair": {
+        "role": "neutral",
+        "world": "arhiv",
+        "displayName": "Hairline",
+        "canonical": "rgba(35, 27, 24, 0.14)",
+        "tonalRamp": [
+          "oklch(15% 0.014 41.6)",
+          "oklch(26.4% 0.014 41.6)",
+          "oklch(37.9% 0.014 41.6)",
+          "oklch(49.3% 0.014 41.6)",
+          "oklch(60.7% 0.014 41.6)",
+          "oklch(72.1% 0.014 41.6)",
+          "oklch(83.6% 0.014 41.6)",
+          "oklch(95% 0.014 41.6)"
+        ]
+      },
+      "tetrad-paper": {
+        "role": "neutral",
+        "world": "tetrad",
+        "displayName": "Offset Paper",
+        "canonical": "#fbf9f2",
+        "tonalRamp": [
+          "oklch(15% 0.009 93.6)",
+          "oklch(26.4% 0.009 93.6)",
+          "oklch(37.9% 0.009 93.6)",
+          "oklch(49.3% 0.009 93.6)",
+          "oklch(60.7% 0.009 93.6)",
+          "oklch(72.1% 0.009 93.6)",
+          "oklch(83.6% 0.009 93.6)",
+          "oklch(95% 0.009 93.6)"
+        ]
+      },
+      "tetrad-rule": {
+        "role": "secondary",
+        "world": "tetrad",
+        "displayName": "Blue Rule",
+        "canonical": "rgba(83, 122, 173, 0.19)",
+        "tonalRamp": [
+          "oklch(15% 0.091 255.5)",
+          "oklch(26.4% 0.091 255.5)",
+          "oklch(37.9% 0.091 255.5)",
+          "oklch(49.3% 0.091 255.5)",
+          "oklch(60.7% 0.091 255.5)",
+          "oklch(72.1% 0.091 255.5)",
+          "oklch(83.6% 0.091 255.5)",
+          "oklch(95% 0.091 255.5)"
+        ]
+      },
+      "tetrad-rule-strong": {
+        "role": "secondary",
+        "world": "tetrad",
+        "displayName": "Blue Rule Strong",
+        "canonical": "rgba(83, 122, 173, 0.38)",
+        "tonalRamp": [
+          "oklch(15% 0.091 255.5)",
+          "oklch(26.4% 0.091 255.5)",
+          "oklch(37.9% 0.091 255.5)",
+          "oklch(49.3% 0.091 255.5)",
+          "oklch(60.7% 0.091 255.5)",
+          "oklch(72.1% 0.091 255.5)",
+          "oklch(83.6% 0.091 255.5)",
+          "oklch(95% 0.091 255.5)"
+        ]
+      },
+      "tetrad-pen": {
+        "role": "primary",
+        "world": "tetrad",
+        "displayName": "Ink-Blue Pen",
+        "canonical": "#1f3a6e",
+        "tonalRamp": [
+          "oklch(15% 0.096 262.1)",
+          "oklch(26.4% 0.096 262.1)",
+          "oklch(37.9% 0.096 262.1)",
+          "oklch(49.3% 0.096 262.1)",
+          "oklch(60.7% 0.096 262.1)",
+          "oklch(72.1% 0.096 262.1)",
+          "oklch(83.6% 0.096 262.1)",
+          "oklch(95% 0.096 262.1)"
+        ]
+      },
+      "tetrad-pen-soft": {
+        "role": "neutral",
+        "world": "tetrad",
+        "displayName": "Faded Pen",
+        "canonical": "#56627e",
+        "tonalRamp": [
+          "oklch(15% 0.047 266.6)",
+          "oklch(26.4% 0.047 266.6)",
+          "oklch(37.9% 0.047 266.6)",
+          "oklch(49.3% 0.047 266.6)",
+          "oklch(60.7% 0.047 266.6)",
+          "oklch(72.1% 0.047 266.6)",
+          "oklch(83.6% 0.047 266.6)",
+          "oklch(95% 0.047 266.6)"
+        ]
+      },
+      "tetrad-graphite": {
+        "role": "neutral",
+        "world": "tetrad",
+        "displayName": "Graphite",
+        "canonical": "#2f3033",
+        "tonalRamp": [
+          "oklch(15% 0.006 271.2)",
+          "oklch(26.4% 0.006 271.2)",
+          "oklch(37.9% 0.006 271.2)",
+          "oklch(49.3% 0.006 271.2)",
+          "oklch(60.7% 0.006 271.2)",
+          "oklch(72.1% 0.006 271.2)",
+          "oklch(83.6% 0.006 271.2)",
+          "oklch(95% 0.006 271.2)"
+        ]
+      },
+      "tetrad-red": {
+        "role": "tertiary",
+        "world": "tetrad",
+        "displayName": "Teacher's Red",
+        "canonical": "#d4342a",
+        "tonalRamp": [
+          "oklch(15% 0.198 28.6)",
+          "oklch(26.4% 0.198 28.6)",
+          "oklch(37.9% 0.198 28.6)",
+          "oklch(49.3% 0.198 28.6)",
+          "oklch(60.7% 0.198 28.6)",
+          "oklch(72.1% 0.198 28.6)",
+          "oklch(83.6% 0.198 28.6)",
+          "oklch(95% 0.198 28.6)"
+        ]
+      },
+      "kanon-ground": {
+        "role": "neutral",
+        "world": "kanon",
+        "displayName": "Warm Ground",
+        "canonical": "#fdf6f1",
+        "tonalRamp": [
+          "oklch(15% 0.01 58.2)",
+          "oklch(26.4% 0.01 58.2)",
+          "oklch(37.9% 0.01 58.2)",
+          "oklch(49.3% 0.01 58.2)",
+          "oklch(60.7% 0.01 58.2)",
+          "oklch(72.1% 0.01 58.2)",
+          "oklch(83.6% 0.01 58.2)",
+          "oklch(95% 0.01 58.2)"
+        ]
+      },
+      "kanon-card": {
+        "role": "neutral",
+        "world": "kanon",
+        "displayName": "Card White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0 89.9)",
+          "oklch(26.4% 0 89.9)",
+          "oklch(37.9% 0 89.9)",
+          "oklch(49.3% 0 89.9)",
+          "oklch(60.7% 0 89.9)",
+          "oklch(72.1% 0 89.9)",
+          "oklch(83.6% 0 89.9)",
+          "oklch(95% 0 89.9)"
+        ]
+      },
+      "kanon-text": {
+        "role": "neutral",
+        "world": "kanon",
+        "displayName": "Bark",
+        "canonical": "#241c17",
+        "tonalRamp": [
+          "oklch(15% 0.016 53.8)",
+          "oklch(26.4% 0.016 53.8)",
+          "oklch(37.9% 0.016 53.8)",
+          "oklch(49.3% 0.016 53.8)",
+          "oklch(60.7% 0.016 53.8)",
+          "oklch(72.1% 0.016 53.8)",
+          "oklch(83.6% 0.016 53.8)",
+          "oklch(95% 0.016 53.8)"
+        ]
+      },
+      "kanon-text-soft": {
+        "role": "neutral",
+        "world": "kanon",
+        "displayName": "Softened Bark",
+        "canonical": "#7a6a60",
+        "tonalRamp": [
+          "oklch(15% 0.025 54)",
+          "oklch(26.4% 0.025 54)",
+          "oklch(37.9% 0.025 54)",
+          "oklch(49.3% 0.025 54)",
+          "oklch(60.7% 0.025 54)",
+          "oklch(72.1% 0.025 54)",
+          "oklch(83.6% 0.025 54)",
+          "oklch(95% 0.025 54)"
+        ]
+      },
+      "kanon-line": {
+        "role": "neutral",
+        "world": "kanon",
+        "displayName": "Warm Line",
+        "canonical": "#efe2d9",
+        "tonalRamp": [
+          "oklch(15% 0.019 57.2)",
+          "oklch(26.4% 0.019 57.2)",
+          "oklch(37.9% 0.019 57.2)",
+          "oklch(49.3% 0.019 57.2)",
+          "oklch(60.7% 0.019 57.2)",
+          "oklch(72.1% 0.019 57.2)",
+          "oklch(83.6% 0.019 57.2)",
+          "oklch(95% 0.019 57.2)"
+        ]
+      },
+      "kanon-action": {
+        "role": "primary",
+        "world": "kanon",
+        "displayName": "Indigo Action",
+        "canonical": "#4f46e5",
+        "tonalRamp": [
+          "oklch(15% 0.23 277)",
+          "oklch(26.4% 0.23 277)",
+          "oklch(37.9% 0.23 277)",
+          "oklch(49.3% 0.23 277)",
+          "oklch(60.7% 0.23 277)",
+          "oklch(72.1% 0.23 277)",
+          "oklch(83.6% 0.23 277)",
+          "oklch(95% 0.23 277)"
+        ]
+      },
+      "kanon-action-deep": {
+        "role": "primary",
+        "world": "kanon",
+        "displayName": "Deep Indigo",
+        "canonical": "#3f37c9",
+        "tonalRamp": [
+          "oklch(15% 0.215 275.8)",
+          "oklch(26.4% 0.215 275.8)",
+          "oklch(37.9% 0.215 275.8)",
+          "oklch(49.3% 0.215 275.8)",
+          "oklch(60.7% 0.215 275.8)",
+          "oklch(72.1% 0.215 275.8)",
+          "oklch(83.6% 0.215 275.8)",
+          "oklch(95% 0.215 275.8)"
+        ]
+      },
+      "kanon-ok": {
+        "role": "secondary",
+        "world": "kanon",
+        "displayName": "Signal Green",
+        "canonical": "#15803d",
+        "tonalRamp": [
+          "oklch(15% 0.137 150.1)",
+          "oklch(26.4% 0.137 150.1)",
+          "oklch(37.9% 0.137 150.1)",
+          "oklch(49.3% 0.137 150.1)",
+          "oklch(60.7% 0.137 150.1)",
+          "oklch(72.1% 0.137 150.1)",
+          "oklch(83.6% 0.137 150.1)",
+          "oklch(95% 0.137 150.1)"
+        ]
+      },
+      "kanon-ok-bg": {
+        "role": "secondary",
+        "world": "kanon",
+        "displayName": "Signal Green Wash",
+        "canonical": "#eefaf1",
+        "tonalRamp": [
+          "oklch(15% 0.137 150.1)",
+          "oklch(26.4% 0.137 150.1)",
+          "oklch(37.9% 0.137 150.1)",
+          "oklch(49.3% 0.137 150.1)",
+          "oklch(60.7% 0.137 150.1)",
+          "oklch(72.1% 0.137 150.1)",
+          "oklch(83.6% 0.137 150.1)",
+          "oklch(95% 0.137 150.1)"
+        ]
+      },
+      "kanon-no": {
+        "role": "secondary",
+        "world": "kanon",
+        "displayName": "Signal Red",
+        "canonical": "#c8352b",
+        "tonalRamp": [
+          "oklch(15% 0.185 28.6)",
+          "oklch(26.4% 0.185 28.6)",
+          "oklch(37.9% 0.185 28.6)",
+          "oklch(49.3% 0.185 28.6)",
+          "oklch(60.7% 0.185 28.6)",
+          "oklch(72.1% 0.185 28.6)",
+          "oklch(83.6% 0.185 28.6)",
+          "oklch(95% 0.185 28.6)"
+        ]
+      },
+      "kanon-no-bg": {
+        "role": "secondary",
+        "world": "kanon",
+        "displayName": "Signal Red Wash",
+        "canonical": "#fdf0ef",
+        "tonalRamp": [
+          "oklch(15% 0.185 28.6)",
+          "oklch(26.4% 0.185 28.6)",
+          "oklch(37.9% 0.185 28.6)",
+          "oklch(49.3% 0.185 28.6)",
+          "oklch(60.7% 0.185 28.6)",
+          "oklch(72.1% 0.185 28.6)",
+          "oklch(83.6% 0.185 28.6)",
+          "oklch(95% 0.185 28.6)"
+        ]
+      },
+      "switcher-ground": {
+        "role": "neutral",
+        "world": "shared",
+        "displayName": "Tool Charcoal",
+        "canonical": "#16161a",
+        "tonalRamp": [
+          "oklch(15% 0.008 285.7)",
+          "oklch(26.4% 0.008 285.7)",
+          "oklch(37.9% 0.008 285.7)",
+          "oklch(49.3% 0.008 285.7)",
+          "oklch(60.7% 0.008 285.7)",
+          "oklch(72.1% 0.008 285.7)",
+          "oklch(83.6% 0.008 285.7)",
+          "oklch(95% 0.008 285.7)"
+        ]
+      },
+      "switcher-ink": {
+        "role": "neutral",
+        "world": "shared",
+        "displayName": "Tool Ink",
+        "canonical": "#e8e8ea",
+        "tonalRamp": [
+          "oklch(15% 0.003 286.3)",
+          "oklch(26.4% 0.003 286.3)",
+          "oklch(37.9% 0.003 286.3)",
+          "oklch(49.3% 0.003 286.3)",
+          "oklch(60.7% 0.003 286.3)",
+          "oklch(72.1% 0.003 286.3)",
+          "oklch(83.6% 0.003 286.3)",
+          "oklch(95% 0.003 286.3)"
+        ]
+      },
+      "switcher-ink-dim": {
+        "role": "neutral",
+        "world": "shared",
+        "displayName": "Tool Ink Dim",
+        "canonical": "#85858f",
+        "tonalRamp": [
+          "oklch(15% 0.003 286.3)",
+          "oklch(26.4% 0.003 286.3)",
+          "oklch(37.9% 0.003 286.3)",
+          "oklch(49.3% 0.003 286.3)",
+          "oklch(60.7% 0.003 286.3)",
+          "oklch(72.1% 0.003 286.3)",
+          "oklch(83.6% 0.003 286.3)",
+          "oklch(95% 0.003 286.3)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "arhiv-display": {
+        "displayName": "Архив Display",
+        "world": "arhiv",
+        "purpose": "Title of the work on the entry screen only. Playfair Display stands in for Fraunces, which has no Cyrillic."
+      },
+      "arhiv-headline": {
+        "displayName": "Архив Headline",
+        "world": "arhiv",
+        "purpose": "The character trait on the question screen — the object the screen is built around."
+      },
+      "arhiv-title": {
+        "displayName": "Архив Title",
+        "world": "arhiv",
+        "purpose": "Chapter tabs, hero-sheet name, result heading."
+      },
+      "arhiv-body": {
+        "displayName": "Архив Body",
+        "world": "arhiv",
+        "purpose": "Quote text and explanations. Literata stands in for EB Garamond, which has no Cyrillic."
+      },
+      "arhiv-label": {
+        "displayName": "Архив Micro-label",
+        "world": "arhiv",
+        "purpose": "Apparatus only: speaker, chapter, field names, imprint. Inter is pinned by design-system.md §1.1."
+      },
+      "tetrad-display": {
+        "displayName": "Тетрадь Hand Display",
+        "world": "tetrad",
+        "purpose": "The title written by hand on the cover line, three cells tall."
+      },
+      "tetrad-headline": {
+        "displayName": "Тетрадь Headline",
+        "world": "tetrad",
+        "purpose": "The character trait, printed, on two cells of ruling."
+      },
+      "tetrad-hand": {
+        "displayName": "Тетрадь Hand",
+        "world": "tetrad",
+        "purpose": "Anything a person wrote: filled table cells, margin verdict, tally, counters."
+      },
+      "tetrad-body": {
+        "displayName": "Тетрадь Body",
+        "world": "tetrad",
+        "purpose": "Quotes and explanations, locked to the 24px cell."
+      },
+      "tetrad-label": {
+        "displayName": "Тетрадь Label",
+        "world": "tetrad",
+        "purpose": "Printed headers, subject line, table headers, roles."
+      },
+      "kanon-display": {
+        "displayName": "Канон Display",
+        "world": "kanon",
+        "purpose": "Entry card title."
+      },
+      "kanon-headline": {
+        "displayName": "Канон Headline",
+        "world": "kanon",
+        "purpose": "The character trait on the question screen."
+      },
+      "kanon-title": {
+        "displayName": "Канон Title",
+        "world": "kanon",
+        "purpose": "Section button names, hero-sheet name."
+      },
+      "kanon-body": {
+        "displayName": "Канон Body",
+        "world": "kanon",
+        "purpose": "Quote text and explanations."
+      },
+      "kanon-label": {
+        "displayName": "Канон Label",
+        "world": "kanon",
+        "purpose": "Attribution, chips, counters, field names."
+      }
+    },
+    "shadows": [
+      {
+        "name": "kanon-card",
+        "value": "0 2px 4px rgba(64, 40, 26, 0.05), 0 10px 24px -12px rgba(64, 40, 26, 0.24)",
+        "purpose": "The only shadow in the build. «Канон» only — cards, options, buttons, back control, hero-sheet field block. «Архив» and «Тетрадь» ship no shadows at all."
+      }
+    ],
+    "motion": [
+      {
+        "name": "kanon-spring",
+        "value": "cubic-bezier(0.25, 1, 0.5, 1)",
+        "purpose": "Non-overshooting press spring in «Канон»: scale(0.98–0.99) on :active and the progress fill."
+      },
+      {
+        "name": "sheet-slide",
+        "value": "cubic-bezier(0.22, 0.8, 0.28, 1) 260ms",
+        "purpose": "Hero sheet entry, shared by all three worlds; drops to 1ms under prefers-reduced-motion."
+      },
+      {
+        "name": "state-ease",
+        "value": "ease-out 140–160ms",
+        "purpose": "Every colour/border state change: option hover, button hover, switcher item."
+      },
+      {
+        "name": "arhiv-draw",
+        "value": "steps(4, end) 520ms 90ms clip-path",
+        "purpose": "The hand-drawn oval in «Архив», revealed in discrete steps so it reads as drawn."
+      },
+      {
+        "name": "tetrad-draw",
+        "value": "steps(3, end) 480ms 80ms clip-path",
+        "purpose": "The teacher's oval in «Тетрадь», same device, one step coarser."
+      },
+      {
+        "name": "petal-transition",
+        "value": "canvas, 2D, ~4–7s petal life",
+        "purpose": "«Архив» only. Bound to two real scene changes: entry → test and last answer → result. Never a click flourish."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "content",
+        "value": "760px"
+      },
+      {
+        "name": "desktop",
+        "value": "900px"
+      },
+      {
+        "name": "first-viewport",
+        "value": "390x844"
+      },
+      {
+        "name": "floor",
+        "value": "360px"
+      }
+    ],
+    "worlds": [
+      {
+        "id": "arhiv",
+        "name": "«Архив»",
+        "selector": "[data-world='arhiv']",
+        "stylesheet": "src/styles/arhiv.css",
+        "source": "Референсы/design-system.md, adapted to an Operate surface",
+        "signature": "Passe-partout hairline frame, gold rules, Roman numerals, hand-drawn red oval, canvas petal transition.",
+        "fonts": [
+          "Playfair Display",
+          "Literata",
+          "Inter"
+        ]
+      },
+      {
+        "id": "tetrad",
+        "name": "«Тетрадь»",
+        "selector": "[data-world='tetrad']",
+        "stylesheet": "src/styles/tetrad.css",
+        "source": "Assigned direction, seed key 426f6f69",
+        "signature": "24px squared grid as the only alignment system; red reserved for the teacher; answers are lines on the ruling, not cards.",
+        "fonts": [
+          "Golos Text",
+          "Caveat"
+        ]
+      },
+      {
+        "id": "kanon",
+        "name": "«Канон»",
+        "selector": "[data-world='kanon']",
+        "stylesheet": "src/styles/kanon.css",
+        "source": "Category standard, executed straight",
+        "signature": "Warm ground, white cards, 20px radii, one action colour, one shadow, non-overshooting press spring.",
+        "fonts": [
+          "Nunito"
+        ]
+      },
+      {
+        "id": "shared",
+        "name": "Scaffolding",
+        "selector": "none",
+        "stylesheet": "src/styles/base.css, src/layouts/Shell.astro",
+        "source": "Belongs to no world",
+        "signature": "Reset, hero-sheet mechanics, and the dark variant-switcher strip. The strip is a comparison tool, not product chrome; no world inherits it.",
+        "fonts": [
+          "system sans"
+        ]
+      }
+    ],
+    "contentLaw": "Every quote, speaker and chapter comes verbatim from Референсы/ионыч-подлинный-текст.txt (Чехов, ПСС в 30 т., т. 10, Наука, 1986). Quotes and attributions are never generated. This is a product constraint, not a style note."
+  },
+  "components": [
+    {
+      "name": "Архив — Answer Option",
+      "kind": "custom",
+      "refersTo": "arhiv-option",
+      "world": "arhiv",
+      "description": "The question screen’s primary control: a paper plate holding the quote and its attribution. Hover raises the hairline to gold.",
+      "html": "<button class=\"ds-arhiv-opt\" type=\"button\"><span class=\"ds-arhiv-opt__text\">Да ведь это черт знает что, дальше некуда.</span><span class=\"ds-arhiv-opt__src\">Старцев · глава IV</span></button>",
+      "css": ".ds-arhiv-opt { display: block; width: 100%; text-align: left; background: #fbf8f2; border: 1px solid rgba(35,27,24,0.14); border-radius: 0; padding: 17px 18px 15px; cursor: pointer; font-family: Literata, Georgia, serif; transition: border-color 160ms ease-out, background-color 160ms ease-out; } .ds-arhiv-opt__text { display: block; margin: 0; font-size: 1.0625rem; line-height: 1.55; color: #231b18; } .ds-arhiv-opt__text::before { content: \"\\00AB\"; } .ds-arhiv-opt__text::after { content: \"\\00BB\"; } .ds-arhiv-opt__src { display: block; margin-top: 11px; font-family: Inter, system-ui, sans-serif; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6b5f57; } .ds-arhiv-opt:hover { border-color: #b08d4f; } .ds-arhiv-opt:focus-visible { outline: 2px solid #6b1b24; outline-offset: 3px; } .ds-arhiv-opt:active { background: #f4eee3; }"
+    },
+    {
+      "name": "Архив — Hand Mark over the correct option",
+      "kind": "custom",
+      "refersTo": "arhiv-option",
+      "world": "arhiv",
+      "description": "The red oval drawn over the right answer. Revealed in four discrete steps so it reads as drawn, not faded.",
+      "html": "<div class=\"ds-arhiv-marked\"><span class=\"ds-arhiv-mark\" aria-hidden=\"true\"></span><button class=\"ds-arhiv-opt2\" type=\"button\"><span class=\"ds-arhiv-opt2__text\">Да ведь это черт знает что, дальше некуда.</span><span class=\"ds-arhiv-opt2__src\">Старцев · глава IV</span></button></div>",
+      "css": ".ds-arhiv-marked { position: relative; } .ds-arhiv-opt2 { display: block; width: 100%; text-align: left; background: #fbf8f2; border: 1px solid rgba(35,27,24,0.14); padding: 17px 18px 15px; font-family: Literata, Georgia, serif; cursor: default; } .ds-arhiv-opt2__text { display: block; font-size: 1.0625rem; line-height: 1.55; color: #231b18; } .ds-arhiv-opt2__src { display: block; margin-top: 11px; font-family: Inter, system-ui, sans-serif; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6b5f57; } .ds-arhiv-mark { position: absolute; inset: 8px -10px 12px -10px; min-height: 62px; transform: rotate(-1.4deg); pointer-events: none; z-index: 1; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 130' preserveAspectRatio='none'%3E%3Cpath d='M296 44C289 17 212 4 148 7 68 11 12 36 15 70c3 30 79 53 156 50 73-3 133-27 131-57-2-21-35-36-90-43-14-2-29-3-44-3' fill='none' stroke='%23D1352E' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E\"); background-repeat: no-repeat; background-size: 100% 100%; clip-path: inset(0 100% 0 0); animation: ds-arhiv-draw 520ms steps(4, end) 90ms infinite alternate; } @keyframes ds-arhiv-draw { to { clip-path: inset(0 0 0 0); } } @media (prefers-reduced-motion: reduce) { .ds-arhiv-mark { animation: none; clip-path: inset(0 0 0 0); } }"
+    },
+    {
+      "name": "Архив — Primary Button",
+      "kind": "button",
+      "refersTo": "arhiv-next",
+      "world": "arhiv",
+      "description": "The sticky Next action. Square, wine-filled, ivory text, set in the display face.",
+      "html": "<button class=\"ds-arhiv-next\" type=\"button\">Следующая</button>",
+      "css": ".ds-arhiv-next { width: 100%; min-height: 52px; border: 1px solid #6b1b24; border-radius: 0; background: #6b1b24; color: #f4eee3; font-family: \"Playfair Display\", Georgia, serif; font-size: 1.125rem; cursor: pointer; transition: background-color 160ms ease-out; } .ds-arhiv-next:hover { background: #3f0e14; } .ds-arhiv-next:focus-visible { outline: 2px solid #6b1b24; outline-offset: 3px; }"
+    },
+    {
+      "name": "Тетрадь — Answer Row",
+      "kind": "custom",
+      "refersTo": "tetrad-option",
+      "world": "tetrad",
+      "description": "The answer is a line on the ruling, not a card: transparent, no border but the bottom rule, every line box 24px.",
+      "html": "<div class=\"ds-tet-sheet\"><button class=\"ds-tet-opt\" type=\"button\"><span class=\"ds-tet-opt__text\">Да ведь это черт знает что, дальше некуда.</span><span class=\"ds-tet-opt__src\">Старцев · глава IV</span></button></div>",
+      "css": ".ds-tet-sheet { background-color: #fbf9f2; background-image: linear-gradient(to right, rgba(83,122,173,0.19) 1px, transparent 1px), linear-gradient(to bottom, rgba(83,122,173,0.19) 1px, transparent 1px); background-size: 24px 24px; padding: 24px; } .ds-tet-opt { display: block; width: 100%; text-align: left; background: transparent; border: 0; border-bottom: 1px solid rgba(83,122,173,0.38); border-radius: 0; padding: 0 4px; cursor: pointer; font-family: \"Golos Text\", system-ui, sans-serif; transition: background-color 150ms ease-out; } .ds-tet-opt__text { display: block; font-size: 16px; line-height: 24px; color: #2f3033; } .ds-tet-opt__text::before { content: \"\\00AB\"; } .ds-tet-opt__text::after { content: \"\\00BB\"; } .ds-tet-opt__src { display: block; font-size: 12px; line-height: 24px; color: #56627e; } .ds-tet-opt:hover { background: rgba(31,58,110,0.05); } .ds-tet-opt:focus-visible { outline: 2px solid #1f3a6e; outline-offset: 2px; }"
+    },
+    {
+      "name": "Тетрадь — Wrong Answer with the teacher’s wave",
+      "kind": "custom",
+      "refersTo": "tetrad-option",
+      "world": "tetrad",
+      "description": "A wrong choice gets a red wavy underline — the only red the student’s own line ever carries, and it is the teacher’s, not the interface’s.",
+      "html": "<div class=\"ds-tet-sheet2\"><button class=\"ds-tet-wrong\" type=\"button\"><span class=\"ds-tet-wrong__text\">Недурственно.</span><span class=\"ds-tet-wrong__src\">Иван Петрович · глава I</span></button><p class=\"ds-tet-margin\">Не то: это шутка отца, а не черта Старцева.</p></div>",
+      "css": ".ds-tet-sheet2 { background-color: #fbf9f2; padding: 24px; font-family: \"Golos Text\", system-ui, sans-serif; } .ds-tet-wrong { display: block; width: 100%; text-align: left; background: transparent; border: 0; border-bottom: 1px solid rgba(83,122,173,0.38); padding: 0 4px; cursor: default; } .ds-tet-wrong__text { display: block; font-size: 16px; line-height: 24px; color: #2f3033; text-decoration: underline wavy #d4342a; text-decoration-thickness: 1.5px; text-underline-offset: 4px; } .ds-tet-wrong__src { display: block; font-size: 12px; line-height: 24px; color: #56627e; } .ds-tet-margin { margin: 24px 0 0; padding-left: 13px; border-left: 1px solid #d4342a; font-family: Caveat, cursive; font-size: 22px; line-height: 24px; color: #d4342a; max-width: 34ch; }"
+    },
+    {
+      "name": "Тетрадь — Progress Cells",
+      "kind": "nav",
+      "refersTo": "tetrad-progress-cell",
+      "world": "tetrad",
+      "description": "Position in the set occupies space instead of being compressed into a bar: one 24px cell per question, current cell double-bordered, answered cells filled.",
+      "html": "<ol class=\"ds-tet-cells\" aria-label=\"Позиция в наборе\"><li class=\"ds-tet-cell\" data-state=\"past\">1</li><li class=\"ds-tet-cell\" data-state=\"past\">2</li><li class=\"ds-tet-cell\" data-state=\"now\">3</li><li class=\"ds-tet-cell\">4</li><li class=\"ds-tet-cell\">5</li></ol>",
+      "css": ".ds-tet-cells { list-style: none; display: flex; gap: 0; margin: 0; padding: 0; font-family: \"Golos Text\", system-ui, sans-serif; } .ds-tet-cell { inline-size: 24px; block-size: 24px; display: grid; place-items: center; border: 1px solid rgba(83,122,173,0.38); margin-left: -1px; font-size: 12px; color: #56627e; background: rgba(255,255,255,0.7); } .ds-tet-cell[data-state=\"now\"] { border: 2px solid #1f3a6e; color: #1f3a6e; font-weight: 700; } .ds-tet-cell[data-state=\"past\"] { background: #1f3a6e; border-color: #1f3a6e; color: #fff; }"
+    },
+    {
+      "name": "Тетрадь — Section Tab",
+      "kind": "nav",
+      "refersTo": "tetrad-tab",
+      "world": "tetrad",
+      "description": "A three-cell-tall pen-bordered rectangle that inverts to filled pen on hover. Disabled sections drop to a dashed rule.",
+      "html": "<nav class=\"ds-tet-tabs\"><a class=\"ds-tet-tab\" href=\"#\"><span class=\"ds-tet-tab__name\">Черты характера</span><span class=\"ds-tet-tab__sub\">20 вопросов</span></a><span class=\"ds-tet-tab\" aria-disabled=\"true\"><span class=\"ds-tet-tab__name\">Пейзаж</span><span class=\"ds-tet-tab__sub\">ещё не собран</span></span></nav>",
+      "css": ".ds-tet-tabs { display: grid; gap: 24px; font-family: \"Golos Text\", system-ui, sans-serif; } .ds-tet-tab { min-height: 72px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; text-decoration: none; border: 1.5px solid #1f3a6e; background: #fff; color: #1f3a6e; transition: background-color 150ms ease-out, color 150ms ease-out; } .ds-tet-tab__name { font-size: 19px; font-weight: 600; line-height: 24px; } .ds-tet-tab__sub { font-size: 12px; line-height: 24px; opacity: 0.8; } .ds-tet-tab:hover { background: #1f3a6e; color: #fff; } .ds-tet-tab:focus-visible { outline: 2px solid #1f3a6e; outline-offset: 2px; } .ds-tet-tab[aria-disabled=\"true\"] { border: 1px dashed rgba(83,122,173,0.38); color: #56627e; background: transparent; cursor: not-allowed; }"
+    },
+    {
+      "name": "Тетрадь — Primary Button",
+      "kind": "button",
+      "refersTo": "tetrad-next",
+      "world": "tetrad",
+      "description": "Square, pen-filled, 48px — two cells tall.",
+      "html": "<button class=\"ds-tet-next\" type=\"button\">Дальше</button>",
+      "css": ".ds-tet-next { width: 100%; min-height: 48px; border: 1.5px solid #1f3a6e; border-radius: 0; background: #1f3a6e; color: #fff; font-family: \"Golos Text\", system-ui, sans-serif; font-size: 17px; font-weight: 600; cursor: pointer; transition: background-color 150ms ease-out; } .ds-tet-next:hover { background: #162c55; } .ds-tet-next:focus-visible { outline: 2px solid #1f3a6e; outline-offset: 2px; }"
+    },
+    {
+      "name": "Канон — Answer Card",
+      "kind": "card",
+      "refersTo": "kanon-option",
+      "world": "kanon",
+      "description": "White card, 20px radius, one shadow, a 2px transparent border that turns green or red on verdict so the state moves colour, not geometry.",
+      "html": "<div class=\"ds-kan-opts\"><button class=\"ds-kan-opt\" type=\"button\"><span class=\"ds-kan-opt__text\">Да ведь это черт знает что, дальше некуда.</span><span class=\"ds-kan-opt__src\">Старцев · глава IV</span></button><button class=\"ds-kan-opt\" data-state=\"right\" type=\"button\"><span class=\"ds-kan-opt__text\">Недурственно.</span><span class=\"ds-kan-opt__src\">Иван Петрович · глава I</span></button></div>",
+      "css": ".ds-kan-opts { display: grid; gap: 12px; background: #fdf6f1; padding: 16px; font-family: Nunito, ui-rounded, system-ui, sans-serif; } .ds-kan-opt { width: 100%; text-align: left; background: #fff; border: 2px solid transparent; border-radius: 20px; box-shadow: 0 2px 4px rgba(64, 40, 26, 0.05), 0 10px 24px -12px rgba(64, 40, 26, 0.24); padding: 16px 18px; cursor: pointer; transition: transform 160ms cubic-bezier(0.25,1,0.5,1), border-color 160ms ease-out; } .ds-kan-opt__text { display: block; font-size: 16px; line-height: 1.5; color: #241c17; } .ds-kan-opt__text::before { content: \"\\00AB\"; } .ds-kan-opt__text::after { content: \"\\00BB\"; } .ds-kan-opt__src { display: block; margin-top: 9px; font-size: 13px; font-weight: 600; color: #7a6a60; } .ds-kan-opt:hover { border-color: #ded0c6; } .ds-kan-opt:active { transform: scale(0.985); } .ds-kan-opt:focus-visible { outline: 3px solid #4f46e5; outline-offset: 2px; } .ds-kan-opt[data-state=\"right\"] { border-color: #15803d; background: #eefaf1; }"
+    },
+    {
+      "name": "Канон — Primary Button",
+      "kind": "button",
+      "refersTo": "kanon-next",
+      "world": "kanon",
+      "description": "Indigo, 16px radius, the card shadow, non-overshooting spring on press. Indigo appears only on things that can be pressed.",
+      "html": "<button class=\"ds-kan-next\" type=\"button\">Дальше</button>",
+      "css": ".ds-kan-next { width: 100%; min-height: 54px; border: 0; border-radius: 16px; background: #4f46e5; color: #fff; font-family: Nunito, ui-rounded, system-ui, sans-serif; font-size: 17px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 4px rgba(64, 40, 26, 0.05), 0 10px 24px -12px rgba(64, 40, 26, 0.24); transition: transform 160ms cubic-bezier(0.25,1,0.5,1), background-color 160ms ease-out; } .ds-kan-next:hover { background: #3f37c9; } .ds-kan-next:active { transform: scale(0.99); } .ds-kan-next:focus-visible { outline: 3px solid #4f46e5; outline-offset: 2px; }"
+    },
+    {
+      "name": "Канон — Verdict in place",
+      "kind": "custom",
+      "refersTo": "kanon-option",
+      "world": "kanon",
+      "description": "The explanation rendered under the option that was pressed — never a modal, never a new screen.",
+      "html": "<div class=\"ds-kan-verdict\" data-state=\"wrong\"><p class=\"ds-kan-verdict__head\"><span class=\"ds-kan-verdict__word\">Не то</span></p><p class=\"ds-kan-verdict__why\">Это реплика отца Котика, а не характеристика Старцева.</p><button class=\"ds-kan-verdict__go\" type=\"button\">Карточка героя: Иван Петрович</button></div>",
+      "css": ".ds-kan-verdict { margin: 10px 0 0; padding: 14px 16px; border-radius: 16px; background: #fff; box-shadow: 0 2px 4px rgba(64, 40, 26, 0.05), 0 10px 24px -12px rgba(64, 40, 26, 0.24); font-family: Nunito, ui-rounded, system-ui, sans-serif; } .ds-kan-verdict__head { margin: 0 0 6px; font-size: 14px; font-weight: 800; } .ds-kan-verdict[data-state=\"wrong\"] .ds-kan-verdict__word { color: #c8352b; } .ds-kan-verdict[data-state=\"right\"] .ds-kan-verdict__word { color: #15803d; } .ds-kan-verdict__why { margin: 0; font-size: 14.5px; line-height: 1.55; color: #7a6a60; } .ds-kan-verdict__go { margin-top: 11px; background: none; border: 0; padding: 0; font-family: inherit; font-size: 14px; font-weight: 700; color: #4f46e5; cursor: pointer; } .ds-kan-verdict__go:hover { color: #3f37c9; } .ds-kan-verdict__go:focus-visible { outline: 3px solid #4f46e5; outline-offset: 2px; }"
+    },
+    {
+      "name": "Scaffolding — Variant Switcher",
+      "kind": "nav",
+      "refersTo": "switcher-item",
+      "world": "shared",
+      "description": "The comparison strip. Belongs to no world and is deliberately neutral and dark so no variant can claim it. It is a tool, not product chrome.",
+      "html": "<nav class=\"ds-switcher\" aria-label=\"Переключение вариантов дизайна\"><span class=\"ds-switcher__label\">Вариант</span><div class=\"ds-switcher__list\"><a class=\"ds-switcher__item\" href=\"#\" aria-current=\"true\">Архив</a><a class=\"ds-switcher__item\" href=\"#\">Тетрадь</a><a class=\"ds-switcher__item\" href=\"#\">Канон</a></div></nav>",
+      "css": ".ds-switcher { height: 44px; padding: 0 12px 0 14px; display: flex; align-items: center; gap: 10px; background: #16161a; color: #e8e8ea; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 12px; letter-spacing: 0.02em; border-bottom: 1px solid #2c2c32; } .ds-switcher__label { color: #85858f; flex: none; } .ds-switcher__list { display: flex; gap: 4px; } .ds-switcher__item { padding: 5px 11px; border-radius: 999px; text-decoration: none; color: #b9b9c2; white-space: nowrap; transition: background-color 140ms ease-out, color 140ms ease-out; } .ds-switcher__item:hover { background: #26262d; color: #f2f2f5; } .ds-switcher__item[aria-current=\"true\"] { background: #f2f2f5; color: #16161a; font-weight: 600; } .ds-switcher__item:focus-visible { outline: 2px solid #7aa2ff; outline-offset: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Три двери в один и тот же текст",
+    "overview": "This build is not one visual world; it is three, shipped in parallel so the user can stand in front of each and choose. Isolation is the system’s first law: every token, font and component rule is scoped under a [data-world] attribute on <html> (arhiv, tetrad, kanon), and no world reads another world’s variables. src/styles/base.css and src/layouts/Shell.astro hold only what belongs to none of them — reset, hero-sheet mechanics, and the dark comparison strip. That strip is a measuring tool, not product chrome; no world inherits its neutral greys.\n\n«Архив» is the user’s pinned book world (Референсы/design-system.md) brought down to an Operate surface: a passe-partout hairline frame around the viewport, gold rules, Roman numerals, a red oval drawn by hand over the correct line, and a canvas petal transition reserved for two real scene changes. «Тетрадь» is the assigned direction: a 24px squared page where the grid is the only alignment system that exists, and red belongs to the teacher alone. «Канон» is the category standard built in earnest — warm ground, white cards, generous radii, one saturated action colour, a non-overshooting spring on press.\n\nThe three share a spine rather than a look: the same screens (entry, question, verdict-in-place, hero sheet, result), the same interaction grammar (the option itself is the primary action; the explanation appears where the mistake was made, never in a modal), and the same hard content law — every quote, speaker and chapter is transcribed verbatim from the source text and is never generated.",
+    "keyCharacteristics": [
+      "Three fully isolated worlds under [data-world]; shared scaffolding carries no taste.",
+      "Paper grounds in all three (ivory, unbleached offset, warm cream); no dark mode anywhere.",
+      "One reserved colour per world, spent sparingly and never decoratively.",
+      "The explanation appears in place, under the option that was pressed.",
+      "Mobile-first at 390×844; one content breakpoint at 760px, one desktop breakpoint at 900px."
+    ],
+    "rules": [
+      {
+        "name": "The Sealed Worlds Rule",
+        "body": "Every colour token belongs to exactly one [data-world]. A new surface picks a world and uses only that world’s tokens; borrowing across worlds, or from the switcher’s greys, is a defect.",
+        "section": "colors"
+      },
+      {
+        "name": "The Teacher's Red Rule",
+        "body": "In «Тетрадь», red is the teacher’s hand and nothing else: the oval over the right line, the wavy underline under a wrong choice, the margin rule, the margin note, the tally. It is never a heading, a button, a border or an accent.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Action Colour Rule",
+        "body": "In «Канон», indigo appears only where something is actionable. If it cannot be pressed, it is not indigo.",
+        "section": "colors"
+      },
+      {
+        "name": "The Reserved Mark Rule",
+        "body": "In «Архив», wine is the accent and mark-red is the mark. The oval’s stroke is mark-red; the interface’s accents are wine (design-system.md §8).",
+        "section": "colors"
+      },
+      {
+        "name": "The Cyrillic Coverage Rule",
+        "body": "A face that does not render Cyrillic cannot hold a role here, whatever the reference names. Substitute by role, keep the role structure, and record the substitution beside the role.",
+        "section": "typography"
+      },
+      {
+        "name": "The Hand and Print Rule",
+        "body": "In «Тетрадь», Caveat means a person wrote it — the title, the filled table cells, the verdict in the margin, the tally. Golos Text means it was printed on the page — headers, quotes, buttons. Using one for the other’s content breaks the world’s fiction.",
+        "section": "typography"
+      },
+      {
+        "name": "The Quote Is the Object Rule",
+        "body": "Quote text is never smaller than the body size of its world and is never truncated, clamped or scrolled; a 400-character quote sets its own height.",
+        "section": "typography"
+      },
+      {
+        "name": "The Cell Rule",
+        "body": "In «Тетрадь», if a vertical value is not a multiple of 24, it is wrong. Gaps, row heights and section spacing come from the cell; only interior horizontal padding (8–14px) is free.",
+        "section": "layout"
+      },
+      {
+        "name": "The Reachable Answer Rule",
+        "body": "On the question screen the options occupy the lower two-thirds and the sticky footer action is at least 48px tall in every world. There is no separate submit: pressing the option is the answer.",
+        "section": "layout"
+      },
+      {
+        "name": "The One Shadow Rule",
+        "body": "«Канон» has exactly one shadow. There is no elevation scale; a surface is either on the ground or on the card shadow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Unlit Paper Rule",
+        "body": "«Архив» and «Тетрадь» never receive a shadow. If a surface needs to separate, it gets a hairline or a different paper tone.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Petals Are an Event Rule",
+        "body": "The petal transition belongs to «Архив» and fires only on a real change of scene. It is never a click flourish and never runs over long reading text.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do pick one world and take every token from it; a new surface declares [data-world] and stays inside that world’s variables.",
+      "Do keep «Тетрадь» on the 24px cell: every line box and vertical gap is a multiple of 24, and separation between blocks is a whole empty cell.",
+      "Do reserve red in «Тетрадь» for the teacher’s hand only — oval, wavy underline, margin rule, margin note, tally.",
+      "Do spend «Канон»’s indigo only on things that can be pressed.",
+      "Do put the explanation in place, under the option that was chosen, inside the same block.",
+      "Do let the quote set its own height; 400 characters render in full at body size.",
+      "Do keep the primary action at 48px or taller, in the lower third of the question screen.",
+      "Do substitute a font by role when the named face lacks Cyrillic, and record the substitution next to the role.",
+      "Do disable the drawn oval and shorten sheet motion under prefers-reduced-motion.",
+      "Do transcribe every quote, speaker and chapter verbatim from Референсы/ионыч-подлинный-текст.txt; quotes and attributions are never generated."
+    ],
+    "donts": [
+      "Don’t mix tokens, fonts or components across worlds, and don’t let a product surface inherit the comparison strip’s charcoal greys.",
+      "Don’t give «Архив» or «Тетрадь» a shadow or a corner radius; they separate with hairlines and paper tone.",
+      "Don’t use arhiv-mark-red as a general accent — wine is the accent, mark-red is the drawn mark.",
+      "Don’t add a second elevation level to «Канон»; there is one shadow value.",
+      "Don’t fire the petal transition on ordinary clicks or scrolls, or over long reading text — only on a real change of scene.",
+      "Don’t introduce an invented kicker or eyebrow above a heading; the uppercase micro-labels here carry real content (author, speaker, chapter, field name), never a manufactured category line.",
+      "Don’t put the verdict in a modal, a toast, or on a separate screen.",
+      "Don’t give «Тетрадь» a progress bar — its position indicator is the row of cells, and it is meant to take up space.",
+      "Don’t hide, clamp or truncate a quote to make a layout fit."
+    ]
+  }
+}
