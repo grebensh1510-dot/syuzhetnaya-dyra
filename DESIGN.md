@@ -1,594 +1,552 @@
 ---
 name: Сюжетная дыра — тренажёр «Ионыч»
-description: Три параллельных визуальных мира одного тренажёра по литературе, изолированных атрибутом [data-world] и сравниваемых бок о бок.
+description: Один мир «Архив» — печатная архивная карточка в паспарту, где единственный жест руки красный, а смена раздела уносит экран лепестками.
 colors:
-  arhiv-ivory: "#f4eee3"
-  arhiv-paper: "#fbf8f2"
-  arhiv-ink: "#231b18"
-  arhiv-ink-soft: "#6b5f57"
-  arhiv-wine: "#6b1b24"
-  arhiv-wine-deep: "#3f0e14"
-  arhiv-gold: "#b08d4f"
-  arhiv-blush: "#f0cfda"
-  arhiv-mark-red: "#d1352e"
-  arhiv-hair: "rgba(35, 27, 24, 0.14)"
-  tetrad-paper: "#fbf9f2"
-  tetrad-rule: "rgba(83, 122, 173, 0.19)"
-  tetrad-rule-strong: "rgba(83, 122, 173, 0.38)"
-  tetrad-pen: "#1f3a6e"
-  tetrad-pen-soft: "#56627e"
-  tetrad-graphite: "#2f3033"
-  tetrad-red: "#d4342a"
-  kanon-ground: "#fdf6f1"
-  kanon-card: "#ffffff"
-  kanon-text: "#241c17"
-  kanon-text-soft: "#7a6a60"
-  kanon-line: "#efe2d9"
-  kanon-action: "#4f46e5"
-  kanon-action-deep: "#3f37c9"
-  kanon-ok: "#15803d"
-  kanon-ok-bg: "#eefaf1"
-  kanon-no: "#c8352b"
-  kanon-no-bg: "#fdf0ef"
-  switcher-ground: "#16161a"
-  switcher-ink: "#e8e8ea"
-  switcher-ink-dim: "#85858f"
+  ivory: "#f4eee3"
+  paper: "#fbf8f2"
+  white: "#ffffff"
+  ink: "#231b18"
+  ink-soft: "#6b5f57"
+  wine: "#6b1b24"
+  wine-deep: "#3f0e14"
+  gold: "#b08d4f"
+  blush: "#f0cfda"
+  mark-red: "#d1352e"
+  hair: "rgba(35, 27, 24, 0.14)"
+  wrong-wash: "#f6ecec"
+  scrim: "rgba(16, 14, 13, 0.42)"
 typography:
-  arhiv-display:
+  display:
     fontFamily: "'Playfair Display', 'Iowan Old Style', Georgia, serif"
     fontSize: "clamp(3.4rem, 19vw, 6rem)"
     fontWeight: 500
     lineHeight: 0.9
     letterSpacing: "-0.03em"
-  arhiv-headline:
+  headline:
+    fontFamily: "'Playfair Display', 'Iowan Old Style', Georgia, serif"
+    fontSize: "clamp(2.1rem, 9vw, 3rem)"
+    fontWeight: 400
+    lineHeight: 1.04
+    letterSpacing: "-0.025em"
+  headline-question:
     fontFamily: "'Playfair Display', 'Iowan Old Style', Georgia, serif"
     fontSize: "clamp(1.75rem, 7.4vw, 2.35rem)"
     fontWeight: 400
     lineHeight: 1.14
     letterSpacing: "-0.02em"
-  arhiv-title:
+  title-result:
+    fontFamily: "'Playfair Display', 'Iowan Old Style', Georgia, serif"
+    fontSize: "2.25rem"
+    fontWeight: 400
+    lineHeight: 1.1
+  title:
+    fontFamily: "'Playfair Display', 'Iowan Old Style', Georgia, serif"
+    fontSize: "1.75rem"
+    fontWeight: 400
+    lineHeight: 1.2
+  section:
+    fontFamily: "'Playfair Display', 'Iowan Old Style', Georgia, serif"
+    fontSize: "1.625rem"
+    fontWeight: 400
+    lineHeight: 1.2
+  subhead:
     fontFamily: "'Playfair Display', 'Iowan Old Style', Georgia, serif"
     fontSize: "1.4375rem"
     fontWeight: 400
     lineHeight: 1.2
-  arhiv-body:
+  numeral:
+    fontFamily: "'Playfair Display', 'Iowan Old Style', Georgia, serif"
+    fontSize: "1.5rem"
+    fontWeight: 400
+    lineHeight: 1
+    letterSpacing: "0.2em"
+  card-title:
+    fontFamily: "'Playfair Display', 'Iowan Old Style', Georgia, serif"
+    fontSize: "1.25rem"
+    fontWeight: 400
+    lineHeight: 1.3
+  lead:
+    fontFamily: "'Playfair Display', 'Iowan Old Style', Georgia, serif"
+    fontSize: "1.1875rem"
+    fontWeight: 400
+    lineHeight: 1.35
+  action:
+    fontFamily: "'Playfair Display', 'Iowan Old Style', Georgia, serif"
+    fontSize: "1.125rem"
+    fontWeight: 400
+    lineHeight: 1.2
+  quote:
     fontFamily: "Literata, Georgia, 'Times New Roman', serif"
     fontSize: "1.0625rem"
     fontWeight: 400
     lineHeight: 1.55
-  arhiv-label:
+  body:
+    fontFamily: "Literata, Georgia, 'Times New Roman', serif"
+    fontSize: "1rem"
+    fontWeight: 400
+    lineHeight: 1.55
+  body-small:
+    fontFamily: "Literata, Georgia, 'Times New Roman', serif"
+    fontSize: "0.9375rem"
+    fontWeight: 400
+    lineHeight: 1.6
+  meta:
+    fontFamily: "'Playfair Display', 'Iowan Old Style', Georgia, serif"
+    fontSize: "0.8125rem"
+    fontWeight: 400
+    lineHeight: 1.2
+  micro:
+    fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "0.75rem"
+    fontWeight: 400
+    letterSpacing: "0.06em"
+  label:
     fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif"
     fontSize: "0.6875rem"
     fontWeight: 500
-    lineHeight: 1.2
-    letterSpacing: "0.2em"
-  tetrad-display:
-    fontFamily: "Caveat, 'Segoe Script', cursive"
-    fontSize: "64px"
-    fontWeight: 700
-    lineHeight: "72px"
-    letterSpacing: "-0.01em"
-  tetrad-headline:
-    fontFamily: "'Golos Text', ui-sans-serif, system-ui, sans-serif"
-    fontSize: "26px"
+    letterSpacing: "0.12em"
+  label-strong:
+    fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "0.625rem"
     fontWeight: 600
-    lineHeight: "48px"
-    letterSpacing: "-0.015em"
-  tetrad-hand:
-    fontFamily: "Caveat, 'Segoe Script', cursive"
-    fontSize: "24px"
-    fontWeight: 600
-    lineHeight: "24px"
-  tetrad-body:
-    fontFamily: "'Golos Text', ui-sans-serif, system-ui, sans-serif"
-    fontSize: "16px"
-    fontWeight: 400
-    lineHeight: "24px"
-  tetrad-label:
-    fontFamily: "'Golos Text', ui-sans-serif, system-ui, sans-serif"
-    fontSize: "12px"
-    fontWeight: 600
-    lineHeight: "24px"
-    letterSpacing: "0.08em"
-  kanon-display:
-    fontFamily: "Nunito, ui-rounded, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "34px"
-    fontWeight: 800
-    lineHeight: 1.1
-    letterSpacing: "-0.02em"
-  kanon-headline:
-    fontFamily: "Nunito, ui-rounded, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "25px"
-    fontWeight: 800
-    lineHeight: 1.2
-    letterSpacing: "-0.02em"
-  kanon-title:
-    fontFamily: "Nunito, ui-rounded, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "19px"
-    fontWeight: 800
-    lineHeight: 1.3
-  kanon-body:
-    fontFamily: "Nunito, ui-rounded, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "16px"
-    fontWeight: 400
-    lineHeight: 1.5
-  kanon-label:
-    fontFamily: "Nunito, ui-rounded, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "13px"
-    fontWeight: 700
-    lineHeight: 1.4
+    letterSpacing: "0.16em"
 rounded:
-  arhiv-none: "0"
-  tetrad-none: "0"
-  kanon-control: "12px"
-  kanon-action: "16px"
-  kanon-surface: "20px"
-  kanon-sheet: "24px"
-  kanon-pill: "999px"
-  switcher-pill: "999px"
+  none: "0"
 spacing:
-  tetrad-cell: "24px"
-  tetrad-cell-2: "48px"
-  tetrad-cell-3: "72px"
-  arhiv-tight: "10px"
-  arhiv-inset: "18px"
-  arhiv-block: "26px"
-  arhiv-section: "44px"
-  kanon-gap: "12px"
-  kanon-inset: "20px"
-  kanon-stack: "22px"
+  xs: "4px"
+  sm: "8px"
+  md: "12px"
+  lg: "18px"
+  xl: "26px"
+  2xl: "44px"
+  3xl: "60px"
 components:
-  arhiv-option:
-    backgroundColor: "{colors.arhiv-paper}"
-    textColor: "{colors.arhiv-ink}"
-    typography: "{typography.arhiv-body}"
-    rounded: "{rounded.arhiv-none}"
-    padding: "17px 18px 15px"
-  arhiv-option-wrong:
-    backgroundColor: "#f6ecec"
-    textColor: "{colors.arhiv-ink}"
-  arhiv-next:
-    backgroundColor: "{colors.arhiv-wine}"
-    textColor: "{colors.arhiv-ivory}"
-    rounded: "{rounded.arhiv-none}"
+  button-primary:
+    backgroundColor: "{colors.wine}"
+    textColor: "{colors.ivory}"
+    typography: "{typography.action}"
+    rounded: "{rounded.none}"
+    padding: "0 16px"
     height: "52px"
     width: "100%"
-  arhiv-next-hover:
-    backgroundColor: "{colors.arhiv-wine-deep}"
-    textColor: "{colors.arhiv-ivory}"
-  arhiv-slip:
-    backgroundColor: "{colors.arhiv-paper}"
-    textColor: "{colors.arhiv-ink}"
-    rounded: "{rounded.arhiv-none}"
-    padding: "14px 16px"
-  tetrad-option:
+  button-primary-hover:
+    backgroundColor: "{colors.wine-deep}"
+    textColor: "{colors.ivory}"
+  button-primary-disabled:
     backgroundColor: "transparent"
-    textColor: "{colors.tetrad-graphite}"
-    typography: "{typography.tetrad-body}"
-    rounded: "{rounded.tetrad-none}"
-    padding: "0 4px"
-  tetrad-option-hover:
-    backgroundColor: "rgba(31, 58, 110, 0.05)"
-    textColor: "{colors.tetrad-graphite}"
-  tetrad-next:
-    backgroundColor: "{colors.tetrad-pen}"
-    textColor: "#ffffff"
-    rounded: "{rounded.tetrad-none}"
+    textColor: "{colors.ink-soft}"
+  button-outline:
+    backgroundColor: "transparent"
+    textColor: "{colors.wine}"
+    typography: "{typography.quote}"
+    rounded: "{rounded.none}"
+    height: "50px"
+  button-quiet:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink-soft}"
+    typography: "{typography.label}"
+    padding: "0 0 2px"
+  option:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    typography: "{typography.quote}"
+    rounded: "{rounded.none}"
+    padding: "17px 18px 15px"
+    width: "100%"
+  option-idle:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink-soft}"
+  option-wrong:
+    backgroundColor: "{colors.wrong-wash}"
+    textColor: "{colors.ink}"
+  slip:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    typography: "{typography.card-title}"
+    rounded: "{rounded.none}"
+    padding: "14px 16px"
+  card:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    typography: "{typography.card-title}"
+    rounded: "{rounded.none}"
+    padding: "15px 17px"
+    width: "100%"
+  input-answer:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    typography: "{typography.card-title}"
+    rounded: "{rounded.none}"
+    padding: "9px 4px"
     height: "48px"
     width: "100%"
-  tetrad-next-hover:
-    backgroundColor: "#162c55"
-    textColor: "#ffffff"
-  tetrad-tab:
-    backgroundColor: "#ffffff"
-    textColor: "{colors.tetrad-pen}"
-    rounded: "{rounded.tetrad-none}"
-    padding: "0 14px"
-    height: "72px"
-  tetrad-tab-hover:
-    backgroundColor: "{colors.tetrad-pen}"
-    textColor: "#ffffff"
-  tetrad-progress-cell:
-    backgroundColor: "rgba(255, 255, 255, 0.7)"
-    textColor: "{colors.tetrad-pen-soft}"
-    rounded: "{rounded.tetrad-none}"
-    size: "24px"
-  kanon-option:
-    backgroundColor: "{colors.kanon-card}"
-    textColor: "{colors.kanon-text}"
-    typography: "{typography.kanon-body}"
-    rounded: "{rounded.kanon-surface}"
-    padding: "16px 18px"
-  kanon-option-right:
-    backgroundColor: "{colors.kanon-ok-bg}"
-    textColor: "{colors.kanon-text}"
-  kanon-option-wrong:
-    backgroundColor: "{colors.kanon-no-bg}"
-    textColor: "{colors.kanon-text}"
-  kanon-next:
-    backgroundColor: "{colors.kanon-action}"
-    textColor: "#ffffff"
-    rounded: "{rounded.kanon-action}"
-    height: "54px"
-    width: "100%"
-  kanon-next-hover:
-    backgroundColor: "{colors.kanon-action-deep}"
-    textColor: "#ffffff"
-  kanon-card:
-    backgroundColor: "{colors.kanon-card}"
-    textColor: "{colors.kanon-text}"
-    rounded: "{rounded.kanon-surface}"
-    padding: "22px 20px 20px"
-  kanon-chip:
-    backgroundColor: "#f6efe9"
-    textColor: "{colors.kanon-text-soft}"
-    rounded: "{rounded.kanon-pill}"
-    padding: "5px 12px"
-  switcher-item:
+  input-answer-focus:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+  tab:
     backgroundColor: "transparent"
-    textColor: "#b9b9c2"
-    rounded: "{rounded.switcher-pill}"
-    padding: "5px 11px"
-  switcher-item-current:
-    backgroundColor: "#f2f2f5"
-    textColor: "{colors.switcher-ground}"
+    textColor: "{colors.ink-soft}"
+    typography: "{typography.label}"
+    rounded: "{rounded.none}"
+    padding: "6px 11px"
+  tab-hover:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.wine}"
+  tab-active:
+    backgroundColor: "transparent"
+    textColor: "{colors.wine-deep}"
+  slot:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    typography: "{typography.quote}"
+    rounded: "{rounded.none}"
+    padding: "14px 16px"
+    height: "56px"
+    width: "100%"
+  slot-active:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+  bank-item:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    typography: "{typography.body-small}"
+    rounded: "{rounded.none}"
+    padding: "13px 15px"
+    height: "48px"
+    width: "100%"
+  sheet-panel:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.none}"
+    padding: "22px 20px 26px"
 ---
 
 # Design System: Сюжетная дыра — тренажёр «Ионыч»
 
 ## Overview
 
-**Creative North Star: "Три двери в один и тот же текст"**
+**Creative North Star: "Архивная карточка под паспарту"**
 
-This build is not one visual world; it is three, shipped in parallel so the
-user can stand in front of each and choose. Isolation is the system's first
-law: every token, font and component rule is scoped under a `[data-world]`
-attribute on `<html>` (`arhiv`, `tetrad`, `kanon`), and no world reads another
-world's variables. `src/styles/base.css` and `src/layouts/Shell.astro` hold
-only what belongs to none of them — reset, hero-sheet mechanics, and the dark
-comparison strip. That strip is a measuring tool, not product chrome; no world
-inherits its neutral greys.
+The shipped product has exactly one world. Earlier the project carried three
+parallel visual worlds side by side for comparison; the user resolved that
+round in favour of «Архив», and the other two were deleted from the codebase
+along with the variant switcher. What remains is the pinned book world of
+`Референсы/design-system.md` brought down from a long scrolling story into a
+tool a student operates: ivory ground, a hairline passe-partout framing the
+viewport, gold rules and Roman numerals for structure, wine for every action,
+and a single red mark that reads as a human hand on printed paper.
 
-**«Архив»** is the user's pinned book world (Референсы/design-system.md)
-brought down to an Operate surface: a passe-partout hairline frame around the
-viewport, gold rules, Roman numerals, a red oval drawn by hand over the correct
-line, and a canvas petal transition reserved for two real scene changes.
-**«Тетрадь»** is the assigned direction: a 24px squared page where the grid is
-the only alignment system that exists, and red belongs to the teacher alone.
-**«Канон»** is the category standard built in earnest — warm ground, white
-cards, generous radii, one saturated action colour, a non-overshooting spring
-on press.
+The density is quiet and typographic. There are no shadows anywhere in the
+stylesheet and no corner radius anywhere — not one `box-shadow`, not one
+`border-radius`. Separation is done by tone (paper on ivory) and by hairlines;
+emphasis is done by a gold rule or a wine fill. Everything else is type: a
+high-contrast display serif over a reading serif, with a single sans reserved
+for micro-labels that must not be mistaken for prose.
 
-The three share a spine rather than a look: the same screens (entry, question,
-verdict-in-place, hero sheet, result), the same interaction grammar (the option
-itself is the primary action; the explanation appears where the mistake was
-made, never in a modal), and the same hard content law — every quote, speaker
-and chapter is transcribed verbatim from the source text and is never
-generated.
+The one theatrical device is the rose-petal transition, and the build treats it
+as an event rather than decoration, exactly as §8 of the pinned source demands:
+it fires on real scene changes only, drifts slowly on the title screen where
+there is no reading text, and does not exist at all under reduced motion.
 
 **Key Characteristics:**
-- Three fully isolated worlds under `[data-world]`; shared scaffolding carries no taste.
-- Paper grounds in all three (ivory, unbleached offset, warm cream); no dark mode anywhere.
-- One reserved colour per world, spent sparingly and never decoratively.
-- The explanation appears in place, under the option that was pressed.
-- Mobile-first at 390×844; one content breakpoint at 760px, one desktop breakpoint at 900px.
+- Ivory ground with a fixed 1px hairline passe-partout inset 8px from the viewport
+- Zero shadows, zero radius; separation by paper tone and hairlines
+- Gold for structure (rules, Roman numerals, field labels), wine for action
+- Red only as a hand-drawn oval, never as type
+- Playfair Display + Literata + Inter — a Cyrillic-capable substitution for the pinned Fraunces + EB Garamond + Inter, roles unchanged
+- Procedural WebGL petals on scene change, with a 2D canvas fallback and a reduced-motion off switch
 
 ## Colors
 
-Three separate palettes on three warm paper grounds; they never mix, and each
-reserves exactly one colour for a single meaning.
+A warm printed palette: aged ivory paper, two depths of wine, a leaf gold for
+rules and numerals, and one open red that belongs to a pen.
 
 ### Primary
-
-- **Wine** (`arhiv-wine`): «Архив»'s only action colour — the Next button, the
-  chapter titles, the hover on the back link, the focus ring. Its darker twin
-  **Deep Wine** (`arhiv-wine-deep`) carries the biggest display type and the
-  button's hover.
-- **Ink-Blue Pen** (`tetrad-pen`): «Тетрадь»'s student hand. Headings, progress
-  cells, primary buttons, focus rings — everything a pupil would have written or
-  that the interface owes the pupil.
-- **Indigo Action** (`kanon-action`): «Канон»'s single saturated colour. It
-  appears only on things that do something — section buttons, the Next button,
-  the progress fill, the verdict link — with **Deep Indigo**
-  (`kanon-action-deep`) as the hover.
+- **Wine** (`wine`): the only action colour. Filled primary buttons (next
+  question, check answers, retake), the active progress numeral, the link
+  inside a verdict, the focus ring, the border of a wrongly chosen option, and
+  the caption of a filled match slot.
+- **Deep Wine** (`wine-deep`): the darkest ink of the world. Titles, question
+  traits, section headings, and the hover state of every filled wine button.
 
 ### Secondary
-
-- **Leaf Gold** (`arhiv-gold`): «Архив»'s structural hairline and numeral
-  colour — the plate rules, the left edge of a catalogue slip, Roman numerals,
-  the underline of a link. Never a fill.
-- **Blue Rule** (`tetrad-rule`, `tetrad-rule-strong`): the printed squared
-  lattice itself and every border the world draws, at two strengths — the page
-  grid and the line a row sits on.
-- **Signal Green / Signal Red** (`kanon-ok`, `kanon-no`, with their tinted
-  backgrounds `kanon-ok-bg` and `kanon-no-bg`): «Канон»'s correctness feedback,
-  the category-standard pairing used honestly.
+- **Leaf Gold** (`gold`): structure, never action. The rule under the title
+  plate and the tab bar, the left edge of a catalogue slip, Roman numerals and
+  step numbers, `dt` field labels inside the hero sheet and the spravka facts
+  grid, and the hover border of an option or a card.
 
 ### Tertiary
-
-- **Mark Red** (`arhiv-mark-red`): the ink of the hand-drawn oval stroked over
-  the correct option in «Архив».
-- **Teacher's Red** (`tetrad-red`): the oval, the wavy underline, the margin
-  rule, the margin note and the error tally in «Тетрадь». Nothing else in that
-  world is red.
-- **Blush** (`arhiv-blush`): selection highlight and the lightest petal tone.
+- **Mark Red** (`mark-red`): reserved for the hand-drawn oval — the active tab
+  and the correct option. It is the only colour in the system that is not
+  printed, and the only one that carries no structural job.
+- **Blush** (`blush`): the reverse face of a petal in the transition and the
+  selection highlight behind selected text.
 
 ### Neutral
-
-- **Ivory / Book Paper** (`arhiv-ivory`, `arhiv-paper`): page ground, and the
-  lifted paper of slips, options and the hero sheet.
-- **Bistre Ink / Softened Ink** (`arhiv-ink`, `arhiv-ink-soft`): reading text
-  and every secondary label; **Hairline** (`arhiv-hair`) is the frame and the
-  divider.
-- **Offset Paper** (`tetrad-paper`), **Graphite** (`tetrad-graphite`, printed
-  text), **Faded Pen** (`tetrad-pen-soft`, captions and unchosen rows).
-- **Warm Ground / Card White / Bark / Warm Line** (`kanon-ground`,
-  `kanon-card`, `kanon-text`, `kanon-text-soft`, `kanon-line`).
-- **Tool Charcoal** (`switcher-ground`, `switcher-ink`, `switcher-ink-dim`):
-  the comparison strip only. Off-limits to product surfaces.
+- **Ivory** (`ivory`): the page ground everywhere, and the text colour that
+  sits on a wine fill.
+- **Paper** (`paper`): the raised-by-tone surface — catalogue slips, options,
+  cards, match slots, the hero sheet panel, the fact cells, and the tab hover.
+- **Paper White** (`white`): a second step up, used only to mark the one thing
+  currently being acted on: a focused answer field and the active match slot.
+- **Ink** (`ink`) / **Soft Ink** (`ink-soft`): body text and its quieter
+  register — prompts, sources, counts, disabled and not-yet-answered states.
+- **Hairline** (`hair`): every divider, frame and default border, at 1px.
+- **Wrong Wash** (`wrong-wash`): the faint wine-tinted fill behind an option the
+  student chose and got wrong.
+- **Scrim** (`scrim`): the dimmer behind the hero sheet; the only translucent
+  overlay in the build.
 
 ### Named Rules
+**The Reserved Mark Rule.** Mark red draws the oval and nothing else. It is not
+a text colour, not a border colour, not a state colour. If something needs to
+read as wrong, it gets wine and a strike-through, not red type.
 
-**The Sealed Worlds Rule.** Every colour token belongs to exactly one
-`[data-world]`. A new surface picks a world and uses only that world's tokens;
-borrowing across worlds, or from the switcher's greys, is a defect.
+**The Gold Is Structure Rule.** Gold never invites a tap. It rules, numbers and
+labels; the moment a gold element becomes the primary action, the surface has
+lost its hierarchy.
 
-**The Teacher's Red Rule.** In «Тетрадь», red is the teacher's hand and nothing
-else: the oval over the right line, the wavy underline under a wrong choice,
-the margin rule, the margin note, the tally. It is never a heading, a button, a
-border or an accent.
-
-**The One Action Colour Rule.** In «Канон», indigo appears only where something
-is actionable. If it cannot be pressed, it is not indigo.
-
-**The Reserved Mark Rule.** In «Архив», wine is the accent and mark-red is the
-mark. The oval's stroke is mark-red; the interface's accents are wine
-(design-system.md §8).
+**The One Action Colour Rule.** Wine is the only colour a student can act on.
+A screen carries at most one wine fill at a time.
 
 ## Typography
 
-**Display Font:** Playfair Display (Архив) · Caveat (Тетрадь) · Nunito (Канон)
-**Body Font:** Literata (Архив) · Golos Text (Тетрадь) · Nunito (Канон)
-**Label Font:** Inter (Архив, micro-labels only)
+**Display Font:** Playfair Display (with Iowan Old Style, Georgia, serif)
+**Body Font:** Literata (with Georgia, Times New Roman, serif)
+**Label Font:** Inter (with ui-sans-serif, system-ui)
 
-**Character:** «Архив» is a printed book — a high-contrast display serif over a
-screen-cut reading serif, with tiny wide-tracked sans labels for apparatus.
-«Тетрадь» is a filled-in exercise book — a hand (Caveat) for anything a person
-wrote, a plain grotesque (Golos Text) for anything printed. «Канон» is a single
-rounded humanist sans carrying the whole range by weight.
+**Character:** A printed book, not an app. The display serif is high-contrast
+and tightly tracked at large sizes; the reading serif is wide-countered and set
+generously (root 16px / 1.6) so a four-hundred-character quote stays readable
+on a phone. Inter appears only in small uppercase with wide tracking, where it
+reads as a catalogue stamp rather than as interface chrome.
 
-Substitution on the record: Референсы/design-system.md names Fraunces and EB
-Garamond, neither of which covers Cyrillic. The build ships Playfair Display
-and Literata in those roles with the role structure unchanged; Inter stays as
-the micro-label face because §1.1 pins it.
+The pinned source names Fraunces for display and EB Garamond for body. Neither
+covers Cyrillic, so the build substitutes Playfair Display and Literata with the
+roles unchanged. Inter is kept as the source pins it, and that keep is recorded
+as a narrow ignore in `.impeccable/config.json`.
 
 ### Hierarchy
-
-- **Display** (Архив 500 / Тетрадь 700 / Канон 800): the work's title on the
-  entry screen only — one per page, set to shrink with the viewport.
-- **Headline** (Архив 400 / Тетрадь 600 / Канон 800): the character trait on the
-  question screen — the object the whole screen is built around, balanced with
-  `text-wrap: balance` and focusable for screen-reader hand-off.
-- **Title** (Архив 1.4375rem / Тетрадь 38px hand / Канон 19px): chapter tabs,
-  hero-sheet name, result heading.
-- **Body** (Архив 1.0625rem/1.55 · Тетрадь 16px/24px · Канон 16px/1.5): quote
-  text and explanations. Explanation measure is capped at 44ch in «Тетрадь»;
-  page measure is capped at 64–68ch in «Архив» and 560–640px in «Канон».
-- **Label** (Архив Inter 500, 11px, uppercase, 0.1–0.22em · Тетрадь Golos 600,
-  11–13px, uppercase, 0.05–0.09em · Канон Nunito 700, 12–13px): speaker and
-  chapter attribution, hero-sheet field names, table headers.
+- **Display** (Playfair 500, `clamp(3.4rem, 19vw, 6rem)`, 0.9): the work's title
+  on the entry plate. Once per product.
+- **Headline** (Playfair 400, `clamp(2.1rem, 9vw, 3rem)`, 1.04): the spravka
+  page title.
+- **Headline (question)** (Playfair 400, `clamp(1.75rem, 7.4vw, 2.35rem)`,
+  1.14, balanced wrap): the character trait — the one thing the screen asks.
+- **Title / Section / Subhead** (Playfair 400, 2.25 / 1.75 / 1.625 / 1.4375rem):
+  result heading, hero sheet name, spravka section heading over a gold rule,
+  entry section link.
+- **Numeral** (Playfair, 1.5rem, gold or wine): Roman progress and step numbers.
+- **Card title / Lead** (Playfair 400, 1.25 / 1.1875rem): card names, match prompt.
+- **Quote** (Literata 400, 1.0625rem / 1.55): every quotation, answer option and
+  timeline excerpt, wrapped in guillemets by CSS `quotes`.
+- **Body** (Literata 400, 1rem / 1.55; small 0.9375rem / 1.6): explanations,
+  verdict reasoning, sheet fields. Measure capped at 44–48ch for prose, 64–68ch
+  for a screen.
+- **Label** (Inter 500/600, 0.6875 / 0.625rem, uppercase, 0.1–0.22em): sources,
+  roles, field names, chapter numbers, imprint.
+- **Italic display** is a real voice here, not an accident: notes, leads,
+  aliases and "why" lines are set in Playfair italic at body sizes.
 
 ### Named Rules
+**The Cyrillic Coverage Rule.** A face that cannot render Cyrillic cannot hold a
+role in this product, however well it fits the reference. Substitute the face,
+keep the role.
 
-**The Cyrillic Coverage Rule.** A face that does not render Cyrillic cannot hold
-a role here, whatever the reference names. Substitute by role, keep the role
-structure, and record the substitution beside the role.
+**The Quote Is the Object Rule.** Quote text is never smaller than 1.0625rem and
+never truncated, clamped or scrolled. Everything around it may shrink first.
 
-**The Hand and Print Rule.** In «Тетрадь», Caveat means a person wrote it — the
-title, the filled table cells, the verdict in the margin, the tally. Golos Text
-means it was printed on the page — headers, quotes, buttons. Using one for the
-other's content breaks the world's fiction.
-
-**The Quote Is the Object Rule.** Quote text is never smaller than the body size
-of its world and is never truncated, clamped or scrolled; a 400-character quote
-sets its own height.
+**The Micro-Label Rule.** Inter appears only at 0.625–0.6875rem, uppercase, with
+at least 0.1em tracking. Inter at reading size is out of the world.
 
 ## Layout
 
-All three worlds are mobile-first at 390×844 and must survive 360px without
-horizontal scroll. Content lives inside `.stage`, offset in every world by the
-44px comparison strip plus the top safe-area inset.
+Mobile-first from 390px with a 360px floor: no horizontal scroll at 360px, and
+the primary action is always reachable in the bottom third.
 
-**«Тетрадь» — the 24px cell.** `--grid: 24px` is the only alignment system in
-the world. Base `line-height` is `24px`; every line box, row height, header band
-and vertical gap is a multiple of 24 (measured in the shipped page: entry table
-rows at 237/261/285/309, roster rows at 429/453/477/501/525/549). The lattice is
-painted on `.stage`, not on `body`, so it starts exactly under the strip.
-Content is inset two cells from the left (four from 900px) and a red 1px margin
-rule is drawn at that boundary. The container is capped at 30 cells (720px).
-Separation between answer blocks is a whole empty cell, never a fractional gap.
+The stage is a passe-partout. `.stage` runs the full dynamic viewport height as
+a column with 14px inline padding, and a fixed 1px hairline frame sits inset 8px
+from all four edges, above the content but transparent to pointer events. Safe
+area insets are added top and bottom.
 
-**«Архив» — the passe-partout.** A fixed 1px hairline frame is inset 8px from
-the viewport inside the strip; the page is inset 14px from it. Measure is capped
-at 68ch (entry) and 64ch (question). Rhythm is editorial rather than modular:
-10/12/18/26/44px, with 44px between major sections.
+Content sits in one centred column: 68ch for the entry, spravka, tabs and exam;
+64ch for the question screen. Vertical rhythm is loose and typographic rather
+than gridded — sections open at 44–60px, blocks breathe at 18–26px, and rows sit
+10–16px apart.
 
-**«Канон» — the centred column.** 560px max (640px from 900px), 16px side
-padding, 12–22px gaps, no grid beyond the stack.
+Three breakpoints: **560px** (tabs tighten — smaller label size, less tracking,
+narrower padding), **760px** (two-column catalogue slips, character cards, places,
+and the match board splitting into slots-and-bank side by side), **900px**
+(entry gets more head room and the hero sheet changes from a bottom sheet to a
+right-hand panel of `min(420px, 38vw)`).
 
-Two breakpoints exist: 760px turns the entry's cast list and section tabs into
-columns, and 900px switches the hero sheet from a bottom sheet to a right rail
-(`min(420px, 38vw)`) and widens the worlds' gutters.
+Two elements are sticky: the tab bar at the top and the primary-action footer at
+the bottom, each fading into the ivory ground with a one-colour gradient rather
+than a border.
 
 ### Named Rules
+**The Reachable Answer Rule.** The thing the student taps lives in the lower
+third and is at least 48px tall — 52px for a full-width primary action.
 
-**The Cell Rule.** In «Тетрадь», if a vertical value is not a multiple of 24, it
-is wrong. Gaps, row heights and section spacing come from the cell; only
-interior horizontal padding (8–14px) is free.
-
-**The Reachable Answer Rule.** On the question screen the options occupy the
-lower two-thirds and the sticky footer action is at least 48px tall in every
-world. There is no separate submit: pressing the option is the answer.
+**The One Column Rule.** Below 760px there is exactly one column. Multi-column
+layout is an enhancement, never the thing that makes a screen work.
 
 ## Elevation & Depth
 
-The system is overwhelmingly flat and paper-based. «Архив» and «Тетрадь» ship
-**no shadows at all**: depth comes from tonal layering (paper on ivory), from
-1px hairlines in gold or blue rule, and from a fixed frame that sits visually
-above the page. «Канон» owns the only shadow token in the build and uses it as
-the material signature of a card.
+The system is flat and paper-based. There is not a single `box-shadow` in the
+build. Depth is tonal: ivory ground, paper surfaces on it, paper-white for the
+one element being acted on, and hairlines for every edge. The only true overlay
+is the hero sheet, which earns its layer with a translucent scrim rather than a
+shadow.
 
-Motion is likewise scoped. Both paper worlds animate exactly one thing — the red
-oval, revealed in stepped frames as though drawn by a hand, and disabled
-entirely under `prefers-reduced-motion`. «Архив» adds the canvas petal
-transition, bound to two real scene changes (entry → test, last answer → result)
-and nowhere else. «Канон» uses a non-overshooting spring on press and on the
-progress fill.
+Motion is the other depth cue, and it is rationed. The petal transition is a
+procedural WebGL scene (Three.js `InstancedMesh`; the petal is a parametric
+surface built in code — tapering width, a lengthwise bend and a cross-wise cup —
+shaded two-sided so the reverse reads blush and the face reads wine, with no
+`.glb` asset anywhere). It degrades to a 2D canvas field on low-core or
+low-memory devices and when WebGL is unavailable, and it is not mounted at all
+under `prefers-reduced-motion`. It fires only on real scene changes — entering a
+section, finishing a test set — plus a slow ambient drift on the title screen,
+which is the only screen with no reading text.
 
-### Shadow Vocabulary
-
-- **Card** (`box-shadow: 0 2px 4px rgba(64,40,26,0.05), 0 10px 24px -12px rgba(64,40,26,0.24)`):
-  «Канон» only. Every raised surface uses this one value — cards, options,
-  buttons, the back control, the hero sheet's field block.
+Everything else moves at 160ms ease-out (colour and border state), 200–260ms for
+the sheet and the petal canvas fade, and the hand mark draws in 520ms as four
+discrete steps.
 
 ### Named Rules
+**The Unlit Paper Rule.** Nothing in this world casts a shadow. If an element
+needs to separate, give it paper tone and a hairline.
 
-**The One Shadow Rule.** «Канон» has exactly one shadow. There is no elevation
-scale; a surface is either on the ground or on the card shadow.
+**The Petals Are an Event Rule.** The petal transition belongs to a change of
+scene. It never fires on an ordinary click, never over a block of reading text,
+and never at all under reduced motion.
 
-**The Unlit Paper Rule.** «Архив» and «Тетрадь» never receive a shadow. If a
-surface needs to separate, it gets a hairline or a different paper tone.
-
-**The Petals Are an Event Rule.** The petal transition belongs to «Архив» and
-fires only on a real change of scene. It is never a click flourish and never
-runs over long reading text.
+**The Four Steps Rule.** The red oval animates in `steps(4)`, not smoothly. A
+mark that fades in reads as a graphic; a mark that lands in steps reads as drawn.
 
 ## Shapes
 
-Two of the three worlds have no corner radius whatsoever. «Архив» is built from
-squared plates, slips and rules: borders are 1px, the accent border is a single
-gold edge on the left of a slip, and the only curve in the world is the
-hand-drawn SVG oval. «Тетрадь» is likewise square — table cells, progress cells,
-answer rows and buttons are all rectangles sitting on the lattice, with 1.5px
-pen borders for live controls and a 1px dashed rule for a disabled one.
+There is no corner radius in this system — every surface, button, field, card
+and sheet is a square-cornered rectangle. The form language is entirely rules
+and edges: a 1px hairline for ordinary borders and dividers; a gold left edge
+(1–2px) to mark a catalogue slip, a filled slot or a quotation; a gold border
+block above and below the title plate and under section headings; a dashed
+border for a bank option already used; a 38×38px squared numeral box on the
+timeline, connected by a 1px vertical hairline.
 
-«Канон» carries the whole build's radii: 20px for surfaces (cards, options,
-section buttons), 16px for actions, 12px for the small back control, 24px for
-the sheet's leading corners, and full pills for chips and the switcher's items.
-Its option borders are 2px and transparent at rest, so a state change moves
-colour rather than geometry.
-
-The recurring silhouette across all three worlds is the horizontal row: a quote
-with its attribution beneath, full-bleed to the column, with the verdict stacked
-in the same block.
+Against all of that straightness, the only curve in the world is the hand-drawn
+oval: an inline SVG stroke in mark red, 1.8–2.2px, rotated -1.4deg over an
+answer and drawn tight around the active tab. It is the system's signature
+precisely because nothing else bends.
 
 ## Components
 
 ### Buttons
-
-- **Shape:** square in «Архив» and «Тетрадь» (0 radius); softly rounded in «Канон» (16px actions).
-- **Primary:** the sticky Next action — full width, 52px (Архив) / 48px (Тетрадь) / 54px (Канон), filled with the world's action colour, over a footer gradient that fades the page into the ground colour.
-- **Hover / Focus:** colour deepens (wine → deep wine, pen → `#162c55`, indigo → deep indigo) over 150–160ms ease-out; «Канон» adds `scale(0.99)` on press with the spring `cubic-bezier(0.25, 1, 0.5, 1)`. Focus is a 2px outline in the world's primary (3px in «Канон») at a 2–3px offset.
-- **Secondary:** the result screen's "back" is an outline button — gold border in «Архив», rule border in «Тетрадь», white card with a warm line in «Канон».
-- **Disabled:** chapter tabs that are not built yet carry `aria-disabled="true"`, drop to the soft ink colour and lose their fill (dashed border in «Тетрадь», shadowless card in «Канон»).
-
-### Chips
-
-Only «Канон» has them: genre tags on the entry card, warm sand fill (`#f6efe9`),
-soft text, full pill, 5px 12px, 13px/600. They are static labels, not filters.
+- **Shape:** square (0 radius) without exception.
+- **Primary:** full width, 52px minimum height, wine fill on a wine border, ivory
+  label in Playfair 1.125rem. Used for "next question" in a sticky footer over an
+  ivory gradient, and for "check" on the exam.
+- **Hover:** fill deepens to deep wine over 160ms.
+- **Disabled:** transparent fill, soft ink label, hairline border, `not-allowed`.
+- **Outline (secondary):** transparent fill, wine label, gold border, 50px, used
+  beside the primary on the result screen.
+- **Quiet (tertiary):** bare text with a 1px gold or hairline underline and a
+  micro-label typeface — "skip the warm-up", "open the character", "back".
 
 ### Cards / Containers
-
-- **«Архив» catalogue slip:** paper on ivory, 1px hairline with a gold left edge, 14px 16px padding, name in display, role in an Inter micro-label. Two columns from 760px.
-- **«Тетрадь» row:** not a card. A 24px-tall line with a bottom rule, a handwritten counter hanging in the margin, name left and role right.
-- **«Канон» card:** white, 20px radius, the single card shadow, 22px 20px padding, internal dividers as 1px warm lines.
+- **Corner style:** square.
+- **Catalogue slip (entry):** paper on ivory, hairline border with a gold left
+  edge, 14px 16px, display name over an Inter micro-label role. Two columns from
+  760px. A minor character's slip drops to 1.0625rem soft ink.
+- **Character card (spravka):** same material, 2px gold left edge, 15px 17px,
+  tappable, hover raises the border to gold.
+- **Facts grid:** a 2-column hairline-gap grid where the grid background *is* the
+  hairline colour, so the cells read as a ruled table.
 
 ### Inputs / Fields
-
-None. The build takes no typed input; the only controls are buttons and links.
+- **Style:** paper fill, no box — a single 1px soft-ink bottom rule, 48px tall,
+  answer set in Playfair 1.25rem so the student's word looks printed.
+- **Focus:** underline goes wine, fill goes paper-white, native outline removed.
+- **Right / wrong:** the underline takes the state colour and a small uppercase
+  verdict appears beneath it.
 
 ### Navigation
-
-Chapter tabs on the entry screen: one full-width row per section carrying the
-section name and a subtitle. «Архив» prefixes each with a gold Roman numeral in
-a 46px column and separates rows with hairlines; «Тетрадь» boxes each in a
-three-cell-tall pen-bordered rectangle that inverts to filled pen on hover;
-«Канон» makes them filled indigo buttons with the card shadow. The back control
-on the question screen is a wide-tracked text link in the paper worlds and a
-38px rounded card with a CSS-drawn chevron in «Канон».
+- **Entry sections:** a rule-bordered list, each row a gold Roman numeral, a wine
+  section name in display, and a right-aligned uppercase subtitle; hover washes
+  the row to paper.
+- **Tab bar:** sticky, the work's name on the left over a gold underline, three
+  tabs right-aligned, each a gold Roman numeral plus an Inter uppercase name.
+  The current tab is marked by the hand-drawn oval, not by an underline or a
+  fill. Below 560px the labels drop to 0.625rem and tighten.
 
 ### Answer Option (signature)
-
-The screen's primary control and its most world-specific component. In every
-world it is a full-width `<button>` holding the quote (wrapped in guillemets via
-`::before`/`::after`) and, beneath it, a micro-label with speaker and chapter.
-States are driven by `data-state` (`idle`, `pending`, `chosen-right`,
-`chosen-wrong`, `right`); unchosen options fade to the soft ink colour rather
-than disappearing.
-
-- **«Архив»:** paper plate with a hairline; hover raises the border to gold; a wrong choice gets a wine border, a faint wine wash and a struck-through quote.
-- **«Тетрадь»:** a line on the ruling — transparent, no border except the bottom rule; a wrong choice gets a red wavy underline at 1.5px with a 4px offset.
-- **«Канон»:** white card, 20px radius, transparent 2px border that becomes green or red with a tinted background.
+A full-width paper plate with a hairline, 17px 18px 15px, quote in Literata
+wrapped in guillemets by generated content, source beneath as an uppercase
+micro-label. Hover raises the border to gold. Unanswered and pending options go
+transparent with soft-ink text so the chosen one stands out. A wrong choice
+takes a wine border, the faint wrong wash, and a 1px strike-through in
+half-opacity wine. The correct option receives the mark.
 
 ### Hand Mark (signature)
-
-An inline SVG oval, stroked in the world's red, absolutely positioned over the
-correct option and revealed by animating `clip-path` in discrete steps (4 steps
-/ 520ms in «Архив», 3 steps / 480ms in «Тетрадь») so it reads as drawn rather
-than faded. «Архив» rotates it -1.4deg. Under `prefers-reduced-motion` it
-appears already complete. «Канон» does not have it: `.opt__mark` is
-`display: none` there, deliberately.
+An inline SVG oval in mark red, positioned absolutely over the element, revealed
+by animating `clip-path: inset(0 100% 0 0)` to zero in `steps(4, end)` over
+520ms after a 90ms beat. Over an answer it is rotated -1.4deg and inset to clear
+the source line; over the active tab it sits tight at -3px/-6px with a heavier
+2.2px stroke. Under reduced motion it appears fully drawn with no animation.
 
 ### Verdict (signature)
+The explanation appears in place, in the page body, directly under the option
+just answered — never a modal and never a new screen. It is a block indented
+15px behind a 1px gold left rule: an uppercase lead, the reasoning in soft ink,
+and, when the student was wrong, a second block above a hairline carrying the
+correct quote, its source and its reason.
 
-The explanation, rendered in place under the option that was pressed — never a
-modal, never a new screen. «Архив» sets it as a block with a gold left rule;
-«Тетрадь» pulls it into the margin and writes the verdict word by hand in red;
-«Канон» puts it in a small white card with a 16px radius. When the choice was
-wrong, the correct quote and its reasoning are appended below a divider inside
-the same block.
-
-### Progress
-
-Deliberately different per world, because this is where the worlds argue.
-«Тетрадь» renders one 24px cell per question, in place, with the current cell
-double-bordered in pen and answered cells filled — position occupies space
-rather than being compressed into a bar. «Архив» sets Roman numerals («III из
-V»). «Канон» uses the category's track-and-fill bar with a tabular counter.
+### Match Board (signature)
+Positions and options, no dragging: tapping a slot arms it, tapping a bank item
+fills it, and the same two taps work identically on any screen. A slot is a
+paper row with a gold display key, 56px tall; armed it goes paper-white with a
+wine border, filled it gains a 2px gold left edge and shows the chosen text in
+body type. A used bank item switches its border to dashed and drops to soft ink.
+The assembled answer prints as a spaced digit code in display type. From 760px
+the two lists sit side by side like a paper answer sheet.
 
 ### Hero Sheet
-
-Shared behaviour, world-specific skin: bottom sheet up to 82dvh on mobile, a
-420px right rail from 900px, a 42% dark scrim, and a 260ms
-`cubic-bezier(0.22, 0.8, 0.28, 1)` slide that shortens to 1ms under reduced
-motion. It always returns to the point it was opened from. «Архив» skins it as
-paper with a 2px gold edge and gold field labels; «Тетрадь» continues the
-lattice inside the panel behind a pen edge; «Канон» gives it a 24px rounded
-leading corner and a white field block.
+One dialog for the whole product. Bottom sheet up to 82dvh on phones, sliding in
+on a 260ms custom ease; from 900px a right-hand panel of `min(420px, 38vw)`. Paper
+fill, a 2px gold edge on the entry side (top on mobile, left on desktop), scrim
+behind, and gold uppercase `dt` labels over body `dd` values. It always returns
+focus to where it was opened from, and its transitions collapse to 1ms under
+reduced motion.
 
 ## Do's and Don'ts
 
 ### Do:
-
-- **Do** pick one world and take every token from it; a new surface declares `[data-world]` and stays inside that world's variables.
-- **Do** keep «Тетрадь» on the 24px cell: every line box and vertical gap is a multiple of 24, and separation between blocks is a whole empty cell.
-- **Do** reserve red in «Тетрадь» for the teacher's hand only — oval, wavy underline, margin rule, margin note, tally.
-- **Do** spend «Канон»'s indigo only on things that can be pressed.
-- **Do** put the explanation in place, under the option that was chosen, inside the same block.
-- **Do** let the quote set its own height; 400 characters render in full at body size.
-- **Do** keep the primary action at 48px or taller, in the lower third of the question screen.
-- **Do** substitute a font by role when the named face lacks Cyrillic, and record the substitution next to the role.
-- **Do** disable the drawn oval and shorten sheet motion under `prefers-reduced-motion`.
-- **Do** transcribe every quote, speaker and chapter verbatim from Референсы/ионыч-подлинный-текст.txt; quotes and attributions are never generated.
+- **Do** keep the passe-partout: a fixed 1px hairline frame inset 8px, above the
+  content and transparent to pointer events.
+- **Do** separate surfaces with paper tone and hairlines, and mark structure with
+  gold rules and Roman numerals.
+- **Do** give the screen exactly one wine action, at least 48px tall, in the
+  lower third.
+- **Do** set every quotation in Literata at 1.0625rem or larger, in guillemets,
+  in full.
+- **Do** keep Inter small, uppercase and tracked; keep Playfair for anything that
+  is read as a name or a heading.
+- **Do** treat the petal transition as a scene change, and ship the 2D fallback
+  and the reduced-motion path alongside it.
+- **Do** quote the source text verbatim — every quote, speaker and chapter comes
+  from `Референсы/ионыч-подлинный-текст.txt` (Чехов, ПСС в 30 т., т. 10, Наука
+  1986). Nothing about a quote may be generated, including in placeholders,
+  demos and examples.
 
 ### Don't:
-
-- **Don't** mix tokens, fonts or components across worlds, and don't let a product surface inherit the comparison strip's charcoal greys.
-- **Don't** give «Архив» or «Тетрадь» a shadow or a corner radius; they separate with hairlines and paper tone.
-- **Don't** use `arhiv-mark-red` as a general accent — wine is the accent, mark-red is the drawn mark.
-- **Don't** add a second elevation level to «Канон»; there is one shadow value.
-- **Don't** fire the petal transition on ordinary clicks or scrolls, or over long reading text — only on a real change of scene.
-- **Don't** introduce an invented kicker or eyebrow above a heading; the uppercase micro-labels here carry real content (author, speaker, chapter, field name), never a manufactured category line.
-- **Don't** put the verdict in a modal, a toast, or on a separate screen.
-- **Don't** give «Тетрадь» a progress bar — its position indicator is the row of cells, and it is meant to take up space.
-- **Don't** hide, clamp or truncate a quote to make a layout fit.
+- **Don't** use mark red as a text, border or state colour. It draws the oval and
+  nothing else.
+- **Don't** add a shadow or a corner radius to anything in this world.
+- **Don't** fire the petal transition on an ordinary click, or run the ambient
+  drift over a screen with text to be read.
+- **Don't** make gold the primary action or let a gold rule stand in for a button.
+- **Don't** put an explanation behind a modal or a second screen; it belongs under
+  the answer that earned it.
+- **Don't** signal right and wrong by colour alone — the mark, the strike-through
+  and the wording carry the verdict.
+- **Don't** shrink, clamp or scroll a quotation to make a layout fit.

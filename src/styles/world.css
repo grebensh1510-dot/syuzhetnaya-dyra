@@ -453,11 +453,20 @@
 }
 
 .verdict[data-state='right'] .verdict__word {
-  color: var(--wine);
+  color: var(--wine-deep);
+}
+
+.verdict[data-state='right'] {
+  border-left-color: var(--gold);
 }
 
 .verdict[data-state='wrong'] .verdict__word {
   color: var(--wine);
+}
+
+.verdict[data-state='wrong'] {
+  border-left-width: 2px;
+  border-left-color: var(--wine);
 }
 
 .verdict__why {
@@ -672,19 +681,6 @@
   line-height: 1.55;
 }
 
-/* ─── Лепестки ─── */
-
-.petals {
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-  pointer-events: none;
-  opacity: 0;
-}
-
-.petals[data-on='true'] {
-  opacity: 1;
-}
 
 @media (prefers-reduced-motion: reduce) {
   .opt__mark {
@@ -1206,7 +1202,7 @@
 }
 
 .warm__row[data-state='wrong'] .warm__verdict {
-  color: var(--mark-red);
+  color: var(--wine);
 }
 
 .warm__row[data-state='right'] .warm__input {
@@ -1214,7 +1210,8 @@
 }
 
 .warm__row[data-state='wrong'] .warm__input {
-  border-bottom-color: var(--mark-red);
+  border-bottom-color: var(--wine);
+  border-bottom-width: 2px;
 }
 
 .warm__check,
