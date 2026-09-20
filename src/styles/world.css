@@ -2038,9 +2038,12 @@
   margin: 14px 0 0;
   font-family: var(--micro);
   font-size: 0.6875rem;
+  font-weight: 500;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--ink-soft);
+  /* Строка стоит над светлым платьем: приглушённый ink-soft тут не проходит
+     по контрасту (2.93), поэтому берём основной ink. */
+  color: var(--ink);
 }
 
 .hero__quote {

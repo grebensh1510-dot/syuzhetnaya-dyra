@@ -22,7 +22,7 @@
  * композитинг на видеокарте, без перерисовки. Периоды взаимно простые
  * (19 / 23 / 31 с), чтобы рисунок не повторялся.
  */
-const { src, alt = '', position = 'center 40%' } = Astro.props;
+const { src, srcNarrow, alt = '', position = 'center 40%' } = Astro.props;
 ---
 
 <div class="cine" data-cine>
@@ -30,7 +30,11 @@ const { src, alt = '', position = 'center 40%' } = Astro.props;
     class="cine__plate"
     role={alt ? 'img' : undefined}
     aria-label={alt || undefined}
-    style={`background-image: url('${src}'); background-position: ${position};`}
+    style={[
+      `--cine-src: url('${src}')`,
+      `--cine-src-narrow: url('${srcNarrow || src}')`,
+      `background-position: ${position}`,
+    ].join('; ')}
   >
   </div>
 
