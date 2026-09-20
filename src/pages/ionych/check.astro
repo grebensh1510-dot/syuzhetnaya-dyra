@@ -1,0 +1,122 @@
+---
+import Shell from '../../layouts/Shell.astro';
+import Tabs from '../../components/Tabs.astro';
+import { heroes, heroById, checks, checkOrder, finalCheck } from '../../data/ionych.js';
+
+const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id] }));
+---
+
+<Shell title="Сюжетный чек · Ионыч" screen="check">
+  <Tabs active="check" />
+
+  <main class="check">
+    <section class="pick">
+      <h1 class="sp-h1">Сюжетный чек</h1>
+      <p class="sp-lead">
+        Вопросы идут по героям — по тем же фактам, что в досье. Закройте всех,
+        и откроется тест-дыра.
+      </p>
+
+      <ol class="pick__list">
+        {
+          blocks.map((b, i) => (
+            <li>
+              <a class="pick__row" href={`/ionych/check/?hero=${b.id}`} data-hero={b.id}>
+                <span class="pick__num">{['I', 'II', 'III', 'IV', 'V'][i]}</span>
+                <span class="pick__body">
+                  <span class="pick__name">{b.hero.name}</span>
+                  <span class="pick__meta">
+                    {b.list.length} {b.list.length === 1 ? 'вопрос' : 'вопроса'}
+                  </span>
+                </span>
+                <span class="pick__mark" data-mark></span>
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a class="pick__row pick__row--final" href="/ionych/check/?hero=final" data-hero="final">
+            <span class="pick__num">VI</span>
+            <span class="pick__body">
+              <span class="pick__name">Финал рассказа</span>
+              <span class="pick__meta">1 вопрос</span>
+            </span>
+            <span class="pick__mark" data-mark></span>
+          </a>
+        </li>
+      </ol>
+
+      <div class="pick__gate" data-gate>
+        <p class="pick__gate-text" data-gate-text></p>
+        <a class="pick__gate-go" href="/ionych/dyra/" data-petal-link data-gate-go hidden>
+          Открыть тест-дыру № 2
+        </a>
+      </div>
+    </section>
+
+    {
+      [...blocks, { id: 'final', hero: { name: 'Финал рассказа' }, list: [finalCheck] }].map((b) => (
+        <section class="run" data-run={b.id} data-total={b.list.length} hidden>
+          <header class="run__bar">
+            <a class="run__back" href="/ionych/check/">Все герои</a>
+            <p class="prog-roman">
+              <span class="prog-roman__now" data-counter>I</span>
+              <span class="prog-roman__of">из {b.list.length}</span>
+            </p>
+          </header>
+
+          <h1 class="run__hero">{b.hero.name}</h1>
+
+          <div class="run__body">
+            {b.list.map((q, qi) => (
+              <section class="q" data-q={qi} hidden={qi > 0}>
+                <h2 class="q__trait" tabindex="-1">{q.ask}</h2>
+                <ul class="q__options">
+                  {q.options.map((o, oi) => (
+                    <li class="q__item">
+                      <button class="opt" type="button" data-correct={oi === q.answer ? 'true' : 'false'}>
+                        <span class="opt__mark" aria-hidden="true" />
+                        <span class="opt__text">{o}</span>
+                      </button>
+                      <div class="verdict" hidden>
+                        <p class="verdict__head"><span class="verdict__word" /></p>
+                        <p class="verdict__why">{q.why}</p>
+                        <div class="verdict__right" hidden>
+                          <p class="verdict__right-lead">Верный ответ отмечен выше</p>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+
+            <section class="done" hidden>
+              <h2 class="done__h">Герой закрыт</h2>
+              <p class="done__score">
+                Верно <span data-score>0</span> из {b.list.length}
+              </p>
+              <div class="done__actions">
+                <button class="done__again" type="button">Пройти заново</button>
+                <a class="done__back" href="/ionych/check/">К списку героев</a>
+              </div>
+              <p class="done__next" data-next></p>
+            </section>
+          </div>
+
+          <footer class="run__foot" hidden>
+            <button class="next" type="button">Следующий вопрос</button>
+          </footer>
+        </section>
+      ))
+    }
+  </main>
+
+  <script>
+    import { mountCheck } from '../../scripts/check.js';
+    import { mountPetals, armSceneLinks } from '../../scripts/petals.js';
+    mountCheck();
+    mountPetals();
+    armSceneLinks();
+  </script>
+</Shell>

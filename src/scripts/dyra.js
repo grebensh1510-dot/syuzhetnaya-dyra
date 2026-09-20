@@ -1,7 +1,11 @@
-// Экзамен: разминка на короткий ответ и сопоставление.
+// Тест-дыра № 2: разминка на короткий ответ и сопоставление.
 // Сопоставление работает тапом — сначала позиция, потом вариант.
 // Перетаскивания нет нигде: на телефоне оно не работает, а дублировать
 // один и тот же жест двумя способами значит чинить то, что не сломано.
+
+import { readDone } from './progress.js';
+
+const ORDER = ['ivan', 'vera', 'kotik', 'starcev', 'sluga', 'final'];
 
 // Проверка не придирается к регистру, ё и окончаниям: «эпосъ», «Эпос»,
 // «эпическ» — всё это один и тот же ответ ученика, который помнит суть.
@@ -18,10 +22,23 @@ function matches(given, expected) {
   if (!g) return false;
   return expected.some((e) => {
     const x = normalize(e);
-    // Достаточно совпадения по корню: хвост слова не проверяем.
     const stem = x.slice(0, Math.max(4, x.length - 2));
     return g === x || g.startsWith(stem);
   });
+}
+
+function mountHint() {
+  const hint = document.querySelector('[data-hint]');
+  if (!hint) return;
+  const done = new Set(readDone());
+  const left = ORDER.filter((id) => !done.has(id));
+  if (!left.length) {
+    hint.textContent = 'Все герои в сюжетном чеке закрыты — можно проверять себя начисто.';
+    hint.dataset.state = 'ready';
+  } else {
+    hint.innerHTML = `Сюжетный чек пройден не весь: осталось ${left.length} из ${ORDER.length}. Это не запрещает тест — но ловушки здесь рассчитаны на то, что досье уже разобрано. <a class="done__link" href="/ionych/check/">Вернуться к чеку</a>`;
+    hint.dataset.state = 'partial';
+  }
 }
 
 function mountWarmup() {
@@ -86,12 +103,12 @@ function mountMatching() {
       const key = s.dataset.key;
       const val = picked[key];
       s.dataset.state = active === key ? 'active' : val ? 'filled' : 'empty';
-      const pick = s.querySelector('[data-pick]');
+      const pickEl = s.querySelector('[data-pick]');
       if (val) {
         const label = task.right.find((r) => r.key === val)?.label || '';
-        pick.textContent = `${val} · ${label}`;
+        pickEl.textContent = `${val} · ${label}`;
       } else {
-        pick.textContent = active === key ? 'выберите вариант ниже' : 'выбрать';
+        pickEl.textContent = active === key ? 'выберите вариант ниже' : 'выбрать';
       }
       s.setAttribute('aria-expanded', active === key ? 'true' : 'false');
     });
@@ -101,8 +118,7 @@ function mountMatching() {
       b.dataset.state = used ? 'used' : 'free';
     });
 
-    const code = task.left.map((l) => picked[l.key] || '—').join(' ');
-    digits.textContent = code;
+    digits.textContent = task.left.map((l) => picked[l.key] || '—').join(' ');
     check.disabled = Object.keys(picked).length !== task.left.length;
   }
 
@@ -122,7 +138,6 @@ function mountMatching() {
   banks.forEach((b) => {
     b.addEventListener('click', () => {
       if (!active) {
-        // Ничего не выбрано — подсказываем, с чего начать.
         active = task.left.find((l) => !picked[l.key])?.key || null;
         if (!active) return;
       }
@@ -163,9 +178,7 @@ function mountMatching() {
 
     verdict.hidden = false;
     verdict.dataset.state = allRight ? 'right' : 'wrong';
-    verdict.querySelector('.verdict__word').textContent = allRight
-      ? 'Всё верно'
-      : 'Есть ошибки';
+    verdict.querySelector('.verdict__word').textContent = allRight ? 'Всё верно' : 'Есть ошибки';
 
     slots.forEach((s) => (s.disabled = true));
     banks.forEach((b) => (b.disabled = true));
@@ -182,7 +195,8 @@ function mountMatching() {
   paint();
 }
 
-export function mountExam() {
+export function mountDyra() {
+  mountHint();
   mountWarmup();
   mountMatching();
 }

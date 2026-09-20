@@ -1,19 +1,23 @@
 ---
 import Shell from '../../layouts/Shell.astro';
 import Tabs from '../../components/Tabs.astro';
-import HeroSheet from '../../components/HeroSheet.astro';
-import { heroById, warmup, matching } from '../../data/ionych.js';
+import { warmup, matching } from '../../data/ionych.js';
 
 const task = matching[0];
 ---
 
-<Shell title="Экзамен · Ионыч" screen="ekzamen">
-  <Tabs active="ekzamen" />
+<Shell title="Тест-дыра № 2 · Ионыч" screen="dyra">
+  <Tabs active="dyra" />
 
   <main class="exam">
+    <header class="ds-head">
+      <h1 class="sp-h1">Тест-дыра № 2</h1>
+      <p class="sp-lead" data-hint></p>
+    </header>
+
     <section class="warm" aria-labelledby="h-warm">
       <header class="warm__head">
-        <h1 class="sp-h1" id="h-warm">Разминка</h1>
+        <h2 class="sp-h2" id="h-warm">Разминка</h2>
         <button class="warm__skip" type="button">Пропустить</button>
       </header>
       <p class="sp-sub">
@@ -35,7 +39,7 @@ const task = matching[0];
                 spellcheck="false"
                 enterkeyhint="next"
               />
-              <span class="warm__verdict" aria-live="polite"></span>
+              <span class="warm__verdict" aria-live="polite" />
             </li>
           ))
         }
@@ -88,11 +92,11 @@ const task = matching[0];
       <button class="match__check" type="button" disabled>Проверить</button>
 
       <div class="match__verdict" hidden>
-        <p class="verdict__head"><span class="verdict__word"></span></p>
-        <ul class="match__rows" data-rows></ul>
+        <p class="verdict__head"><span class="verdict__word" /></p>
+        <ul class="match__rows" data-rows />
         <div class="match__extra">
           <p class="match__extra-lead">Лишний вариант</p>
-          <p class="match__extra-text" data-extra-text></p>
+          <p class="match__extra-text" data-extra-text />
           <p class="match__extra-why">{task.extraWhy}</p>
         </div>
         <button class="match__again" type="button">Пройти заново</button>
@@ -100,19 +104,14 @@ const task = matching[0];
     </section>
   </main>
 
-  <HeroSheet />
-
-  <script define:vars={{ heroData: heroById, taskData: task }} is:inline>
-    window.__HEROES__ = heroData;
+  <script define:vars={{ taskData: task }} is:inline>
     window.__TASK__ = taskData;
   </script>
 
   <script>
-    import { mountExam } from '../../scripts/ekzamen.js';
-    import { mountSheet } from '../../scripts/sheet.js';
+    import { mountDyra } from '../../scripts/dyra.js';
     import { mountPetals, armSceneLinks } from '../../scripts/petals.js';
-    mountExam();
-    mountSheet();
+    mountDyra();
     mountPetals();
     armSceneLinks();
   </script>

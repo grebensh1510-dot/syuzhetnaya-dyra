@@ -1,29 +1,25 @@
 ---
-// Три равные вкладки, всегда активные. Переход между ними — смена сцены,
-// поэтому каждая помечена data-petal-link: по ней летят лепестки.
+// Три равные плашки, всегда доступны. Порядок — рекомендованный путь,
+// но замок на них не вешается: уверенный ученик идёт сразу к тесту.
+import { sections } from '../data/ionych.js';
 const { active } = Astro.props;
-
-const tabs = [
-  { id: 'spravka', name: 'Справка', num: 'I', href: '/ionych/spravka/' },
-  { id: 'test', name: 'Тест', num: 'II', href: '/ionych/test/' },
-  { id: 'ekzamen', name: 'Экзамен', num: 'III', href: '/ionych/ekzamen/' },
-];
 ---
 
 <nav class="tabs" aria-label="Разделы произведения">
   <a class="tabs__home" href="/" data-petal-link aria-label="К выбору произведения">Ионыч</a>
   <ul class="tabs__list">
     {
-      tabs.map((t) => (
+      sections.map((s) => (
         <li>
           <a
             class="tabs__tab"
-            href={t.href}
-            data-petal-link={t.id === active ? undefined : true}
-            aria-current={t.id === active ? 'page' : undefined}
+            href={s.href}
+            data-petal-link={s.id === active ? undefined : true}
+            aria-current={s.id === active ? 'page' : undefined}
           >
-            <span class="tabs__num">{t.num}</span>
-            <span class="tabs__name">{t.name}</span>
+            <span class="tabs__num">{s.num}</span>
+            <span class="tabs__name">{s.name}</span>
+            <span class="tabs__short">{s.short}</span>
           </a>
         </li>
       ))

@@ -1,14 +1,9 @@
 ---
 import Shell from '../layouts/Shell.astro';
-import { work, heroes, questions, loveLine, places } from '../data/ionych.js';
+import { work, heroes, family, checks, sections } from '../data/ionych.js';
 
-const quoteCount = new Set(
-  [
-    ...questions.flatMap((q) => q.options.map((o) => o.text)),
-    ...loveLine.map((l) => l.text),
-    ...places.map((p) => p.text),
-  ]
-).size;
+const heroCount = heroes.length;
+const questionCount = Object.values(checks).reduce((n, list) => n + list.length, 0) + 1;
 
 function plural(n, one, few, many) {
   const m10 = n % 10;
@@ -18,26 +13,11 @@ function plural(n, one, few, many) {
   return many;
 }
 
-const sections = [
-  {
-    num: 'I',
-    name: 'Справка',
-    sub: `${heroes.length} ${plural(heroes.length, 'герой', 'героя', 'героев')}`,
-    href: '/ionych/spravka/',
-  },
-  {
-    num: 'II',
-    name: 'Тест',
-    sub: `${questions.length} ${plural(questions.length, 'вопрос', 'вопроса', 'вопросов')}`,
-    href: '/ionych/test/',
-  },
-  {
-    num: 'III',
-    name: 'Экзамен',
-    sub: 'сопоставление',
-    href: '/ionych/ekzamen/',
-  },
-];
+const subs = {
+  dosye: `${heroCount + 1} ${plural(heroCount + 1, 'карточка', 'карточки', 'карточек')}`,
+  check: `${questionCount} ${plural(questionCount, 'вопрос', 'вопроса', 'вопросов')}`,
+  dyra: 'сопоставление',
+};
 ---
 
 <Shell title={work.title} screen="title">
@@ -47,26 +27,9 @@ const sections = [
       <h1 class="arh-title">{work.title}</h1>
       <p class="arh-year">MDCCCXCVIII</p>
       <ul class="arh-tags">
-        {work.tags.slice(0, 3).map((t) => <li>{t}</li>)}
+        {work.tags.map((t) => <li>{t}</li>)}
       </ul>
     </header>
-
-    <section class="arh-cast" aria-labelledby="cast-h">
-      <h2 class="arh-h" id="cast-h">Действующие лица</h2>
-      <ul class="arh-slips">
-        {
-          heroes.map((h) => (
-            <li class="arh-slip" data-short={h.short ? 'true' : undefined}>
-              <span class="arh-slip-name">{h.name}</span>
-              <span class="arh-slip-role">{h.aka ? `«${h.aka}»` : h.role}</span>
-            </li>
-          ))
-        }
-      </ul>
-      <p class="arh-count">
-        {quoteCount} {plural(quoteCount, 'выверенная цитата', 'выверенные цитаты', 'выверенных цитат')} в основе
-      </p>
-    </section>
 
     <nav class="arh-tabs" aria-label="Разделы произведения">
       {
@@ -74,16 +37,35 @@ const sections = [
           <a class="arh-tab" href={s.href} data-petal-link>
             <span class="arh-tab-num">{s.num}</span>
             <span class="arh-tab-name">{s.name}</span>
-            <span class="arh-tab-sub">{s.sub}</span>
+            <span class="arh-tab-sub">{subs[s.id]}</span>
           </a>
         ))
       }
     </nav>
 
     <p class="arh-note">
-      Не читали рассказ? Начните со справки — она не запирает тест, но без неё
-      ловушки работают против вас.
+      Путь по порядку: разобрать досье героя и тут же отработать его в сюжетном
+      чеке, и так по всем. Когда закрыты все герои, открывается тест-дыра.
+      Плашки при этом не заперты — если знаете материал, идите сразу к ней.
     </p>
+
+    <section class="arh-cast" aria-labelledby="cast-h">
+      <h2 class="arh-h" id="cast-h">Действующие лица</h2>
+      <ul class="arh-slips">
+        <li class="arh-slip arh-slip--family">
+          <span class="arh-slip-name">{family.name}</span>
+          <span class="arh-slip-role">{family.role}</span>
+        </li>
+        {
+          heroes.map((h) => (
+            <li class="arh-slip" data-short={h.id === 'sluga' ? 'true' : undefined}>
+              <span class="arh-slip-name">{h.name}</span>
+              <span class="arh-slip-role">{h.aka ? `«${h.aka}»` : h.role}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
   </main>
 
   <script>

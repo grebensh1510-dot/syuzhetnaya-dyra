@@ -1,0 +1,77 @@
+---
+import Shell from '../../layouts/Shell.astro';
+import Tabs from '../../components/Tabs.astro';
+import { family, heroes, checks } from '../../data/ionych.js';
+
+const cards = [{ ...family, isFamily: true }, ...heroes];
+---
+
+<Shell title="Досье героев · Ионыч" screen="dosye">
+  <Tabs active="dosye" />
+
+  <main class="dosye">
+    <header class="ds-head">
+      <h1 class="sp-h1">Досье героев</h1>
+      <p class="sp-lead">
+        Сначала факты о герое, потом — отработка тех же фактов в сюжетном чеке.
+        Каждая карточка заканчивается переходом к своему блоку вопросов.
+      </p>
+    </header>
+
+    {
+      cards.map((c) => (
+        <article class="ds-card" id={c.id} data-hero={c.isFamily ? undefined : c.id}>
+          <header class="ds-card__head">
+            <p class="ds-card__group">{c.group || c.role}</p>
+            <h2 class="ds-card__name">
+              {c.name}
+              {c.aka && <span class="ds-card__aka">«{c.aka}»</span>}
+            </h2>
+          </header>
+
+          <dl class="ds-rows">
+            {c.rows.map((r) => (
+              <div class="ds-row">
+                <dt>{r.key}</dt>
+                <dd>
+                  {r.quote && (
+                    <blockquote class="ds-quote">
+                      {r.quote}
+                      {r.chapter && <span class="ds-ch">глава {r.chapter}</span>}
+                    </blockquote>
+                  )}
+                  {r.value && <p class="ds-value">{r.value}</p>}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          {
+            !c.isFamily && checks[c.id] && (
+              <a class="ds-go" href={`/ionych/check/?hero=${c.id}`} data-petal-link>
+                Отработать в чеке
+                <span class="ds-go__n">
+                  {checks[c.id].length} {checks[c.id].length === 1 ? 'вопрос' : 'вопроса'}
+                </span>
+              </a>
+            )
+          }
+        </article>
+      ))
+    }
+  </main>
+
+  <script>
+    import { armSceneLinks, mountPetals } from '../../scripts/petals.js';
+    import { readDone } from '../../scripts/progress.js';
+
+    // Пройденные герои помечаются прямо в досье — видно, что осталось.
+    const done = new Set(readDone());
+    document.querySelectorAll('.ds-card[data-hero]').forEach((card) => {
+      if (done.has(card.dataset.hero)) card.dataset.state = 'done';
+    });
+
+    mountPetals();
+    armSceneLinks();
+  </script>
+</Shell>
