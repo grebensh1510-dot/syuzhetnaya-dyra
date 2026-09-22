@@ -3,7 +3,11 @@ import Shell from '../../layouts/Shell.astro';
 import Header from '../../components/Header.astro';
 import { family, heroes, checks } from '../../data/ionych.js';
 
-const cards = [{ ...family, isFamily: true }, ...heroes];
+// Семья идёт первой карточкой: она объясняет всех остальных.
+const cards = [
+  { ...family, isFamily: true, photo: 'turkiny' },
+  ...heroes.map((h) => ({ ...h, photo: h.id })),
+];
 ---
 
 <Shell title="Досье героев · Ионыч" screen="dosye">
@@ -13,62 +17,109 @@ const cards = [{ ...family, isFamily: true }, ...heroes];
     <header class="ds-head">
       <h1 class="sp-h1">Досье героев</h1>
       <p class="sp-lead">
-        Сначала факты о герое, потом — отработка тех же фактов в сюжетном чеке.
-        Каждая карточка заканчивается переходом к своему блоку вопросов.
+        Карточка на героя. Тяните колоду, жмите стрелки или выбирайте соседнюю
+        карточку — досье под ней меняется следом.
       </p>
     </header>
 
-    {
-      cards.map((c) => (
-        <article class="ds-card" id={c.id} data-hero={c.isFamily ? undefined : c.id}>
-          <header class="ds-card__head">
-            <p class="ds-card__group">{c.group || c.role}</p>
-            <h2 class="ds-card__name">
-              {c.name}
-              {c.aka && <span class="ds-card__aka">«{c.aka}»</span>}
-            </h2>
-          </header>
+    <div class="deck" data-deck tabindex="0" role="group" aria-label="Колода героев">
+      <div class="deck__stage">
+        <div class="deck__surface" data-grabbing="false" aria-hidden="true"></div>
+        {
+          cards.map((c, i) => (
+            <button
+              class="deck__card"
+              type="button"
+              data-hero={c.photo}
+              data-i={i}
+              aria-label={`Открыть досье: ${c.name}`}
+            >
+              <img
+                class="deck__img"
+                src={`/heroes/${c.photo}.jpg`}
+                alt=""
+                width="820"
+                height="1230"
+                loading={i > 1 ? 'lazy' : 'eager'}
+                decoding="async"
+                draggable="false"
+              />
+              <span class="deck__plate">
+                <span class="deck__name">{c.name}</span>
+                <span class="deck__role">{c.aka ? `«${c.aka}»` : c.role}</span>
+              </span>
+            </button>
+          ))
+        }
+      </div>
 
-          <dl class="ds-rows">
-            {c.rows.map((r) => (
-              <div class="ds-row">
-                <dt>{r.key}</dt>
-                <dd>
-                  {r.quote && (
-                    <blockquote class="ds-quote">
-                      {r.quote}
-                      {r.chapter && <span class="ds-ch">глава {r.chapter}</span>}
-                    </blockquote>
-                  )}
-                  {r.value && <p class="ds-value">{r.value}</p>}
-                </dd>
-              </div>
-            ))}
-          </dl>
+      <div class="deck__nav">
+        <button class="deck__arrow" type="button" data-deck-prev aria-label="Предыдущий герой">
+          ←
+        </button>
+        <span class="deck__counter" data-deck-counter aria-live="polite">1 / {cards.length}</span>
+        <button class="deck__arrow" type="button" data-deck-next aria-label="Следующий герой">
+          →
+        </button>
+      </div>
+    </div>
 
-          {
-            !c.isFamily && checks[c.id] && (
-              <a class="ds-go" href={`/ionych/check/?hero=${c.id}`} data-petal-link>
-                Отработать в чеке
-                <span class="ds-go__n">
-                  {checks[c.id].length} {checks[c.id].length === 1 ? 'вопрос' : 'вопроса'}
-                </span>
-              </a>
-            )
-          }
-        </article>
-      ))
-    }
+    <div class="ds-panels">
+      {
+        cards.map((c, i) => (
+          <article class="ds-card" id={c.photo} data-panel={i} hidden={i > 0}>
+            <header class="ds-card__head">
+              <p class="ds-card__group">{c.group || c.role}</p>
+              <h2 class="ds-card__name">
+                {c.name}
+                {c.aka && <span class="ds-card__aka">«{c.aka}»</span>}
+              </h2>
+            </header>
+
+            <dl class="ds-rows">
+              {c.rows.map((r) => (
+                <div class="ds-row">
+                  <dt>{r.key}</dt>
+                  <dd>
+                    {r.quote && (
+                      <blockquote class="ds-quote">
+                        {r.quote}
+                        {r.chapter && <span class="ds-ch">глава {r.chapter}</span>}
+                      </blockquote>
+                    )}
+                    {r.value && <p class="ds-value">{r.value}</p>}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+
+            {
+              !c.isFamily && checks[c.id] && (
+                <a class="ds-go" href={`/ionych/check/?hero=${c.id}`} data-petal-link>
+                  Отработать в чеке
+                  <span class="ds-go__n">
+                    {checks[c.id].length} {checks[c.id].length === 1 ? 'вопрос' : 'вопроса'}
+                  </span>
+                </a>
+              )
+            }
+          </article>
+        ))
+      }
+    </div>
   </main>
 
   <script>
+    import { mountDeck } from '../../scripts/deck.js';
     import { armSceneLinks, mountPetals } from '../../scripts/petals.js';
     import { readDone } from '../../scripts/progress.js';
 
-    // Пройденные герои помечаются прямо в досье — видно, что осталось.
+    mountDeck();
+
+    // Пройденные герои помечаются на карточках колоды.
     const done = new Set(readDone());
-    document.querySelectorAll('.ds-card[data-hero]').forEach((card) => {
-      if (done.has(card.dataset.hero)) card.dataset.state = 'done';
+    document.querySelectorAll('.deck__card').forEach((card) => {
+      if (done.has(card.dataset.hero)) card.dataset.done = 'true';
     });
 
     mountPetals();

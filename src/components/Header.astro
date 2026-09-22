@@ -1,31 +1,30 @@
 ---
-// Шапка сайта. Разделы живут здесь, а не внизу страницы: на любом экране
-// видно, где ты и куда можно уйти. Активный помечен рукописным овалом —
-// тем же жестом, которым в чеке отмечается верный ответ (§5.4).
+// Шапка сайта. Подпись о задании №2 отсюда убрана — она переехала на
+// обрывок газеты справа в главном экране. Здесь остались знак, «Главная»
+// и три раздела; активный помечен рукописным овалом (§5.4).
+import Logo from './Logo.astro';
 import { sections } from '../data/ionych.js';
 const { active = '' } = Astro.props;
 ---
 
 <header class="hdr">
   <a class="hdr__brand" href="/" data-petal-link aria-label="Сюжетная дыра — на главную">
-    <span class="hdr__brand-name">Сюжетная<br />дыра</span>
-    <svg class="hdr__flourish" viewBox="0 0 150 16" aria-hidden="true" focusable="false">
-      <path
-        d="M3 11C22 5 52 2 86 4c22 1.3 42 4 61 8"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.2"
-        stroke-linecap="round"
-      />
-    </svg>
+    <Logo />
   </a>
-
-  <p class="hdr__tag">
-    Цитаты, которые закрывают<br />задание №2 ЕГЭ по литературе
-  </p>
 
   <nav class="hdr__nav" aria-label="Разделы произведения">
     <ul class="hdr__list">
+      <li>
+        <a
+          class="hdr__link hdr__link--home"
+          href="/"
+          data-petal-link={active ? true : undefined}
+          aria-current={active ? undefined : 'page'}
+        >
+          <span class="hdr__name">Главная</span>
+          <span class="hdr__short">Главная</span>
+        </a>
+      </li>
       {
         sections.map((s) => (
           <li>

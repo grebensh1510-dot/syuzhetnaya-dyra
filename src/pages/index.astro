@@ -2,10 +2,13 @@
 import Shell from '../layouts/Shell.astro';
 import Header from '../components/Header.astro';
 import CinematicPhoto from '../components/CinematicPhoto.astro';
-import { work, heroes, family, checks } from '../data/ionych.js';
+import Scrap from '../components/Scrap.astro';
+import { work, heroes, family, checks, warmup, matching } from '../data/ionych.js';
 
 const heroCount = heroes.length + 1;
 const questionCount = Object.values(checks).reduce((n, list) => n + list.length, 0) + 1;
+// Столько заданий действительно лежит в тест-дыре: разминка плюс сопоставление.
+const taskCount = warmup.length + matching.length;
 
 function plural(n, one, few, many) {
   const m10 = n % 10;
@@ -32,9 +35,22 @@ const cast = [{ ...family, anchor: 'turkiny' }, ...heroes.map((h) => ({ ...h, an
     position="center 42%"
   >
     <div class="hero">
-      <p class="hero__kicker">
-        Знаешь сюжет.<br />Пора запомнить цитаты.
-      </p>
+      <div class="hero__scraps">
+        <Scrap side="left" seed={7} tilt="-2.1deg">
+          <p class="scrap__label">Зачем это</p>
+          <p class="scrap__text">
+            Делаем литературу живой: герои и детали, которые обычно остаются
+            за кадром, но встречаются в ЕГЭ.
+          </p>
+        </Scrap>
+
+        <Scrap side="right" seed={23} tilt="1.8deg">
+          <p class="scrap__label">Задание №2</p>
+          <p class="scrap__text">
+            Цитаты, которые закрывают задание №2 ЕГЭ по литературе.
+          </p>
+        </Scrap>
+      </div>
 
       <h1 class="hero__title">{work.title}</h1>
 
@@ -44,8 +60,9 @@ const cast = [{ ...family, anchor: 'turkiny' }, ...heroes.map((h) => ({ ...h, an
           <span class="hero__cta-arrow" aria-hidden="true">→</span>
         </a>
         <p class="hero__meta">
-          {heroCount} {plural(heroCount, 'досье', 'досье', 'досье')} · {questionCount}{' '}
-          {plural(questionCount, 'вопрос', 'вопроса', 'вопросов')} · без конспектов
+          {heroCount} досье · {questionCount}{' '}
+          {plural(questionCount, 'вопрос', 'вопроса', 'вопросов')} · {taskCount}{' '}
+          {plural(taskCount, 'типовое задание', 'типовых задания', 'типовых заданий')}
         </p>
       </div>
 

@@ -1,0 +1,19 @@
+---
+/*
+ * Scrap — обрывок бумаги с рваным краем.
+ *
+ * Край не рисуется многоугольником из двадцати точек: белый прямоугольник
+ * прогоняется через feTurbulence + feDisplacementMap, и получается контур
+ * с настоящей органикой волокна. Разные seed у левого и правого — два
+ * обрывка не должны быть одной деталью, отражённой по оси.
+ */
+const { side = 'left', seed = 7, tilt = '-1.4deg' } = Astro.props;
+---
+
+<aside class={`scrap scrap--${side}`} style={`--scrap-seed: ${seed}; --scrap-tilt: ${tilt};`}>
+  <div class="scrap__paper">
+    <div class="scrap__inner">
+      <slot />
+    </div>
+  </div>
+</aside>

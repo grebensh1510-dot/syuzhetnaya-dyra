@@ -1,0 +1,215 @@
+// Колода досье: карточки героев стопкой, активная в центре.
+//
+// Механика та же, что у стековых каруселей на motion/react: положение
+// колоды — дробное число, каждая карточка смещается, поворачивается и
+// уменьшается пропорционально расстоянию до центра. Отпускание пальца
+// доводит колоду пружиной до ближайшего целого.
+//
+// Пружина посчитана здесь руками, без библиотеки: три строки интегрирования
+// дешевле, чем тащить рантайм ради одного экрана.
+
+const SPRING = { stiffness: 210, damping: 30, mass: 1 };
+
+function layout(width) {
+  if (width < 640) return { x: 88, y: 18, rot: 7, scale: 0.09, drag: 150 };
+  if (width < 1024) return { x: 132, y: 28, rot: 9, scale: 0.1, drag: 200 };
+  return { x: 176, y: 36, rot: 11, scale: 0.11, drag: 240 };
+}
+
+export function mountDeck() {
+  const root = document.querySelector('[data-deck]');
+  if (!root) return;
+
+  const cards = [...root.querySelectorAll('.deck__card')];
+  const panels = [...document.querySelectorAll('[data-panel]')];
+  const counter = root.querySelector('[data-deck-counter]');
+  const prevBtn = root.querySelector('[data-deck-prev]');
+  const nextBtn = root.querySelector('[data-deck-next]');
+  const total = cards.length;
+  if (!total) return;
+
+  const reduce = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let progress = 0;
+  let velocity = 0;
+  let target = 0;
+  let raf = null;
+  let geom = layout(window.innerWidth);
+
+  window.addEventListener('resize', () => {
+    geom = layout(window.innerWidth);
+    paint();
+  });
+
+  // ─── Раскладка стопки ───
+  function paint() {
+    cards.forEach((card, i) => {
+      let d = (i - progress) % total;
+      if (d > total / 2) d -= total;
+      if (d < -total / 2) d += total;
+
+      const abs = Math.abs(d);
+      const x = d * geom.x;
+      const y = abs < 0.05 ? 0 : abs * geom.y;
+      const rot = abs < 0.05 ? 0 : d * geom.rot;
+      const scale = Math.max(0.5, 1 - abs * geom.scale);
+      const fade = abs > total / 2 - 0.5 ? Math.max(0, (total / 2 - abs) * 2) : 1;
+
+      card.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rot}deg) scale(${scale})`;
+      card.style.opacity = String(fade);
+      card.style.zIndex = String(Math.round(100 - abs * 10));
+      card.dataset.active = abs < 0.5 ? 'true' : 'false';
+      card.setAttribute('aria-hidden', abs < 0.5 ? 'false' : 'true');
+      card.tabIndex = abs < 0.5 ? 0 : -1;
+    });
+
+    const active = ((Math.round(progress) % total) + total) % total;
+    if (counter) counter.textContent = `${active + 1} / ${total}`;
+
+    panels.forEach((p, i) => {
+      p.hidden = i !== active;
+    });
+  }
+
+  // ─── Пружина ───
+  function tick() {
+    const dt = 1 / 60;
+    const force = -SPRING.stiffness * (progress - target);
+    const damp = -SPRING.damping * velocity;
+    velocity += ((force + damp) / SPRING.mass) * dt;
+    progress += velocity * dt;
+
+    if (Math.abs(velocity) < 0.002 && Math.abs(progress - target) < 0.002) {
+      progress = target;
+      velocity = 0;
+      paint();
+      raf = null;
+      return;
+    }
+    paint();
+    raf = requestAnimationFrame(tick);
+  }
+
+  function settle(to) {
+    target = to;
+    if (reduce()) {
+      progress = to;
+      velocity = 0;
+      paint();
+      return;
+    }
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+
+  function go(delta) {
+    settle(Math.round(target) + delta);
+  }
+
+  // ─── Перетаскивание ───
+  let dragging = false;
+  let startX = 0;
+  let startProgress = 0;
+  let lastX = 0;
+  let lastT = 0;
+  let speed = 0;
+
+  const surface = root.querySelector('.deck__surface');
+
+  surface.addEventListener('pointerdown', (e) => {
+    dragging = true;
+    startX = lastX = e.clientX;
+    lastT = performance.now();
+    speed = 0;
+    startProgress = progress;
+    if (raf) {
+      cancelAnimationFrame(raf);
+      raf = null;
+    }
+    velocity = 0;
+    surface.setPointerCapture(e.pointerId);
+    surface.dataset.grabbing = 'true';
+  });
+
+  surface.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const now = performance.now();
+    const dt = Math.max(1, now - lastT);
+    speed = ((e.clientX - lastX) / dt) * 1000;
+    lastX = e.clientX;
+    lastT = now;
+
+    progress = startProgress - (e.clientX - startX) / geom.drag;
+    paint();
+  });
+
+  function endDrag(e) {
+    if (!dragging) return;
+    dragging = false;
+    surface.dataset.grabbing = 'false';
+    try {
+      surface.releasePointerCapture(e.pointerId);
+    } catch {}
+
+    // Бросок учитывает и пройденное расстояние, и скорость руки,
+    // но не даёт улететь дальше трёх карточек за один жест.
+    const byDistance = -(lastX - startX) / geom.drag;
+    const byVelocity = -speed / 900;
+    let shift = Math.round(byDistance + byVelocity);
+    shift = Math.max(-3, Math.min(3, shift));
+    settle(Math.round(startProgress) + shift);
+  }
+
+  surface.addEventListener('pointerup', endDrag);
+  surface.addEventListener('pointercancel', endDrag);
+
+  // ─── Клик по соседней карточке центрирует её ───
+  cards.forEach((card, i) => {
+    card.addEventListener('click', () => {
+      if (Math.abs(lastX - startX) > 6) return; // это было перетаскивание
+      const current = ((Math.round(target) % total) + total) % total;
+      if (i === current) return;
+      let diff = i - current;
+      if (diff > total / 2) diff -= total;
+      if (diff < -total / 2) diff += total;
+      go(diff);
+    });
+  });
+
+  prevBtn?.addEventListener('click', () => go(-1));
+  nextBtn?.addEventListener('click', () => go(1));
+
+  root.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      go(-1);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      go(1);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      settle(0);
+    }
+  });
+
+  // Приход по якорю из состава на главной: #vera открывает Веру.
+  function fromHash(animated) {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return false;
+    const idx = cards.findIndex((c) => c.dataset.hero === hash);
+    if (idx < 0) return false;
+    if (animated) {
+      settle(idx);
+    } else {
+      progress = target = idx;
+    }
+    return true;
+  }
+
+  fromHash(false);
+
+  // Смена хеша внутри той же страницы документ не перезагружает, поэтому
+  // ссылку с якорем нужно ловить отдельно — иначе она молча ничего не делает.
+  window.addEventListener('hashchange', () => fromHash(true));
+
+  paint();
+}
