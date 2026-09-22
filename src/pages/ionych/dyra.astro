@@ -1,7 +1,7 @@
 ---
 import Shell from '../../layouts/Shell.astro';
 import Header from '../../components/Header.astro';
-import { warmup, matching } from '../../data/ionych.js';
+import { warmup, matching, taskFormat } from '../../data/ionych.js';
 
 const task = matching[0];
 ---
@@ -23,6 +23,8 @@ const task = matching[0];
       <p class="sp-sub">
         Три коротких ответа с клавиатуры. Регистр и окончания не придираются.
       </p>
+
+      <p class="warm__count" data-warm-count aria-live="polite">Отвечено 0 из {warmup.length}</p>
 
       <ol class="warm__list">
         {
@@ -86,9 +88,28 @@ const task = matching[0];
         </ul>
       </div>
 
-      <p class="match__code">
-        Ответ: <span class="match__digits" data-digits>— — —</span>
-      </p>
+      {/* Бланк, а не строка «Ответ: — — —»: клетки по числу позиций, над
+          каждой её буква. Число клеток берётся из задания, не задано руками —
+          формат ещё будет сверяться с демоверсией. */}
+      <div class="blank">
+        <p class="blank__lead">{taskFormat.answerLead}</p>
+        <ol class="blank__cells">
+          {
+            task.left.map((l) => (
+              <li class="blank__cell">
+                <span class="blank__key">{l.key}</span>
+                <span class="blank__digit" data-blank={l.key}>
+                  —
+                </span>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="blank__note">{taskFormat.answerNote}</p>
+        <p class="blank__count" data-match-count aria-live="polite">
+          Заполнено 0 из {task.left.length}
+        </p>
+      </div>
 
       <button class="match__check" type="button" disabled>Проверить</button>
 

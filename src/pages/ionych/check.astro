@@ -65,7 +65,24 @@ const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id
             </p>
           </header>
 
-          <h1 class="run__hero">{b.hero.name}</h1>
+          {/* Портрет стоит над вопросами и виден, пока герой разбирается:
+              вопрос про Старцева должен спрашиваться с лицом Старцева перед
+              глазами. loading="lazy" внутри скрытой секции значит, что
+              грузится ровно один портрет — тот, чей блок открыли. */}
+          <div class="run__who">
+            {b.id !== 'final' && (
+              <img
+                class="run__face"
+                src={`/heroes/thumb/${b.id}.jpg`}
+                alt=""
+                width="260"
+                height="390"
+                loading="lazy"
+                decoding="async"
+              />
+            )}
+            <h1 class="run__hero">{b.hero.name}</h1>
+          </div>
 
           <div class="run__body">
             {b.list.map((q, qi) => (
@@ -114,9 +131,11 @@ const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id
 
   <script>
     import { mountCheck } from '../../scripts/check.js';
-    
+    import { mountGlow } from '../../scripts/glow.js';
+
     document.addEventListener('astro:page-load', () => {
       mountCheck();
+      mountGlow('.check', '.opt, .pick__row');
     });
   </script>
 </Shell>

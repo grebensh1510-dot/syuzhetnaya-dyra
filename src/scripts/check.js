@@ -146,6 +146,8 @@ function mountRun(root) {
     foot.hidden = true;
     done.hidden = false;
     done.querySelector('[data-score]').textContent = String(score);
+    // Мерцание на заголовке итога — только за безошибочный проход.
+    done.dataset.clean = score === total ? 'true' : 'false';
 
     markDone(heroId);
 

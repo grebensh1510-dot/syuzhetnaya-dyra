@@ -76,9 +76,11 @@ const cards = [
   <script>
     import { mountDeck } from '../../../scripts/deck.js';
     import { readDone } from '../../../scripts/progress.js';
+    import { mountGlow } from '../../../scripts/glow.js';
 
     document.addEventListener('astro:page-load', () => {
       mountDeck();
+      mountGlow('.deck__stage', '.deck__card');
 
       // Пройденные герои помечаются на карточках колоды.
       const done = new Set(readDone());

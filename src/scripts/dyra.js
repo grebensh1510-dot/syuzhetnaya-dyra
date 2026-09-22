@@ -48,6 +48,16 @@ function mountWarmup() {
   const rows = [...root.querySelectorAll('.warm__row')];
   const check = root.querySelector('.warm__check');
   const skip = root.querySelector('.warm__skip');
+  const count = root.querySelector('[data-warm-count]');
+
+  // Счётчик считает заполненные поля, а не верные: до проверки правильность
+  // не известна, и обещать её счётчиком нельзя.
+  function recount() {
+    if (!count) return;
+    const filled = rows.filter((r) => r.querySelector('.warm__input').value.trim()).length;
+    count.textContent = `Отвечено ${filled} из ${rows.length}`;
+    count.dataset.full = filled === rows.length ? 'true' : 'false';
+  }
 
   function verdictFor(row) {
     const input = row.querySelector('.warm__input');
@@ -77,7 +87,9 @@ function mountWarmup() {
   });
 
   rows.forEach((row, i) => {
-    row.querySelector('.warm__input')?.addEventListener('keydown', (e) => {
+    const input = row.querySelector('.warm__input');
+    input?.addEventListener('input', recount);
+    input?.addEventListener('keydown', (e) => {
       if (e.key !== 'Enter') return;
       e.preventDefault();
       const next = rows[i + 1]?.querySelector('.warm__input');
@@ -85,6 +97,10 @@ function mountWarmup() {
       else check?.click();
     });
   });
+
+  // Браузер может вернуть введённое при возврате «назад» — счёт должен
+  // совпадать с тем, что в полях, а не начинаться с нуля.
+  recount();
 }
 
 function mountMatching() {
@@ -95,7 +111,8 @@ function mountMatching() {
   const answer = JSON.parse(root.dataset.answer);
   const slots = [...root.querySelectorAll('.slot')];
   const banks = [...root.querySelectorAll('.bank')];
-  const digits = root.querySelector('[data-digits]');
+  const cells = [...root.querySelectorAll('[data-blank]')];
+  const count = root.querySelector('[data-match-count]');
   const check = root.querySelector('.match__check');
   const verdict = root.querySelector('.match__verdict');
 
@@ -122,8 +139,20 @@ function mountMatching() {
       b.dataset.state = used ? 'used' : 'free';
     });
 
-    digits.textContent = task.left.map((l) => picked[l.key] || '—').join(' ');
-    check.disabled = Object.keys(picked).length !== task.left.length;
+    // Бланк: в клетке либо цифра, либо прочерк. Пустая клетка — это тоже
+    // состояние задания, и она должна быть видна как пустая.
+    cells.forEach((c) => {
+      const val = picked[c.dataset.blank];
+      c.textContent = val || '—';
+      c.dataset.state = val ? 'filled' : 'empty';
+    });
+
+    const filled = Object.keys(picked).length;
+    if (count) {
+      count.textContent = `Заполнено ${filled} из ${task.left.length}`;
+      count.dataset.full = filled === task.left.length ? 'true' : 'false';
+    }
+    check.disabled = filled !== task.left.length;
   }
 
   slots.forEach((s) => {

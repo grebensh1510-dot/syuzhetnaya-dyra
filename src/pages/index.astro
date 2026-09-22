@@ -76,18 +76,36 @@ const cast = [{ ...family, anchor: 'turkiny' }, ...heroes.map((h) => ({ ...h, an
 
   <section class="cast" aria-labelledby="cast-h">
     <h2 class="cast__h" id="cast-h">Действующие лица</h2>
-    <ul class="cast__list">
-      {
-        cast.map((c) => (
-          <li>
-            <a class="cast__item" href={`/ionych/dosye/#${c.anchor}`}>
-              <span class="cast__name">{c.name}</span>
-              <span class="cast__role">{c.aka ? `«${c.aka}»` : c.role}</span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+
+    {/* Лента едет, пока её не трогают: наведение, фокус с клавиатуры и палец
+        на экране её останавливают — иначе имя уезжает из-под пальца.
+        Второй проход ленты — копия для бесшовной петли, от чтения с экрана
+        и от Tab она скрыта. При prefers-reduced-motion лента стоит и
+        листается пальцем. */}
+    <div class="cast__lane">
+      <ul class="cast__track">
+        {
+          cast.map((c) => (
+            <li>
+              <a class="cast__item" href={`/ionych/dosye/#${c.anchor}`}>
+                <span class="cast__name">{c.name}</span>
+                <span class="cast__role">{c.aka ? `«${c.aka}»` : c.role}</span>
+              </a>
+            </li>
+          ))
+        }
+        {
+          cast.map((c) => (
+            <li aria-hidden="true">
+              <a class="cast__item" href={`/ionych/dosye/#${c.anchor}`} tabindex="-1">
+                <span class="cast__name">{c.name}</span>
+                <span class="cast__role">{c.aka ? `«${c.aka}»` : c.role}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </section>
 
   <script>

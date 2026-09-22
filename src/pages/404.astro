@@ -1,0 +1,39 @@
+---
+import Shell from '../layouts/Shell.astro';
+import Header from '../components/Header.astro';
+import { sections } from '../data/ionych.js';
+
+// active задан нарочно несуществующим разделом: ни один пункт навигации не
+// помечается активным, а в левом углу встаёт «Главная», а не знак.
+---
+
+<Shell title="Страница не найдена" screen="notfound">
+  <Header active="—" />
+
+  <main class="nf">
+    <p class="nf__code" aria-hidden="true">404</p>
+    <h1 class="nf__h">Здесь дыра</h1>
+    <p class="nf__lead">
+      Страницы по этому адресу нет. Обычно это устаревшая ссылка или опечатка
+      в адресе — сам разбор «Ионыча» на месте, он ниже.
+    </p>
+
+    <ul class="nf__list">
+      {
+        sections.map((s) => (
+          <li>
+            <a class="nf__row" href={s.href}>
+              <span class="nf__num">{s.num}</span>
+              <span class="nf__name">{s.name}</span>
+              <span class="nf__arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a class="nf__home" href="/">На главную</a>
+  </main>
+</Shell>

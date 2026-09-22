@@ -12,6 +12,12 @@
   --wine: #6b1b24;
   --wine-deep: #3f0e14;
   --gold: #b08d4f;
+  /* То же золото, затемнённое до читаемого. Волосок, рамка и орнамент
+     остаются на --gold: к линиям требований по контрасту нет. А золото как
+     ТЕКСТ давало 2,69:1 на слоновой кости — римские цифры и подписи вроде
+     «Литературный род» набраны им, и это не украшение, а содержание.
+     Порог 4,5:1 для мелкого текста; здесь получается 4,67:1. */
+  --gold-text: #856529;
   --blush: #f0cfda;
   --mark-red: #d1352e;
   --hair: rgba(35, 27, 24, 0.14);
@@ -95,7 +101,7 @@
   font-family: var(--display);
   font-size: 0.9375rem;
   letter-spacing: 0.18em;
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .arh-tags {
@@ -115,7 +121,7 @@
 .arh-tags li + li::before {
   content: '·';
   margin-right: 18px;
-  color: var(--gold);
+  color: var(--gold-text);
   font-style: normal;
 }
 
@@ -206,7 +212,7 @@
 .arh-tab-num {
   font-family: var(--display);
   font-size: 1.5rem;
-  color: var(--gold);
+  color: var(--gold-text);
   line-height: 1;
 }
 
@@ -661,7 +667,7 @@
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-text);
   margin-bottom: 5px;
 }
 
@@ -765,7 +771,7 @@
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-text);
   margin-bottom: 4px;
 }
 
@@ -903,7 +909,7 @@
   border: 1px solid var(--gold);
   font-family: var(--display);
   font-size: 1.0625rem;
-  color: var(--gold);
+  color: var(--gold-text);
   background: var(--ivory);
   position: relative;
   z-index: 1;
@@ -1019,22 +1025,27 @@
 }
 
 .warm__skip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
   background: none;
   border: 0;
-  border-bottom: 1px solid var(--hair);
-  padding: 0 0 2px;
+  padding: 0 2px;
   font-family: var(--micro);
   font-size: 0.6875rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-soft);
+  text-decoration: underline;
+  text-decoration-color: var(--hair);
+  text-underline-offset: 4px;
   cursor: pointer;
   flex: none;
 }
 
 .warm__skip:hover {
   color: var(--wine);
-  border-bottom-color: var(--gold);
+  text-decoration-color: var(--gold);
 }
 
 .warm__list {
@@ -1057,7 +1068,15 @@
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-text);
+}
+
+/* Нумерация была заведена (counter-reset на списке), но ничего её не
+   выводило. Номер отличает вопрос задания от подписи к полю формы. */
+.warm__label::before {
+  counter-increment: warm;
+  content: counter(warm) '. ';
+  color: var(--ink-soft);
 }
 
 .warm__input {
@@ -1157,7 +1176,7 @@
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .match__prompt {
@@ -1209,7 +1228,7 @@
 .slot__key {
   font-family: var(--display);
   font-size: 1.25rem;
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .slot__label {
@@ -1290,7 +1309,7 @@
 .bank__key {
   font-family: var(--display);
   font-size: 1.0625rem;
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .bank__label {
@@ -1298,21 +1317,99 @@
   line-height: 1.5;
 }
 
-.match__code {
-  margin: 26px 0 0;
+/* Бланк ответа. Строка «Ответ: — — —» терялась среди вариантов и весила
+   меньше, чем сам ответ: это итог задания, ради которого всё делается.
+   Теперь это клетки с буквой позиции над каждой — как в бумажном бланке. */
+.blank {
+  margin: 30px 0 0;
+  padding: 18px 20px 16px;
+  border: 1px solid var(--gold);
+  background: var(--paper);
+}
+
+.blank__lead {
+  margin: 0 0 12px;
   font-family: var(--micro);
-  font-size: 0.6875rem;
-  letter-spacing: 0.16em;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+
+.blank__cells {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 10px;
+}
+
+.blank__cell {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.blank__key {
+  font-family: var(--micro);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--ink-soft);
+}
+
+.blank__digit {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 62px;
+  border: 1px solid var(--hair);
+  background: var(--ivory);
+  font-family: var(--display);
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--ink-soft);
+  transition: color 160ms ease-out, border-color 160ms ease-out;
+}
+
+.blank__digit[data-state='filled'] {
+  border-color: var(--wine);
+  color: var(--wine);
+}
+
+.blank__note {
+  margin: 12px 0 0;
+  font-family: var(--micro);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-soft);
 }
 
-.match__digits {
-  font-family: var(--display);
-  font-size: 1.5rem;
-  letter-spacing: 0.2em;
+.blank__count,
+.warm__count {
+  margin: 6px 0 0;
+  font-family: var(--micro);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+
+.warm__count {
+  margin: 14px 0 0;
+}
+
+/* Когда бланк заполнен целиком — счётчик перестаёт быть служебной строкой. */
+.blank__count[data-full='true'],
+.warm__count[data-full='true'] {
   color: var(--wine);
-  margin-left: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blank__digit {
+    transition: none;
+  }
 }
 
 .match__verdict {
@@ -1350,7 +1447,7 @@
 
 .match__row-head b {
   font-family: var(--display);
-  color: var(--gold);
+  color: var(--gold-text);
   margin-right: 5px;
 }
 
@@ -1446,7 +1543,7 @@
   .match > h2,
   .match__kind,
   .match__prompt,
-  .match__code,
+  .blank,
   .match__check,
   .match__verdict {
     grid-column: 1 / -1;
@@ -1536,31 +1633,124 @@
   color: var(--wine);
 }
 
-.ds-rows {
+/* ─── Досье вокруг портрета ─── */
+
+.orbit__rows {
+  list-style: none;
   margin: 0;
+  padding: 0;
 }
 
-.ds-row {
+.orbit__row {
   padding: 14px 0;
   border-bottom: 1px solid var(--hair);
 }
 
-.ds-row:last-child {
+.orbit__row:last-child {
   border-bottom: 0;
 }
 
-.ds-rows dt {
+.orbit__key {
+  margin: 0 0 8px;
   font-family: var(--micro);
   font-size: 0.625rem;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 8px;
+  color: var(--gold-text);
 }
 
-.ds-rows dd {
-  margin: 0;
+/* Портрета на узком экране нет: он был на обложке двумя экранами выше. */
+.orbit__photo {
+  display: none;
+}
+
+/* Появление по одной. Прячет строки только data-armed, который ставит
+   скрипт: без скрипта страница остаётся читаемой целиком. */
+.orbit[data-armed] .orbit__row {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.orbit[data-armed] .orbit__row[data-in='true'] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 620ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 620ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (min-width: 1000px) {
+  /* Три колонки: строки слева, портрет в середине, строки справа. Портрет
+     занимает всю высоту сетки и липнет, поэтому досье буквально обходит
+     его кругом, пока страница прокручивается. */
+  .orbit {
+    display: grid;
+    grid-template-columns: 1fr minmax(260px, 360px) 1fr;
+    column-gap: 48px;
+    align-items: start;
+  }
+
+  .orbit__photo {
+    display: block;
+    grid-column: 2;
+    grid-row: 1 / -1;
+    position: sticky;
+    top: 92px;
+  }
+
+  .orbit__photo img {
+    width: 100%;
+    height: auto;
+  }
+
+  .orbit__rows {
+    display: contents;
+  }
+
+  .orbit__row {
+    border-bottom: 0;
+    padding: 26px 0;
+  }
+
+  .orbit__row[data-side='left'] {
+    grid-column: 1;
+    text-align: right;
+  }
+
+  /* Волосок уходит на ту сторону, которой строка повёрнута к портрету. */
+  .orbit__row[data-side='left'] .ds-quote {
+    padding-left: 0;
+    padding-right: 14px;
+    border-left: 0;
+    border-right: 1px solid var(--gold);
+  }
+
+  .orbit__row[data-side='left'] .ds-ch {
+    padding-left: 0;
+    padding-right: 15px;
+  }
+
+  .orbit__row[data-side='left'] .ds-value {
+    margin-left: auto;
+  }
+
+  .orbit__row[data-side='right'] {
+    grid-column: 3;
+  }
+
+  /* Строки приезжают с той стороны, на которой стоят. */
+  .orbit[data-armed] .orbit__row[data-side='left'] {
+    transform: translate(-22px, 14px);
+  }
+
+  .orbit[data-armed] .orbit__row[data-side='right'] {
+    transform: translate(22px, 14px);
+  }
+
+  .orbit[data-armed] .orbit__row[data-in='true'] {
+    transform: none;
+  }
 }
 
 .ds-quote {
@@ -1662,7 +1852,7 @@
 .pick__num {
   font-family: var(--display);
   font-size: 1.25rem;
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .pick__body {
@@ -1745,6 +1935,9 @@
 }
 
 .run__back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
   font-family: var(--micro);
   font-size: 0.6875rem;
   font-weight: 500;
@@ -1756,6 +1949,24 @@
 
 .run__back:hover {
   color: var(--wine);
+}
+
+.run__who {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Снимок в волосок, как карточка в картотеке. Рваного края здесь нет
+   намеренно: на 68 px его зубцы превращаются в грязь по контуру. */
+.run__face {
+  flex: none;
+  width: 68px;
+  height: 68px;
+  margin-top: 20px;
+  object-fit: cover;
+  object-position: center 18%;
+  border: 1px solid var(--hair);
 }
 
 .run__hero {
@@ -1786,7 +1997,14 @@
   color: var(--ink-soft);
 }
 
+/* Ссылка-действие в конце подсказки встаёт своей строкой: внутри строки
+   текста 48 px не получить, не разорвав абзацу межстрочный интервал. */
 .done__link {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  min-height: 48px;
+  margin-top: 2px;
   color: var(--wine);
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -1797,18 +2015,7 @@
   border-left-width: 2px;
 }
 
-@media (min-width: 760px) {
-  .ds-row {
-    display: grid;
-    grid-template-columns: 15ch 1fr;
-    gap: 20px;
-    align-items: baseline;
-  }
 
-  .ds-rows dt {
-    margin-bottom: 0;
-  }
-}
 
 /* Заголовок вопроса не должен липнуть к первому варианту. */
 .q__trait + .q__options {
@@ -1959,7 +2166,7 @@ body:not([data-screen='title']) .hdr {
 .hdr__num {
   font-family: var(--display);
   font-size: 0.8125rem;
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .hdr__name,
@@ -2143,7 +2350,7 @@ body:not([data-screen='title']) .hdr {
   width: 100%;
   max-width: 1400px;
   margin-inline: auto;
-  padding: 44px 24px 20px;
+  padding: 24px 24px 28px;
 }
 
 .cast__h {
@@ -2158,24 +2365,60 @@ body:not([data-screen='title']) .hdr {
   color: var(--ink-soft);
 }
 
-.cast__list {
+/* Лента состава. Полоса обрезает, дорожка едет, вторая половина дорожки —
+   копия первой, поэтому сдвиг ровно на -50 % замыкается без стыка. */
+.cast__lane {
+  overflow: hidden;
+  border-block: 1px solid var(--hair);
+  /* Края растворяются, чтобы имена не обрубались краем полосы. */
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+}
+
+.cast__track {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: 1px;
-  background: var(--hair);
-  border: 1px solid var(--hair);
+  display: flex;
+  width: max-content;
+  animation: cast-run 46s linear infinite;
+}
+
+/* Останавливается от наведения, от фокуса с клавиатуры и от пальца на
+   экране: движущаяся ссылка, которую нельзя догнать, хуже неподвижной. */
+.cast__lane:hover .cast__track,
+.cast__lane:focus-within .cast__track,
+.cast__lane:active .cast__track {
+  animation-play-state: paused;
+}
+
+@keyframes cast-run {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cast__track {
+    animation: none;
+  }
+
+  /* Без движения вся лента не поместится — отдаём её пальцу. */
+  .cast__lane {
+    overflow-x: auto;
+    mask-image: none;
+  }
 }
 
 .cast__item {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  height: 100%;
-  padding: 15px 17px;
-  background: var(--paper);
+  justify-content: center;
+  gap: 4px;
+  min-height: 62px;
+  padding: 13px 26px;
+  border-right: 1px solid var(--hair);
   text-decoration: none;
+  white-space: nowrap;
   transition: background-color 160ms ease-out;
 }
 
@@ -2197,17 +2440,6 @@ body:not([data-screen='title']) .hdr {
   color: var(--ink-soft);
 }
 
-@media (min-width: 620px) {
-  .cast__list {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 1000px) {
-  .cast__list {
-    grid-template-columns: repeat(6, 1fr);
-  }
-}
 
 @media (max-width: 620px) {
   .hero {
@@ -2413,8 +2645,8 @@ body:not([data-screen='title']) .hdr {
 }
 
 .deck__arrow {
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   display: grid;
   place-items: center;
   border: 1px solid var(--gold);
@@ -2646,10 +2878,14 @@ body:not([data-screen='title']) .hdr {
     linear-gradient(to top, rgba(244, 238, 227, 0.9) 0%, rgba(244, 238, 227, 0) 24%);
 }
 
+/* 22ch здесь мерились шрифтом текста (16 px), а ограничивали заголовок в
+   54 px — отсюда имя было шире своего блока на 21–76 px у всех шести героев.
+   Теперь ширину колонки задаёт доля разворота, а меру имени — его
+   собственный шрифт, ниже. Правый край снимка начинается с 36 %. */
 .cover__text {
   position: relative;
   z-index: 2;
-  max-width: 22ch;
+  max-width: min(46ch, 52%);
 }
 
 .cover__badge {
@@ -2661,7 +2897,7 @@ body:not([data-screen='title']) .hdr {
   border: 1px solid var(--gold);
   font-family: var(--display);
   font-size: 1.25rem;
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .cover__label {
@@ -2676,6 +2912,7 @@ body:not([data-screen='title']) .hdr {
 
 .cover__name {
   margin: 0;
+  max-width: 14ch;
   font-family: var(--display);
   font-weight: 400;
   font-size: clamp(2.25rem, 7vw, 3.4rem);
@@ -2693,25 +2930,30 @@ body:not([data-screen='title']) .hdr {
   color: var(--wine);
 }
 
+/* Подчёркивание — text-decoration, а не рамка снизу: зона нажатия высотой
+   48 px увела бы рамку на низ бокса, далеко от самих слов. */
 .cover__back {
   position: absolute;
   z-index: 2;
   left: 24px;
-  bottom: 30px;
+  bottom: 17px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
   font-family: var(--micro);
   font-size: 0.6875rem;
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  text-decoration: none;
-  border-bottom: 1px solid var(--hair);
-  padding-bottom: 3px;
+  text-decoration: underline;
+  text-decoration-color: var(--hair);
+  text-underline-offset: 4px;
 }
 
 .cover__back:hover {
   color: var(--wine);
-  border-bottom-color: var(--gold);
+  text-decoration-color: var(--gold);
 }
 
 .sheetdoc {
@@ -2719,6 +2961,15 @@ body:not([data-screen='title']) .hdr {
   max-width: 68ch;
   margin-inline: auto;
   padding: 10px 12px 70px;
+}
+
+/* На широком экране разворот раскрывается на три колонки вокруг портрета,
+   поэтому он шире обычной колонки текста. */
+@media (min-width: 1000px) {
+  .sheetdoc {
+    max-width: 1240px;
+    padding-inline: 24px;
+  }
 }
 
 .sheetdoc__nav {
@@ -2794,7 +3045,8 @@ body:not([data-screen='title']) .hdr {
     background: linear-gradient(to bottom, rgba(244, 238, 227, 0) 52%, var(--ivory) 88%);
   }
 
-  .cover__text {
+  .cover__text,
+  .cover__name {
     max-width: none;
   }
 
@@ -2811,7 +3063,7 @@ body:not([data-screen='title']) .hdr {
   width: 100%;
   max-width: 1400px;
   margin-inline: auto;
-  padding: 56px 24px 8px;
+  padding: 56px 24px 48px;
 }
 
 .why__h {
@@ -2888,7 +3140,7 @@ body:not([data-screen='title']) .hdr {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 /* ─── Шапка: зона нажатия и узкий экран ─── */
@@ -3102,5 +3354,210 @@ body:not([data-screen='title']) .hdr {
 
   .ht__stroke {
     stroke-dashoffset: 0;
+  }
+}
+
+/* ─── 404 ─── */
+
+.nf {
+  flex: 1;
+  width: 100%;
+  max-width: 68ch;
+  margin-inline: auto;
+  padding: 30px 12px 60px;
+}
+
+/* Число крупное и бледное: это не сообщение об ошибке, а фон под ним. */
+.nf__code {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(5rem, 26vw, 11rem);
+  line-height: 0.82;
+  letter-spacing: -0.05em;
+  color: var(--hair);
+  user-select: none;
+}
+
+.nf__h {
+  margin: -0.12em 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(2.1rem, 9vw, 3rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: var(--wine-deep);
+}
+
+.nf__lead {
+  margin: 0 0 34px;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 48ch;
+}
+
+.nf__list {
+  list-style: none;
+  margin: 0 0 30px;
+  padding: 0;
+  border-top: 1px solid var(--hair);
+}
+
+.nf__row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 62px;
+  padding: 10px 2px;
+  border-bottom: 1px solid var(--hair);
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 160ms ease-out;
+}
+
+.nf__row:hover {
+  color: var(--wine);
+}
+
+.nf__num {
+  flex: none;
+  width: 3ch;
+  font-family: var(--display);
+  font-size: 0.9375rem;
+  color: var(--gold-text);
+}
+
+.nf__name {
+  flex: 1;
+  font-family: var(--display);
+  font-size: 1.125rem;
+}
+
+.nf__arrow {
+  flex: none;
+  color: var(--gold-text);
+}
+
+.nf__home {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 22px;
+  background: var(--wine);
+  color: var(--ivory);
+  font-family: var(--display);
+  font-size: 1.0625rem;
+  text-decoration: none;
+  transition: background-color 160ms ease-out;
+}
+
+.nf__home:hover {
+  background: var(--wine-deep);
+}
+
+/* ─── Пятно под курсором ─── */
+
+/* Координаты пишет glow.js, и только при наличии мыши. Пока их нет,
+   пятно стоит за пределами карточки и ничего не рисует. */
+.deck__card,
+.opt,
+.pick__row {
+  --mx: -999px;
+  --my: -999px;
+}
+
+.deck__card::before,
+.opt::before,
+.pick__row::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    200px circle at var(--mx) var(--my),
+    rgba(176, 141, 79, 0.16),
+    rgba(176, 141, 79, 0) 68%
+  );
+  transition: opacity 220ms ease-out;
+}
+
+.pick__row {
+  position: relative;
+}
+
+@media (hover: hover) {
+  .deck__card:hover::before,
+  .opt:hover:not(:disabled)::before,
+  .pick__row:hover::before {
+    opacity: 1;
+  }
+}
+
+/* Содержимое должно лежать НАД пятном, иначе оно ляжет на текст.
+   Позиционирование здесь НЕ задаётся списком: .opt__mark и .deck__plate уже
+   абсолютные, и общее position: relative выбивало пометку из-под ответа, а
+   подпись — из-под карточки. Слой и положение — разные вещи. */
+.opt__text,
+.pick__num,
+.pick__body,
+.pick__mark {
+  position: relative;
+  z-index: 1;
+}
+
+.opt__mark,
+.deck__plate {
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck__card::before,
+  .opt::before,
+  .pick__row::before {
+    display: none;
+  }
+}
+
+/* ─── Мерцание на чистом результате ─── */
+
+/* Только когда пройдено без ошибок: это награда, а не украшение экрана
+   итога. Движение идёт по background-position — перерисовки текста нет. */
+.done[data-clean='true'] .done__h,
+.match__verdict[data-state='right'] .verdict__word {
+  background-image: linear-gradient(
+    100deg,
+    var(--wine-deep) 0%,
+    var(--wine-deep) 38%,
+    var(--gold) 50%,
+    var(--wine-deep) 62%,
+    var(--wine-deep) 100%
+  );
+  background-size: 260% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 3.4s ease-in-out 240ms 2;
+}
+
+@keyframes shine {
+  from {
+    background-position: 130% 0;
+  }
+  to {
+    background-position: -30% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .done[data-clean='true'] .done__h,
+  .match__verdict[data-state='right'] .verdict__word {
+    background-image: none;
+    color: var(--wine-deep);
+    animation: none;
   }
 }

@@ -55,20 +55,36 @@ const next = cards[(index + 1) % cards.length];
   </article>
 
   <section class="sheetdoc">
-    <dl class="ds-rows">
-      {
-        card.rows.map((r) => (
-          <div class="ds-row">
-            <dt>{r.key}</dt>
-            <dd>
+    {/* Досье обходит снимок кругом: на широком экране портрет стоит в центре
+        и держится при прокрутке, а строки идут по очереди то слева, то
+        справа. На узком экране колонка одна, портрет спрятан — он только что
+        был на обложке двумя экранами выше, второй раз подряд не нужен.
+        Строки проявляются по одной при прокрутке; до того, как скрипт
+        поднимется, они просто видны — без него страница не ломается. */}
+    <div class="orbit" data-orbit>
+      <div class="orbit__photo" aria-hidden="true">
+        {/* Тот же файл, что на обложке: браузер берёт его из кэша. */}
+        <img src={`/heroes/${card.photo}.jpg`} alt="" width="820" height="1230" decoding="async" />
+      </div>
+
+      <ol class="orbit__rows">
+        {
+          card.rows.map((r, i) => (
+            <li
+              class="orbit__row"
+              data-orbit-row
+              data-side={i % 2 ? 'right' : 'left'}
+              style={`--i: ${i}`}
+            >
+              <p class="orbit__key">{r.key}</p>
               {r.quote && <blockquote class="ds-quote">{r.quote}</blockquote>}
               {r.quote && r.chapter && <p class="ds-ch">глава {r.chapter}</p>}
               {r.value && <p class="ds-value">{r.value}</p>}
-            </dd>
-          </div>
-        ))
-      }
-    </dl>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
 
     {
       !card.isFamily && checks[card.id] ? (
@@ -99,4 +115,11 @@ const next = cards[(index + 1) % cards.length];
     </nav>
   </section>
 
+  <script>
+    import { mountOrbit } from '../../../scripts/orbit.js';
+
+    document.addEventListener('astro:page-load', () => {
+      mountOrbit();
+    });
+  </script>
 </Shell>
