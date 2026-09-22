@@ -1090,6 +1090,17 @@
   min-height: 1em;
 }
 
+/* Разбор разминки: открывается после проверки, у верного ответа тоже. */
+.warm__why {
+  margin: 2px 0 0;
+  max-width: 54ch;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
 .warm__row[data-state='right'] .warm__verdict {
   color: var(--wine);
 }
@@ -1356,6 +1367,38 @@
   font-size: 0.9375rem;
   line-height: 1.5;
   color: var(--ink-soft);
+}
+
+/* Выход из разбора на разворот героя. Стоит и в строке сопоставления, и в
+   блоке лишнего варианта, поэтому без блочного префикса.
+   Подчёркивание — text-decoration, а не border-bottom: рамка ушла бы на
+   низ 48-пиксельной зоны нажатия и повисла бы отдельно от слов. */
+.hero-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 48px;
+  padding: 6px 2px;
+  font-family: var(--micro);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wine);
+  text-decoration: none;
+}
+
+/* Подчёркнуты слова, а не стрелка: иначе линия разрывается на промежутке
+   и читается как две отдельные черты. */
+.hero-link__t {
+  text-decoration: underline;
+  text-decoration-color: var(--gold);
+  text-underline-offset: 5px;
+  transition: text-decoration-color 160ms ease-out;
+}
+
+.hero-link:hover .hero-link__t {
+  text-decoration-color: var(--wine);
 }
 
 /* Разбирается не только верный ответ, но и лишний вариант — §3.4. */
@@ -1837,6 +1880,14 @@
   top: 0;
   left: 0;
   right: 0;
+}
+
+/* А на страницах заданий она липкая, и под ней проезжает текст задания.
+   Заливка здесь не украшение: без неё заголовок «Разминка» и «Пропустить»
+   проступали сквозь названия разделов. Цвет — тот же, что у страницы,
+   поэтому полосы не видно, пока под шапку ничего не заехало. */
+body:not([data-screen='title']) .hdr {
+  background: var(--ivory);
 }
 
 .hdr__brand {

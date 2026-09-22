@@ -40,6 +40,7 @@ const task = matching[0];
                 enterkeyhint="next"
               />
               <span class="warm__verdict" aria-live="polite" />
+              <p class="warm__why" hidden>{w.why}</p>
             </li>
           ))
         }
@@ -98,6 +99,14 @@ const task = matching[0];
           <p class="match__extra-lead">Лишний вариант</p>
           <p class="match__extra-text" data-extra-text />
           <p class="match__extra-why">{task.extraWhy}</p>
+          {
+            task.extraHero && (
+              <a class="hero-link" href={`/ionych/dosye/${task.extraHero}/`}>
+                <span class="hero-link__t">Посмотреть героя в досье</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            )
+          }
         </div>
         <button class="match__again" type="button">Пройти заново</button>
       </div>

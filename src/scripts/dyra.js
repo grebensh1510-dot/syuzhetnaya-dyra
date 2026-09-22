@@ -57,6 +57,10 @@ function mountWarmup() {
     row.dataset.state = ok ? 'right' : 'wrong';
     out.textContent = ok ? 'верно' : `верно: ${expected[0]}`;
     input.disabled = true;
+    // Разбор открывается и на верном ответе: угадать род и знать, почему
+    // он такой, — разные вещи, а на экзамене спросят второе.
+    const why = row.querySelector('.warm__why');
+    if (why) why.hidden = false;
     return ok;
   }
 
@@ -166,10 +170,16 @@ function mountMatching() {
       li.className = 'match__row';
       li.dataset.state = ok ? 'right' : 'wrong';
       const wantLabel = task.right.find((r) => r.key === want)?.label || '';
+      // Из разбора — сразу к развороту героя: ошибся на Вере Иосифовне,
+      // идёшь читать Веру Иосифовну, а не искать её по колоде заново.
+      const toHero = l.hero
+        ? `<a class="hero-link" href="/ionych/dosye/${l.hero}/"><span class="hero-link__t">Посмотреть героя в досье</span><span aria-hidden="true">→</span></a>`
+        : '';
       li.innerHTML = `
         <p class="match__row-head"><b>${l.key}</b> ${l.label} — ${ok ? 'верно' : 'неверно'}</p>
         ${ok ? '' : `<p class="match__row-fix">Верно: ${want} · ${wantLabel}</p>`}
-        <p class="match__row-why">${task.why[l.key]}</p>`;
+        <p class="match__row-why">${task.why[l.key]}</p>
+        ${toHero}`;
       rows.append(li);
     });
 
