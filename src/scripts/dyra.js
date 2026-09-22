@@ -4,6 +4,7 @@
 // один и тот же жест двумя способами значит чинить то, что не сломано.
 
 import { readDone } from './progress.js';
+import { to } from './paths.js';
 
 const ORDER = ['ivan', 'vera', 'kotik', 'starcev', 'sluga', 'final'];
 
@@ -36,7 +37,7 @@ function mountHint() {
     hint.textContent = 'Все герои в сюжетном чеке закрыты — можно проверять себя начисто.';
     hint.dataset.state = 'ready';
   } else {
-    hint.innerHTML = `Сюжетный чек пройден не весь: осталось ${left.length} из ${ORDER.length}. Это не запрещает тест — но ловушки здесь рассчитаны на то, что досье уже разобрано. <a class="done__link" href="/ionych/check/">Вернуться к чеку</a>`;
+    hint.innerHTML = `Сюжетный чек пройден не весь: осталось ${left.length} из ${ORDER.length}. Это не запрещает тест — но ловушки здесь рассчитаны на то, что досье уже разобрано. <a class="done__link" href="${to('ionych/check/')}">Вернуться к чеку</a>`;
     hint.dataset.state = 'partial';
   }
 }
@@ -202,7 +203,7 @@ function mountMatching() {
       // Из разбора — сразу к развороту героя: ошибся на Вере Иосифовне,
       // идёшь читать Веру Иосифовну, а не искать её по колоде заново.
       const toHero = l.hero
-        ? `<a class="hero-link" href="/ionych/dosye/${l.hero}/"><span class="hero-link__t">Посмотреть героя в досье</span><span aria-hidden="true">→</span></a>`
+        ? `<a class="hero-link" href="${to(`ionych/dosye/${l.hero}/`)}"><span class="hero-link__t">Посмотреть героя в досье</span><span aria-hidden="true">→</span></a>`
         : '';
       li.innerHTML = `
         <p class="match__row-head"><b>${l.key}</b> ${l.label} — ${ok ? 'верно' : 'неверно'}</p>

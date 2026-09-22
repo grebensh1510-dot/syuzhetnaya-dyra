@@ -3,6 +3,7 @@
 // из досье ведёт прямо в его блок.
 
 import { readDone, markDone, allDone } from './progress.js';
+import { to } from './paths.js';
 
 const ORDER = ['ivan', 'vera', 'kotik', 'starcev', 'sluga', 'final'];
 
@@ -155,11 +156,10 @@ function mountRun(root) {
     const left = ORDER.filter((id) => !new Set(readDone()).has(id));
 
     if (!left.length) {
-      note.innerHTML =
-        'Все герои закрыты. <a class="done__link" href="/ionych/dyra/">Открыть тест-дыру № 2</a>';
+      note.innerHTML = `Все герои закрыты. <a class="done__link" href="${to('ionych/dyra/')}">Открыть тест-дыру № 2</a>`;
     } else {
       const nextId = left[0];
-      note.innerHTML = `Дальше по порядку — <a class="done__link" href="/ionych/check/?hero=${nextId}">${NAMES[nextId]}</a>`;
+      note.innerHTML = `Дальше по порядку — <a class="done__link" href="${to(`ionych/check/?hero=${nextId}`)}">${NAMES[nextId]}</a>`;
     }
 
     paintCounter(true);

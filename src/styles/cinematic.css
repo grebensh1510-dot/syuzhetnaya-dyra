@@ -15,7 +15,6 @@
   position: absolute;
   inset: -3%;
   background-color: #e6dbca;
-  background-image: var(--cine-src-narrow, none);
   background-size: cover;
   background-repeat: no-repeat;
   opacity: 0.58;
@@ -155,13 +154,6 @@
     linear-gradient(to top, rgba(244, 238, 227, 0.92) 0%, rgba(244, 238, 227, 0) 34%),
     linear-gradient(to right, rgba(244, 238, 227, 0.72) 0%, rgba(244, 238, 227, 0) 34%),
     radial-gradient(56% 34% at 50% 48%, rgba(244, 238, 227, 0.62), rgba(244, 238, 227, 0) 72%);
-}
-
-/* На широком экране отдаём полный файл. */
-@media (min-width: 760px) {
-  .cine__plate {
-    background-image: var(--cine-src, none);
-  }
 }
 
 .cine__content {

@@ -23,18 +23,28 @@
  * (19 / 23 / 31 с), чтобы рисунок не повторялся.
  */
 const { src, srcNarrow, alt = '', position = 'center 40%' } = Astro.props;
+
+// Своё правило на этот кадр, а не CSS-переменная с url() внутри.
+// Относительный адрес внутри переменной браузер разрешает от того файла
+// стилей, который переменную ПОТРЕБЛЯЕТ, а не от страницы, где она задана:
+// пока сайт лежит в корне домена, разницы нет, а из подпапки картинка
+// уезжает в /_astro/ и не находится. В собственном теге <style> страницы
+// адрес считается от самой страницы — как и ожидается.
+const uid = `cine-${Math.random().toString(36).slice(2, 9)}`;
+const wide = src;
+const narrow = srcNarrow || src;
 ---
+
+<style is:inline set:html={`#${uid}{background-image:url('${narrow}')}
+@media (min-width:760px){#${uid}{background-image:url('${wide}')}}`}></style>
 
 <div class="cine" data-cine>
   <div
     class="cine__plate"
+    id={uid}
     role={alt ? 'img' : undefined}
     aria-label={alt || undefined}
-    style={[
-      `--cine-src: url('${src}')`,
-      `--cine-src-narrow: url('${srcNarrow || src}')`,
-      `background-position: ${position}`,
-    ].join('; ')}
+    style={`background-position: ${position}`}
   >
   </div>
 

@@ -2462,53 +2462,15 @@ body:not([data-screen='title']) .hdr {
 
 /* ─── Логотип ─── */
 
+/* Логотип — одна картинка, высота задаётся здесь, ширина следует за ней. */
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: block;
 }
 
-.logo__mark {
-  flex: none;
-  width: 44px;
+.logo__img {
+  display: block;
   height: 44px;
-}
-
-.logo__burn {
-  fill: var(--ink);
-  opacity: 0.16;
-}
-
-.logo__void {
-  fill: var(--wine-deep);
-}
-
-.logo__figure {
-  fill: var(--ivory);
-}
-
-.logo__word {
-  display: block;
-}
-
-.logo__name {
-  display: block;
-  font-family: var(--display);
-  font-style: italic;
-  font-weight: 500;
-  font-size: 1.125rem;
-  line-height: 1.08;
-  letter-spacing: -0.01em;
-  color: var(--wine-deep);
-}
-
-.logo__flourish {
-  display: block;
-  width: 88px;
-  height: 10px;
-  margin-top: 3px;
-  color: var(--mark-red);
-  overflow: visible;
+  width: auto;
 }
 
 /* ─── Колода досье ─── */
@@ -2727,15 +2689,6 @@ body:not([data-screen='title']) .hdr {
   }
 }
 
-/* Фигура стоит на светлом крае дыры — на тёмном её не видно. */
-.logo__figure {
-  fill: var(--paper);
-}
-
-.logo__void {
-  fill: var(--wine-deep);
-}
-
 /* На телефоне отдельная «Главная» не помещается — и не нужна: знак слева
    ведёт туда же и стоит в двух сантиметрах от неё. */
 @media (max-width: 620px) {
@@ -2749,13 +2702,10 @@ body:not([data-screen='title']) .hdr {
     gap: 5px;
   }
 
-  .logo__mark {
-    width: 34px;
-    height: 34px;
-  }
-
-  .logo {
-    gap: 8px;
+  /* На телефоне из логотипа остаётся один знак — его отдаёт source в
+     Logo.astro; здесь только высота. */
+  .logo__img {
+    height: 36px;
   }
 }
 
@@ -3151,12 +3101,8 @@ body:not([data-screen='title']) .hdr {
 }
 
 @media (max-width: 620px) {
-  /* Начертание уступает место разделам: знак слева всё равно ведёт домой.
-     Зона нажатия при этом держится 48 px — знак остаётся кнопкой. */
-  .logo__word {
-    display: none;
-  }
-
+  /* Начертание уступает место разделам — этим занимается source в
+     Logo.astro, картинка начертания сюда даже не скачивается. */
   .hdr__brand {
     display: grid;
     place-items: center;
