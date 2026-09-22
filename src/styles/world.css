@@ -1538,8 +1538,8 @@
 }
 
 .ds-ch {
-  display: block;
-  margin-top: 7px;
+  margin: 7px 0 0;
+  padding-left: 15px;
   font-family: var(--micro);
   font-size: 0.625rem;
   letter-spacing: 0.14em;
@@ -2519,5 +2519,153 @@
 
   .logo {
     gap: 8px;
+  }
+}
+
+/* ─── Кнопка открытия досье ─── */
+
+.deck__act {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.deck__open {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 52px;
+  padding: 0 30px;
+  border: 1px solid var(--wine);
+  background: var(--wine);
+  color: var(--ivory);
+  font-family: var(--display);
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: background-color 160ms ease-out;
+}
+
+.deck__open:hover {
+  background: var(--wine-deep);
+}
+
+.deck__open-arrow {
+  font-family: var(--micro);
+  font-size: 1rem;
+}
+
+/* ─── Досье поверх колоды ─── */
+
+.dossier {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+}
+
+.dossier[hidden] {
+  display: none !important;
+}
+
+.dossier__scrim {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  background: rgba(35, 27, 24, 0.44);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 240ms ease-out;
+}
+
+.dossier.is-open .dossier__scrim {
+  opacity: 1;
+}
+
+.dossier__panel {
+  position: relative;
+  width: min(72ch, 100%);
+  max-height: min(86dvh, 900px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--paper);
+  border: 1px solid var(--gold);
+  padding: 28px 28px 32px;
+  box-shadow: 0 34px 80px -40px rgba(35, 27, 24, 0.65);
+
+  /* Вылет из карточки: стартовые сдвиг и масштаб приходят из JS. */
+  transform: translate3d(var(--fly-x, 0px), var(--fly-y, 0px), 0) scale(var(--fly-s, 0.6));
+  opacity: 0;
+  transition:
+    transform 440ms cubic-bezier(0.22, 0.9, 0.28, 1),
+    opacity 240ms ease-out;
+  will-change: transform, opacity;
+}
+
+.dossier.is-open .dossier__panel {
+  transform: translate3d(0, 0, 0) scale(1);
+  opacity: 1;
+}
+
+.dossier__close {
+  position: sticky;
+  top: 0;
+  float: right;
+  margin: -6px -6px 0 12px;
+  padding: 8px 14px;
+  border: 1px solid var(--hair);
+  background: var(--paper);
+  font-family: var(--micro);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  cursor: pointer;
+  z-index: 1;
+}
+
+.dossier__close:hover {
+  color: var(--wine);
+  border-color: var(--gold);
+}
+
+.dossier__body .ds-card {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.ds-nocheck {
+  margin: 20px 0 0;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+
+@media (max-width: 620px) {
+  .dossier {
+    padding: 0;
+    place-items: end stretch;
+  }
+
+  .dossier__panel {
+    width: 100%;
+    max-height: 90dvh;
+    padding: 22px 18px calc(26px + env(safe-area-inset-bottom, 0px));
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dossier__panel,
+  .dossier__scrim {
+    transition-duration: 1ms;
   }
 }

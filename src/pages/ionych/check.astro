@@ -1,7 +1,7 @@
 ---
 import Shell from '../../layouts/Shell.astro';
 import Header from '../../components/Header.astro';
-import { heroes, heroById, checks, checkOrder, finalCheck } from '../../data/ionych.js';
+import { heroes, heroById, checks, checkOrder, finalCheck, plural } from '../../data/ionych.js';
 
 const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id] }));
 ---
@@ -26,7 +26,7 @@ const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id
                 <span class="pick__body">
                   <span class="pick__name">{b.hero.name}</span>
                   <span class="pick__meta">
-                    {b.list.length} {b.list.length === 1 ? 'вопрос' : 'вопроса'}
+                    {b.list.length} {plural(b.list.length, 'вопрос', 'вопроса', 'вопросов')}
                   </span>
                 </span>
                 <span class="pick__mark" data-mark></span>

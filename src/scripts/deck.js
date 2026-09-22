@@ -8,6 +8,8 @@
 // Пружина посчитана здесь руками, без библиотеки: три строки интегрирования
 // дешевле, чем тащить рантайм ради одного экрана.
 
+import { openDossier } from './dossier.js';
+
 const SPRING = { stiffness: 210, damping: 30, mass: 1 };
 
 function layout(width) {
@@ -21,7 +23,6 @@ export function mountDeck() {
   if (!root) return;
 
   const cards = [...root.querySelectorAll('.deck__card')];
-  const panels = [...document.querySelectorAll('[data-panel]')];
   const counter = root.querySelector('[data-deck-counter]');
   const prevBtn = root.querySelector('[data-deck-prev]');
   const nextBtn = root.querySelector('[data-deck-next]');
@@ -65,10 +66,6 @@ export function mountDeck() {
 
     const active = ((Math.round(progress) % total) + total) % total;
     if (counter) counter.textContent = `${active + 1} / ${total}`;
-
-    panels.forEach((p, i) => {
-      p.hidden = i !== active;
-    });
   }
 
   // ─── Пружина ───
@@ -162,17 +159,31 @@ export function mountDeck() {
   surface.addEventListener('pointerup', endDrag);
   surface.addEventListener('pointercancel', endDrag);
 
-  // ─── Клик по соседней карточке центрирует её ───
+  // ─── Клик по карточке ───
+  // Соседняя выходит в центр, активная открывает своё досье. Два жеста на
+  // одной цели: сначала выбрать героя, потом прочитать про него.
   cards.forEach((card, i) => {
     card.addEventListener('click', () => {
       if (Math.abs(lastX - startX) > 6) return; // это было перетаскивание
       const current = ((Math.round(target) % total) + total) % total;
-      if (i === current) return;
+
+      if (i === current) {
+        openDossier(card.dataset.hero, card);
+        return;
+      }
+
       let diff = i - current;
       if (diff > total / 2) diff -= total;
       if (diff < -total / 2) diff += total;
       go(diff);
     });
+  });
+
+  // Кнопка на активной карточке — тот же вызов, но видимый глазом.
+  root.querySelector('[data-deck-open]')?.addEventListener('click', () => {
+    const current = ((Math.round(target) % total) + total) % total;
+    const card = cards[current];
+    if (card) openDossier(card.dataset.hero, card);
   });
 
   prevBtn?.addEventListener('click', () => go(-1));

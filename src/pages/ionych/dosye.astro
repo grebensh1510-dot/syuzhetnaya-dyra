@@ -1,7 +1,7 @@
 ---
 import Shell from '../../layouts/Shell.astro';
 import Header from '../../components/Header.astro';
-import { family, heroes, checks } from '../../data/ionych.js';
+import { family, heroes, checks, plural } from '../../data/ionych.js';
 
 // Семья идёт первой карточкой: она объясняет всех остальных.
 const cards = [
@@ -17,8 +17,8 @@ const cards = [
     <header class="ds-head">
       <h1 class="sp-h1">Досье героев</h1>
       <p class="sp-lead">
-        Карточка на героя. Тяните колоду, жмите стрелки или выбирайте соседнюю
-        карточку — досье под ней меняется следом.
+        Карточка на героя. Тяните колоду или жмите стрелки, чтобы выбрать;
+        нажмите на карточку в центре — откроется её досье.
       </p>
     </header>
 
@@ -62,58 +62,77 @@ const cards = [
           →
         </button>
       </div>
-    </div>
 
-    <div class="ds-panels">
-      {
-        cards.map((c, i) => (
-          <article class="ds-card" id={c.photo} data-panel={i} hidden={i > 0}>
-            <header class="ds-card__head">
-              <p class="ds-card__group">{c.group || c.role}</p>
-              <h2 class="ds-card__name">
-                {c.name}
-                {c.aka && <span class="ds-card__aka">«{c.aka}»</span>}
-              </h2>
-            </header>
-
-            <dl class="ds-rows">
-              {c.rows.map((r) => (
-                <div class="ds-row">
-                  <dt>{r.key}</dt>
-                  <dd>
-                    {r.quote && (
-                      <blockquote class="ds-quote">
-                        {r.quote}
-                        {r.chapter && <span class="ds-ch">глава {r.chapter}</span>}
-                      </blockquote>
-                    )}
-                    {r.value && <p class="ds-value">{r.value}</p>}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-
-            {
-              !c.isFamily && checks[c.id] && (
-                <a class="ds-go" href={`/ionych/check/?hero=${c.id}`} data-petal-link>
-                  Отработать в чеке
-                  <span class="ds-go__n">
-                    {checks[c.id].length} {checks[c.id].length === 1 ? 'вопрос' : 'вопроса'}
-                  </span>
-                </a>
-              )
-            }
-          </article>
-        ))
-      }
+      <div class="deck__act">
+        <button class="deck__open" type="button" data-deck-open>
+          Открыть досье
+          <span class="deck__open-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
     </div>
   </main>
 
+  <!-- Досье вылетает из карточки поверх колоды -->
+  <div class="dossier" data-dossier hidden>
+    <button class="dossier__scrim" type="button" aria-label="Закрыть досье"></button>
+
+    <div class="dossier__panel" role="dialog" aria-modal="true" aria-label="Досье героя">
+      <button class="dossier__close" type="button">Закрыть</button>
+
+      <div class="dossier__body">
+        {
+          cards.map((c, i) => (
+            <article class="ds-card" data-panel-hero={c.photo} hidden={i > 0}>
+              <header class="ds-card__head">
+                <p class="ds-card__group">{c.group || c.role}</p>
+                <h2 class="ds-card__name">
+                  {c.name}
+                  {c.aka && <span class="ds-card__aka">«{c.aka}»</span>}
+                </h2>
+              </header>
+
+              <dl class="ds-rows">
+                {c.rows.map((r) => (
+                  <div class="ds-row">
+                    <dt>{r.key}</dt>
+                    <dd>
+                      {r.quote && <blockquote class="ds-quote">{r.quote}</blockquote>}
+                      {r.quote && r.chapter && <p class="ds-ch">глава {r.chapter}</p>}
+                      {r.value && <p class="ds-value">{r.value}</p>}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+
+              {
+                !c.isFamily && checks[c.id] ? (
+                  <a class="ds-go" href={`/ionych/check/?hero=${c.id}`}>
+                    Отработать в чеке
+                    <span class="ds-go__n">
+                      {checks[c.id].length} {plural(checks[c.id].length, 'вопрос', 'вопроса', 'вопросов')}
+                    </span>
+                  </a>
+                ) : (
+                  <p class="ds-nocheck">
+                    У семьи нет своего блока в чеке — её факты разобраны внутри
+                    каждого из Туркиных.
+                  </p>
+                )
+              }
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
   <script>
     import { mountDeck } from '../../scripts/deck.js';
+    import { mountDossier } from '../../scripts/dossier.js';
     import { armSceneLinks, mountPetals } from '../../scripts/petals.js';
     import { readDone } from '../../scripts/progress.js';
 
+    mountDossier();
     mountDeck();
 
     // Пройденные герои помечаются на карточках колоды.

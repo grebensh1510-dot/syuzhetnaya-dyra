@@ -3,20 +3,13 @@ import Shell from '../layouts/Shell.astro';
 import Header from '../components/Header.astro';
 import CinematicPhoto from '../components/CinematicPhoto.astro';
 import Scrap from '../components/Scrap.astro';
-import { work, heroes, family, checks, warmup, matching } from '../data/ionych.js';
+import { work, heroes, family, checks, warmup, matching, plural } from '../data/ionych.js';
 
 const heroCount = heroes.length + 1;
 const questionCount = Object.values(checks).reduce((n, list) => n + list.length, 0) + 1;
 // Столько заданий действительно лежит в тест-дыре: разминка плюс сопоставление.
 const taskCount = warmup.length + matching.length;
 
-function plural(n, one, few, many) {
-  const m10 = n % 10;
-  const m100 = n % 100;
-  if (m10 === 1 && m100 !== 11) return one;
-  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
-  return many;
-}
 
 // Эпиграф сверен по подлиннику: Старцев, глава IV.
 const epigraph =
