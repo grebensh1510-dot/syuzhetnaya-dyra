@@ -75,7 +75,6 @@ const cards = [
 
   <script>
     import { mountDeck } from '../../../scripts/deck.js';
-    import { armSceneLinks, mountPetals } from '../../../scripts/petals.js';
     import { readDone } from '../../../scripts/progress.js';
 
     document.addEventListener('astro:page-load', () => {
@@ -86,9 +85,6 @@ const cards = [
       document.querySelectorAll('.deck__card').forEach((card) => {
         if (done.has(card.dataset.hero)) card.dataset.done = 'true';
       });
-
-      mountPetals();
-      armSceneLinks();
     });
   </script>
 </Shell>

@@ -29,7 +29,9 @@ const pageTitle = `${title} — Сюжетная дыра`;
       <slot />
     </div>
 
-    <canvas class="petals" aria-hidden="true"></canvas>
+    {/* Холст только там, где лепестки играют: на страницах заданий пустой
+        canvas тянул бы за собой 513 КБ движка ради ничего. */}
+    {screen === 'title' && <canvas class="petals" aria-hidden="true"></canvas>}
 
     <script>
       import { mountSlideNav } from '../scripts/nav.js';

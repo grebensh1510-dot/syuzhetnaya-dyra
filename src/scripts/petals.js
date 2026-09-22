@@ -30,7 +30,10 @@ let field = null;
 let pending = null;
 
 async function build(canvas) {
-  if (!reduce() && !weakDevice() && hasWebGL()) {
+  // Узкий экран — почти всегда телефон на мобильной сети. Движок в полмегабайта
+  // там стоит дороже, чем разница в качестве лепестков.
+  const wideEnough = window.innerWidth >= 900;
+  if (!reduce() && wideEnough && !weakDevice() && hasWebGL()) {
     try {
       const { createPetalField } = await import('./petals-gl.js');
       const gl = createPetalField(canvas);

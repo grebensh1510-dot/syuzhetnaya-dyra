@@ -2217,96 +2217,6 @@
   overflow: visible;
 }
 
-/* ─── Обрывок бумаги ─── */
-
-.scrap {
-  position: absolute;
-  z-index: 2;
-  max-width: 30ch;
-  pointer-events: none;
-}
-
-.scrap__paper {
-  position: relative;
-  padding: 26px 26px 30px;
-  background: var(--paper);
-  transform: rotate(var(--scrap-tilt, -1.4deg));
-  /* Рваный край: белый прямоугольник, сдвинутый по турбулентному шуму. */
-  -webkit-mask-image: var(--scrap-torn);
-  mask-image: var(--scrap-torn);
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-}
-
-.scrap--left .scrap__paper {
-  --scrap-torn: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='220' viewBox='0 0 300 220'%3E%3Cfilter id='t' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.018' numOctaves='4' seed='7' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='26' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3Crect x='14' y='12' width='272' height='196' fill='%23fff' filter='url(%23t)'/%3E%3C/svg%3E");
-}
-
-.scrap--right .scrap__paper {
-  --scrap-torn: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='220' viewBox='0 0 300 220'%3E%3Cfilter id='t' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.021' numOctaves='4' seed='23' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='24' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3Crect x='14' y='12' width='272' height='196' fill='%23fff' filter='url(%23t)'/%3E%3C/svg%3E");
-}
-
-.scrap__inner {
-  pointer-events: auto;
-}
-
-.scrap__text {
-  margin: 0;
-  font-family: var(--display);
-  font-style: italic;
-  font-size: 1.0625rem;
-  line-height: 1.5;
-  color: var(--ink);
-}
-
-.scrap__label {
-  margin: 0 0 9px;
-  font-family: var(--micro);
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-
-.scrap--left {
-  left: 16px;
-  top: 30%;
-}
-
-.scrap--right {
-  right: 16px;
-  top: 22%;
-  max-width: 26ch;
-}
-
-/* Узкий экран: обрывки уходят под кадр в одну колонку — по бокам их
-   некуда положить, не задев заголовок. */
-@media (max-width: 1100px) {
-  .scrap {
-    position: static;
-    max-width: none;
-  }
-
-  .scrap--right {
-    max-width: none;
-  }
-
-  .hero__scraps {
-    display: grid;
-    gap: 16px;
-    margin-top: 26px;
-  }
-}
-
-@media (min-width: 1101px) {
-  .hero__scraps {
-    display: contents;
-  }
-}
-
 /* ─── Колода досье ─── */
 
 .deck {
@@ -2782,5 +2692,117 @@
     position: static;
     justify-self: start;
     margin-top: 6px;
+  }
+}
+
+/* ─── Блок «Зачем это» ─── */
+
+.why {
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  padding: 56px 24px 8px;
+}
+
+.why__h {
+  margin: 0 0 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--gold);
+  font-family: var(--micro);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.why__scraps {
+  display: grid;
+  gap: 26px;
+  justify-items: center;
+}
+
+@media (min-width: 860px) {
+  .why__scraps {
+    grid-template-columns: 1fr 1fr;
+    gap: 34px;
+    align-items: start;
+  }
+}
+
+/* ─── Обрывок бумаги ───
+   Рваный край рисует смещение по шуму. Глубина «укуса» пропорциональна
+   ширине блока, поэтому отступ до текста должен её перекрывать с запасом:
+   при scale 12 и вставке 8 в системе координат 300 единиц укус не глубже
+   ~7 % ширины, а отступ — 36 px. Текст до края не достаёт никогда. */
+
+.scrap {
+  width: 100%;
+  max-width: min(90vw, 640px);
+}
+
+.scrap__paper {
+  position: relative;
+  padding: 36px;
+  background: var(--paper);
+  transform: rotate(var(--scrap-tilt, -1.4deg));
+  -webkit-mask-image: var(--scrap-torn);
+  mask-image: var(--scrap-torn);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.scrap--left .scrap__paper {
+  --scrap-torn: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='220' viewBox='0 0 300 220' preserveAspectRatio='none'%3E%3Cfilter id='t' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.022' numOctaves='4' seed='7' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='12' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3Crect x='8' y='8' width='284' height='204' fill='%23fff' filter='url(%23t)'/%3E%3C/svg%3E");
+}
+
+.scrap--right .scrap__paper {
+  --scrap-torn: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='220' viewBox='0 0 300 220' preserveAspectRatio='none'%3E%3Cfilter id='t' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.026' numOctaves='4' seed='23' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='12' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3Crect x='8' y='8' width='284' height='204' fill='%23fff' filter='url(%23t)'/%3E%3C/svg%3E");
+}
+
+.scrap__text {
+  margin: 0;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.scrap__label {
+  margin: 0 0 10px;
+  font-family: var(--micro);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ─── Шапка: зона нажатия и узкий экран ─── */
+
+.hdr__link {
+  min-height: 48px;
+  align-items: center;
+}
+
+@media (max-width: 620px) {
+  /* Начертание уступает место разделам: знак слева всё равно ведёт домой.
+     Зона нажатия при этом держится 48 px — знак остаётся кнопкой. */
+  .logo__word {
+    display: none;
+  }
+
+  .hdr__brand {
+    display: grid;
+    place-items: center;
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  .hdr__link {
+    padding: 6px 8px;
   }
 }
