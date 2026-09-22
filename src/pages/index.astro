@@ -87,7 +87,9 @@ const cast = [{ ...family, anchor: 'turkiny' }, ...heroes.map((h) => ({ ...h, an
 
   <script>
     import { mountTitleScene, armSceneLinks } from '../scripts/petals.js';
-    mountTitleScene({ count: window.innerWidth < 760 ? 6 : 10 });
-    armSceneLinks();
+    document.addEventListener('astro:page-load', () => {
+      mountTitleScene({ count: window.innerWidth < 760 ? 6 : 10 });
+      armSceneLinks();
+    });
   </script>
 </Shell>

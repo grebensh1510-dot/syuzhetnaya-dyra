@@ -111,8 +111,10 @@ const task = matching[0];
   <script>
     import { mountDyra } from '../../scripts/dyra.js';
     import { mountPetals, armSceneLinks } from '../../scripts/petals.js';
-    mountDyra();
-    mountPetals();
-    armSceneLinks();
+    document.addEventListener('astro:page-load', () => {
+      mountDyra();
+      mountPetals();
+      armSceneLinks();
+    });
   </script>
 </Shell>

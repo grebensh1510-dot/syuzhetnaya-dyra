@@ -1,0 +1,109 @@
+---
+import Shell from '../../../layouts/Shell.astro';
+import Header from '../../../components/Header.astro';
+import { family, heroes, checks, plural } from '../../../data/ionych.js';
+
+const cards = [
+  { ...family, isFamily: true, photo: 'turkiny' },
+  ...heroes.map((h) => ({ ...h, photo: h.id })),
+];
+
+export function getStaticPaths() {
+  const list = [
+    { ...family, isFamily: true, photo: 'turkiny' },
+    ...heroes.map((h) => ({ ...h, photo: h.id })),
+  ];
+  return list.map((c, i) => ({
+    params: { hero: c.photo },
+    props: { index: i },
+  }));
+}
+
+const { hero } = Astro.params;
+const { index } = Astro.props;
+
+const card = cards[index];
+const roman = ['I', 'II', 'III', 'IV', 'V', 'VI'];
+const prev = cards[(index - 1 + cards.length) % cards.length];
+const next = cards[(index + 1) % cards.length];
+---
+
+<Shell title={`${card.name} · Досье`} screen="hero">
+  <Header active="dosye" />
+
+  <article class="cover">
+    <div class="cover__photo">
+      <img
+        src={`/heroes/${card.photo}.jpg`}
+        alt=""
+        width="820"
+        height="1230"
+        fetchpriority="high"
+        decoding="async"
+        style={`view-transition-name: hero-${card.photo}`}
+      />
+    </div>
+
+    <div class="cover__text">
+      <span class="cover__badge" aria-hidden="true">{roman[index]}</span>
+      <p class="cover__label">{card.group || card.role}</p>
+      <h1 class="cover__name">{card.name}</h1>
+      {card.aka && <p class="cover__aka">«{card.aka}»</p>}
+    </div>
+
+    <a class="cover__back" href="/ionych/dosye/">Вся колода</a>
+  </article>
+
+  <section class="sheetdoc">
+    <dl class="ds-rows">
+      {
+        card.rows.map((r) => (
+          <div class="ds-row">
+            <dt>{r.key}</dt>
+            <dd>
+              {r.quote && <blockquote class="ds-quote">{r.quote}</blockquote>}
+              {r.quote && r.chapter && <p class="ds-ch">глава {r.chapter}</p>}
+              {r.value && <p class="ds-value">{r.value}</p>}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    {
+      !card.isFamily && checks[card.id] ? (
+        <a class="ds-go" href={`/ionych/check/?hero=${card.id}`}>
+          Отработать в чеке
+          <span class="ds-go__n">
+            {checks[card.id].length}{' '}
+            {plural(checks[card.id].length, 'вопрос', 'вопроса', 'вопросов')}
+          </span>
+        </a>
+      ) : (
+        <p class="ds-nocheck">
+          У семьи нет своего блока в чеке — её факты разобраны внутри каждого
+          из Туркиных.
+        </p>
+      )
+    }
+
+    <nav class="sheetdoc__nav" aria-label="Соседние герои">
+      <a class="sheetdoc__step" href={`/ionych/dosye/${prev.photo}/`}>
+        <span class="sheetdoc__dir">← предыдущий</span>
+        <span class="sheetdoc__who">{prev.name}</span>
+      </a>
+      <a class="sheetdoc__step sheetdoc__step--next" href={`/ionych/dosye/${next.photo}/`}>
+        <span class="sheetdoc__dir">следующий →</span>
+        <span class="sheetdoc__who">{next.name}</span>
+      </a>
+    </nav>
+  </section>
+
+  <script>
+    import { mountPetals, armSceneLinks } from '../../../scripts/petals.js';
+    document.addEventListener('astro:page-load', () => {
+      mountPetals();
+      armSceneLinks();
+    });
+  </script>
+</Shell>

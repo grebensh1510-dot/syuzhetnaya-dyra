@@ -1914,22 +1914,6 @@
   display: none;
 }
 
-/* Активный раздел обведён от руки — тот же жест, что и верный ответ. */
-.hdr__link[aria-current='page'] {
-  position: relative;
-  color: var(--wine-deep);
-}
-
-.hdr__link[aria-current='page']::after {
-  content: '';
-  position: absolute;
-  inset: -3px -6px;
-  min-height: 34px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 130' preserveAspectRatio='none'%3E%3Cpath d='M296 44C289 17 212 4 148 7 68 11 12 36 15 70c3 30 79 53 156 50 73-3 133-27 131-57-2-21-35-36-90-43-14-2-29-3-44-3' fill='none' stroke='%23D1352E' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  pointer-events: none;
-}
 
 @media (max-width: 900px) {
   .hdr__tag {
@@ -2094,6 +2078,7 @@
 /* ─── Действующие лица под кадром ─── */
 
 .cast {
+  width: 100%;
   max-width: 1400px;
   margin-inline: auto;
   padding: 44px 24px 20px;
@@ -2554,118 +2539,248 @@
   font-size: 1rem;
 }
 
-/* ─── Досье поверх колоды ─── */
 
-.dossier {
-  position: fixed;
-  inset: 0;
-  z-index: 95;
-  display: grid;
-  place-items: center;
-  padding: 24px 16px;
-}
 
-.dossier[hidden] {
-  display: none !important;
-}
+/* ─── Скользящий овал в шапке ───
+   Один овал на всю навигацию: едет к тому, на что навели, и возвращается
+   на активный раздел. Рука, а не подчёркивание (§5.4). */
 
-.dossier__scrim {
-  position: absolute;
-  inset: 0;
-  border: 0;
-  padding: 0;
-  background: rgba(35, 27, 24, 0.44);
-  opacity: 0;
-  cursor: pointer;
-  transition: opacity 240ms ease-out;
-}
-
-.dossier.is-open .dossier__scrim {
-  opacity: 1;
-}
-
-.dossier__panel {
+.hdr__list {
   position: relative;
-  width: min(72ch, 100%);
-  max-height: min(86dvh, 900px);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  background: var(--paper);
-  border: 1px solid var(--gold);
-  padding: 28px 28px 32px;
-  box-shadow: 0 34px 80px -40px rgba(35, 27, 24, 0.65);
+}
 
-  /* Вылет из карточки: стартовые сдвиг и масштаб приходят из JS. */
-  transform: translate3d(var(--fly-x, 0px), var(--fly-y, 0px), 0) scale(var(--fly-s, 0.6));
+.hdr__cursor {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 40px;
+  width: 0;
+  margin-top: -20px;
   opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 130' preserveAspectRatio='none'%3E%3Cpath d='M296 44C289 17 212 4 148 7 68 11 12 36 15 70c3 30 79 53 156 50 73-3 133-27 131-57-2-21-35-36-90-43-14-2-29-3-44-3' fill='none' stroke='%23D1352E' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   transition:
-    transform 440ms cubic-bezier(0.22, 0.9, 0.28, 1),
-    opacity 240ms ease-out;
-  will-change: transform, opacity;
+    transform 340ms cubic-bezier(0.22, 0.9, 0.28, 1),
+    width 340ms cubic-bezier(0.22, 0.9, 0.28, 1),
+    opacity 200ms ease-out;
 }
 
-.dossier.is-open .dossier__panel {
-  transform: translate3d(0, 0, 0) scale(1);
-  opacity: 1;
-}
-
-.dossier__close {
-  position: sticky;
-  top: 0;
-  float: right;
-  margin: -6px -6px 0 12px;
-  padding: 8px 14px;
-  border: 1px solid var(--hair);
-  background: var(--paper);
-  font-family: var(--micro);
-  font-size: 0.6875rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  cursor: pointer;
+.hdr__link {
+  position: relative;
   z-index: 1;
 }
 
-.dossier__close:hover {
-  color: var(--wine);
-  border-color: var(--gold);
-}
-
-.dossier__body .ds-card {
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.ds-nocheck {
-  margin: 20px 0 0;
-  font-family: var(--display);
-  font-style: italic;
-  font-size: 0.9375rem;
-  line-height: 1.5;
-  color: var(--ink-soft);
-  max-width: 46ch;
-}
-
-@media (max-width: 620px) {
-  .dossier {
-    padding: 0;
-    place-items: end stretch;
-  }
-
-  .dossier__panel {
-    width: 100%;
-    max-height: 90dvh;
-    padding: 22px 18px calc(26px + env(safe-area-inset-bottom, 0px));
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
-  }
+.hdr__link[aria-current='page'] {
+  color: var(--wine-deep);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dossier__panel,
-  .dossier__scrim {
+  .hdr__cursor {
     transition-duration: 1ms;
+  }
+}
+
+/* ─── Разворот героя ─── */
+
+.cover {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: min(84vh, 820px);
+  padding: 30px 24px 40px;
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  overflow: hidden;
+}
+
+/* Снимок занимает правые две трети разворота, слева остаётся поле под имя.
+   contain, а не cover: коллаж с рваным краем нельзя кадрировать. */
+.cover__photo {
+  position: absolute;
+  inset: 0 0 0 36%;
+  z-index: 0;
+}
+
+.cover__photo img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Слева бумага гасит снимок, чтобы имя читалось поверх него. */
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(to right, var(--ivory) 0%, rgba(244, 238, 227, 0.86) 26%, rgba(244, 238, 227, 0) 62%),
+    linear-gradient(to bottom, rgba(244, 238, 227, 0.8) 0%, rgba(244, 238, 227, 0) 18%),
+    linear-gradient(to top, rgba(244, 238, 227, 0.9) 0%, rgba(244, 238, 227, 0) 24%);
+}
+
+.cover__text {
+  position: relative;
+  z-index: 2;
+  max-width: 22ch;
+}
+
+.cover__badge {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 22px;
+  border: 1px solid var(--gold);
+  font-family: var(--display);
+  font-size: 1.25rem;
+  color: var(--gold);
+}
+
+.cover__label {
+  margin: 0 0 10px;
+  font-family: var(--micro);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.cover__name {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(2.25rem, 7vw, 3.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--wine-deep);
+  text-wrap: balance;
+}
+
+.cover__aka {
+  margin: 12px 0 0;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--wine);
+}
+
+.cover__back {
+  position: absolute;
+  z-index: 2;
+  left: 24px;
+  bottom: 30px;
+  font-family: var(--micro);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hair);
+  padding-bottom: 3px;
+}
+
+.cover__back:hover {
+  color: var(--wine);
+  border-bottom-color: var(--gold);
+}
+
+.sheetdoc {
+  width: 100%;
+  max-width: 68ch;
+  margin-inline: auto;
+  padding: 10px 12px 70px;
+}
+
+.sheetdoc__nav {
+  display: grid;
+  gap: 1px;
+  margin-top: 44px;
+  background: var(--hair);
+  border: 1px solid var(--hair);
+}
+
+.sheetdoc__step {
+  display: grid;
+  gap: 5px;
+  padding: 16px 18px;
+  background: var(--paper);
+  text-decoration: none;
+  transition: background-color 160ms ease-out;
+}
+
+.sheetdoc__step:hover {
+  background: #fff;
+}
+
+.sheetdoc__step--next {
+  text-align: right;
+}
+
+.sheetdoc__dir {
+  font-family: var(--micro);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.sheetdoc__who {
+  font-family: var(--display);
+  font-size: 1.0625rem;
+  color: var(--wine);
+}
+
+@media (min-width: 620px) {
+  .sheetdoc__nav {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .cover {
+    min-height: auto;
+    padding: 20px 16px 28px;
+    /* minmax(0, 1fr) обязателен: иначе колонка растягивается под
+       натуральную ширину снимка и страница едет вбок. */
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    gap: 22px;
+  }
+
+  .cover__photo {
+    position: relative;
+    inset: auto;
+    height: 46vh;
+  }
+
+  .cover__photo img {
+    transform: none;
+    height: 100%;
+    max-width: 100%;
+    width: auto;
+  }
+
+  .cover::before {
+    background: linear-gradient(to bottom, rgba(244, 238, 227, 0) 52%, var(--ivory) 88%);
+  }
+
+  .cover__text {
+    max-width: none;
+  }
+
+  .cover__back {
+    position: static;
+    justify-self: start;
+    margin-top: 6px;
   }
 }

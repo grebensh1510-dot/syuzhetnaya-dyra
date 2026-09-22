@@ -115,8 +115,10 @@ const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id
   <script>
     import { mountCheck } from '../../scripts/check.js';
     import { mountPetals, armSceneLinks } from '../../scripts/petals.js';
-    mountCheck();
-    mountPetals();
-    armSceneLinks();
+    document.addEventListener('astro:page-load', () => {
+      mountCheck();
+      mountPetals();
+      armSceneLinks();
+    });
   </script>
 </Shell>

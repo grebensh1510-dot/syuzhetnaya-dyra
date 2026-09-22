@@ -8,8 +8,6 @@
 // Пружина посчитана здесь руками, без библиотеки: три строки интегрирования
 // дешевле, чем тащить рантайм ради одного экрана.
 
-import { openDossier } from './dossier.js';
-
 const SPRING = { stiffness: 210, damping: 30, mass: 1 };
 
 function layout(width) {
@@ -20,12 +18,14 @@ function layout(width) {
 
 export function mountDeck() {
   const root = document.querySelector('[data-deck]');
-  if (!root) return;
+  if (!root || root.dataset.mounted) return;
+  root.dataset.mounted = 'yes';
 
   const cards = [...root.querySelectorAll('.deck__card')];
   const counter = root.querySelector('[data-deck-counter]');
   const prevBtn = root.querySelector('[data-deck-prev]');
   const nextBtn = root.querySelector('[data-deck-next]');
+  const openLink = root.querySelector('[data-deck-open]');
   const total = cards.length;
   if (!total) return;
 
@@ -66,6 +66,10 @@ export function mountDeck() {
 
     const active = ((Math.round(progress) % total) + total) % total;
     if (counter) counter.textContent = `${active + 1} / ${total}`;
+    if (openLink) {
+      const card = cards[active];
+      if (card) openLink.href = card.getAttribute('href');
+    }
   }
 
   // ─── Пружина ───
@@ -160,30 +164,26 @@ export function mountDeck() {
   surface.addEventListener('pointercancel', endDrag);
 
   // ─── Клик по карточке ───
-  // Соседняя выходит в центр, активная открывает своё досье. Два жеста на
-  // одной цели: сначала выбрать героя, потом прочитать про него.
+  // Соседняя выходит в центр, активная уходит по ссылке на свой разворот.
+  // Сначала выбрать героя, потом открыть — два разных жеста на одной цели.
   cards.forEach((card, i) => {
-    card.addEventListener('click', () => {
-      if (Math.abs(lastX - startX) > 6) return; // это было перетаскивание
-      const current = ((Math.round(target) % total) + total) % total;
-
-      if (i === current) {
-        openDossier(card.dataset.hero, card);
+    card.addEventListener('click', (e) => {
+      if (Math.abs(lastX - startX) > 6) {
+        e.preventDefault(); // это было перетаскивание, а не нажатие
         return;
       }
+      const current = ((Math.round(target) % total) + total) % total;
 
+      // Активная карточка — обычная ссылка: переход и морфинг фотографии
+      // делает браузер, мешать ему не нужно.
+      if (i === current) return;
+
+      e.preventDefault();
       let diff = i - current;
       if (diff > total / 2) diff -= total;
       if (diff < -total / 2) diff += total;
       go(diff);
     });
-  });
-
-  // Кнопка на активной карточке — тот же вызов, но видимый глазом.
-  root.querySelector('[data-deck-open]')?.addEventListener('click', () => {
-    const current = ((Math.round(target) % total) + total) % total;
-    const card = cards[current];
-    if (card) openDossier(card.dataset.hero, card);
   });
 
   prevBtn?.addEventListener('click', () => go(-1));
