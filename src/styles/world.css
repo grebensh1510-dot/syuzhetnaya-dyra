@@ -1826,7 +1826,7 @@
   align-items: flex-start;
   gap: 28px;
   padding: 18px 22px 16px;
-  background: linear-gradient(to bottom, var(--ivory) 66%, rgba(244, 238, 227, 0));
+  background: none;
 }
 
 .hdr__brand {
@@ -1958,6 +1958,7 @@
 .hero {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   min-height: min(88vh, 900px);
   padding: 34px 24px 40px;
   max-width: 1400px;
@@ -1991,7 +1992,7 @@
 }
 
 .hero__act {
-  margin: 30px auto 0;
+  margin: 34px auto 0;
   text-align: center;
 }
 
@@ -2394,9 +2395,6 @@
 /* На телефоне отдельная «Главная» не помещается — и не нужна: знак слева
    ведёт туда же и стоит в двух сантиметрах от неё. */
 @media (max-width: 620px) {
-  .hdr__link--home {
-    display: none;
-  }
 
   .hdr__list {
     gap: 2px;
@@ -2804,5 +2802,193 @@
 
   .hdr__link {
     padding: 6px 8px;
+  }
+}
+
+/* ─── Левый угол шапки ─── */
+
+.hdr__brand--home {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding-right: 10px;
+  text-decoration: none;
+  color: var(--ink-soft);
+  transition: color 160ms ease-out;
+}
+
+.hdr__brand--home:hover {
+  color: var(--wine);
+}
+
+.hdr__home-arrow {
+  font-family: var(--micro);
+  font-size: 1.0625rem;
+  line-height: 1;
+}
+
+.hdr__home-word {
+  font-family: var(--micro);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ─── Заглавие: две половины сходятся в слово ─── */
+
+.ht {
+  margin: 0;
+  text-align: center;
+  line-height: 1;
+}
+
+.ht__stage {
+  position: relative;
+  display: inline-block;
+  color: var(--wine-deep);
+}
+
+.ht__half {
+  display: block;
+  font-family: 'Prata', 'Playfair Display', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(4.5rem, 17vw, 12rem);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  text-shadow: 0 2px 30px rgba(244, 238, 227, 0.55);
+}
+
+/* Обе половины — один и тот же бокс, поэтому шов не виден. */
+.ht__half--l {
+  clip-path: inset(0 50% 0 0);
+  animation: ht-left 1100ms cubic-bezier(0.19, 0.9, 0.22, 1) both;
+}
+
+.ht__half--r {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  clip-path: inset(0 0 0 50%);
+  animation: ht-right 1100ms cubic-bezier(0.19, 0.9, 0.22, 1) both;
+}
+
+@keyframes ht-left {
+  from {
+    transform: translate3d(-26%, 0, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes ht-right {
+  from {
+    transform: translate3d(26%, 0, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+/* Росчерки прочерчиваются после того, как слово сошлось. */
+.ht__flourish {
+  position: absolute;
+  left: -6%;
+  top: -12%;
+  width: 112%;
+  height: 128%;
+  pointer-events: none;
+  color: var(--wine);
+  opacity: 0.66;
+  overflow: visible;
+}
+
+.ht__stroke {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: ht-draw 1500ms cubic-bezier(0.32, 0.72, 0.3, 1) both;
+}
+
+.ht__stroke--a {
+  animation-delay: 780ms;
+}
+
+.ht__stroke--b {
+  animation-delay: 1000ms;
+  opacity: 0.62;
+}
+
+@keyframes ht-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ─── Цитата в блоке «Зачем это» ─── */
+
+.why__quote {
+  margin: 34px 0 0;
+  padding-left: 16px;
+  border-left: 1px solid var(--gold);
+  max-width: 52ch;
+}
+
+.why__quote blockquote {
+  margin: 0;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.why__quote blockquote::before {
+  content: '«';
+}
+
+.why__quote blockquote::after {
+  content: '»';
+}
+
+.why__quote figcaption {
+  margin-top: 12px;
+  display: grid;
+  gap: 3px;
+}
+
+.why__quote-who {
+  font-family: var(--micro);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.why__quote-src {
+  font-family: var(--micro);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ht__half--l,
+  .ht__half--r,
+  .ht__stroke {
+    animation: none !important;
+  }
+
+  .ht__stroke {
+    stroke-dashoffset: 0;
   }
 }

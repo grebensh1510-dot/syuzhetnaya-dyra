@@ -1,10 +1,12 @@
 ---
-// Шапка сайта. «Главная» показывается только на внутренних страницах —
-// на самой главной она вела бы туда же, где стоишь.
+// Шапка сайта.
 //
-// Активный раздел помечен рукописным овалом (§5.4). Овал не приклеен к
-// пункту: он скользит за курсором и возвращается на активный, когда мышь
-// уходит. Это та же механика, что у slide-tabs, но в языке системы.
+// В левом углу: на главной — знак, на всех остальных страницах «Главная».
+// Одно место, одна функция — и не нужен отдельный пункт в навигации.
+//
+// Заливки нет: шапка лежит на фотографии, и фон под ней не гасится.
+// Активный раздел помечен рукописным овалом, который скользит за курсором
+// и возвращается на активный (§5.4).
 import Logo from './Logo.astro';
 import { sections } from '../data/ionych.js';
 const { active = '' } = Astro.props;
@@ -12,22 +14,21 @@ const isHome = !active;
 ---
 
 <header class="hdr">
-  <a class="hdr__brand" href="/" data-petal-link aria-label="Сюжетная дыра — на главную">
-    <Logo />
-  </a>
+  {
+    isHome ? (
+      <span class="hdr__brand hdr__brand--mark">
+        <Logo />
+      </span>
+    ) : (
+      <a class="hdr__brand hdr__brand--home" href="/">
+        <span class="hdr__home-arrow" aria-hidden="true">←</span>
+        <span class="hdr__home-word">Главная</span>
+      </a>
+    )
+  }
 
   <nav class="hdr__nav" aria-label="Разделы произведения">
     <ul class="hdr__list" data-slide-nav>
-      {
-        !isHome && (
-          <li>
-            <a class="hdr__link hdr__link--home" href="/" data-petal-link data-slide-item>
-              <span class="hdr__name">Главная</span>
-              <span class="hdr__short">Главная</span>
-            </a>
-          </li>
-        )
-      }
       {
         sections.map((s) => (
           <li>
@@ -36,7 +37,6 @@ const isHome = !active;
               href={s.href}
               data-slide-item
               data-current={s.id === active ? 'true' : undefined}
-              data-petal-link={s.id === active ? undefined : true}
               aria-current={s.id === active ? 'page' : undefined}
             >
               <span class="hdr__num">{s.num}</span>

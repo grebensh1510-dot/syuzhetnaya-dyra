@@ -1,0 +1,45 @@
+---
+/*
+ * HeroTitle — заглавие, которое собирается из двух половин.
+ *
+ * Слово набрано дважды и обрезано по вертикали пополам: левая половина
+ * приезжает слева, правая справа, и они сходятся в одно слово. Обрезка
+ * идёт по одному и тому же боксу, поэтому шов не виден — половины
+ * совмещаются пиксель в пиксель.
+ *
+ * Поверх ложатся росчерки: две тонкие линии прочерчиваются через слово
+ * после того, как оно сошлось. Рисуются stroke-dashoffset, без картинок.
+ *
+ * Для чтения с экрана слово отдаётся один раз обычным текстом; обе
+ * половины и росчерки помечены aria-hidden.
+ */
+const { text } = Astro.props;
+---
+
+<h1 class="ht">
+  <span class="ht__stage" aria-hidden="true">
+    <span class="ht__half ht__half--l">{text}</span>
+    <span class="ht__half ht__half--r">{text}</span>
+
+    <svg class="ht__flourish" viewBox="0 0 1000 300" preserveAspectRatio="none" focusable="false">
+      <path
+        class="ht__stroke ht__stroke--a"
+        d="M-30 168C86 66 232 24 404 62c118 26 206 92 286 150 52 38 132 60 250 46"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      />
+      <path
+        class="ht__stroke ht__stroke--b"
+        d="M212 268C330 286 468 292 620 286c96-4 176-14 240-30"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+      />
+    </svg>
+  </span>
+
+  <span class="visually-hidden">{text}</span>
+</h1>
