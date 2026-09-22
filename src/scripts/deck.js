@@ -10,10 +10,43 @@
 
 const SPRING = { stiffness: 210, damping: 30, mass: 1 };
 
-function layout(width) {
-  if (width < 640) return { x: 88, y: 18, rot: 7, scale: 0.09, drag: 150 };
-  if (width < 1024) return { x: 132, y: 28, rot: 9, scale: 0.1, drag: 200 };
-  return { x: 176, y: 36, rot: 11, scale: 0.11, drag: 240 };
+// Дальше этой карточки веер уже прозрачен — см. fade в paint(). Значит и
+// поместить в сцену нужно ровно её, а не всю колоду.
+const EDGE = 2;
+
+// Раскладка считается от настоящей ширины сцены и настоящего размера карточки,
+// а не от брейкпоинта. Шаг, наклон и масштаб связаны между собой: подобранный
+// на глаз шаг 132 на 768 px выносил повёрнутую крайнюю карточку за край, и
+// overflow: hidden срезал её вертикально.
+function layout(root) {
+  const stage = root.querySelector('.deck__stage');
+  const card = root.querySelector('.deck__card');
+  const w = stage?.clientWidth || window.innerWidth;
+  const cw = card?.offsetWidth || 220;
+  const ch = card?.offsetHeight || cw * 1.5;
+
+  // До 560 px веера нет: карточка во всю ширину, соседи отъезжают за край и
+  // выглядывают полоской — это лента, а не стопка. Наклон и провисание здесь
+  // съедают ту самую ширину, ради которой всё и затевалось, поэтому их нет.
+  if (w < 560) return { x: cw + 14, y: 0, rot: 0, scale: 0.14, drag: 130 };
+
+  const wide = w >= 1000;
+  const rot = wide ? 11 : 9;
+  const scale = wide ? 0.11 : 0.1;
+
+  // Габарит крайней видимой карточки: поворот прибавляет к ширине часть
+  // высоты, уменьшение — отнимает.
+  const a = ((rot * EDGE) / 180) * Math.PI;
+  const half = ((cw * Math.cos(a) + ch * Math.sin(a)) / 2) * (1 - EDGE * scale);
+  const room = Math.max(40, (w / 2 - half - 6) / EDGE);
+
+  return {
+    x: Math.min(wide ? 176 : 132, room),
+    y: wide ? 36 : 28,
+    rot,
+    scale,
+    drag: wide ? 240 : 200,
+  };
 }
 
 export function mountDeck() {
@@ -35,10 +68,10 @@ export function mountDeck() {
   let velocity = 0;
   let target = 0;
   let raf = null;
-  let geom = layout(window.innerWidth);
+  let geom = layout(root);
 
   window.addEventListener('resize', () => {
-    geom = layout(window.innerWidth);
+    geom = layout(root);
     paint();
   });
 
