@@ -2783,6 +2783,15 @@ body:not([data-screen='title']) .hdr {
   gap: 26px;
 }
 
+/* Подсказка про нажатие — часть шапки, а не строки. */
+.spread__hint {
+  margin: 18px 0 0;
+  font-family: var(--micro);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+
 /* ─── Портрет ─── */
 
 /*
@@ -2837,7 +2846,8 @@ body:not([data-screen='title']) .hdr {
 /* ─── Шапка разворота ─── */
 
 .spread__head {
-  padding-bottom: 20px;
+  padding-bottom: 22px;
+  margin-bottom: 22px;
   border-bottom: 1px solid var(--hair);
 }
 
@@ -2881,14 +2891,6 @@ body:not([data-screen='title']) .hdr {
   font-style: italic;
   font-size: 1.1875rem;
   color: var(--wine);
-}
-
-.spread__hint {
-  margin: 16px 0 10px;
-  font-family: var(--micro);
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
-  color: var(--ink-soft);
 }
 
 /* ─── Строки досье ─── */
@@ -3050,15 +3052,82 @@ body:not([data-screen='title']) .hdr {
 /* ─── Широкий экран: портрет и досье рядом ─── */
 
 @media (min-width: 900px) {
+  /*
+   * Три колонки: досье слева, портрет в середине, досье справа. Место в
+   * середине снимку задаётся явным grid-column, а не order — порядок в
+   * разметке (снимок первым) нужен телефону, где колонка одна.
+   *
+   * align-items: start обязателен: без него колонки растягиваются по самой
+   * высокой, и раскрытая слева цитата снова оставила бы справа пустоту.
+   */
   .spread__grid {
-    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
-    gap: 48px;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.94fr) minmax(0, 1fr);
+    gap: 36px;
     align-items: start;
   }
 
   .spread__photo {
+    grid-column: 2;
+    grid-row: 1;
     position: sticky;
-    top: 92px;
+    top: 88px;
+  }
+
+  .spread__rows[data-side='left'] {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .spread__rows[data-side='right'] {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  /* Левая половина развёрнута к портрету: подпись у внутреннего края,
+     знак — у внешнего, волосок цитаты справа. Это тот самый жест
+     двухколоночного разворота, из-за которого снимок и стоит в середине. */
+  .spread__rows[data-side='left'] .spread__q {
+    flex-direction: row-reverse;
+    padding-right: 2px;
+    padding-left: 4px;
+  }
+
+  .spread__rows[data-side='left'] .spread__q-text {
+    text-align: right;
+  }
+
+  .spread__rows[data-side='left'] .spread__a-in {
+    text-align: right;
+  }
+
+  .spread__rows[data-side='left'] .ds-quote {
+    padding-left: 0;
+    padding-right: 14px;
+    border-left: 0;
+    border-right: 1px solid var(--gold);
+  }
+
+  .spread__rows[data-side='left'] .ds-ch {
+    padding-left: 0;
+    padding-right: 15px;
+  }
+
+  .spread__rows[data-side='left'] .ds-value {
+    margin-left: auto;
+  }
+
+  /* Тёплая волна на левой плашке идёт от внутреннего края, то есть справа. */
+  .spread__rows[data-side='left'] .spread__q {
+    background-image: linear-gradient(
+      to left,
+      rgba(176, 141, 79, 0.16) 0 40%,
+      rgba(176, 141, 79, 0) 50%
+    );
+    background-position: 0 0;
+  }
+
+  .spread__rows[data-side='left'] .spread__q:hover {
+    background-position: 100% 0;
   }
 }
 
@@ -3067,6 +3136,12 @@ body:not([data-screen='title']) .hdr {
      иначе на телефоне видна одна картинка. */
   .spread__img {
     max-height: 52svh;
+  }
+
+  /* Обе половины идут одной колонкой подряд, поэтому у второй не должно
+     быть своего верхнего отступа — шва между ними не видно. */
+  .spread__rows[data-side='right'] {
+    margin-top: -1px;
   }
 }
 
