@@ -18,7 +18,10 @@ import { readdir, mkdir } from 'node:fs/promises';
 import { statSync } from 'node:fs';
 import { join } from 'node:path';
 
-const SRC = 'public/heroes';
+// Исходники лежат ВНЕ public: там только то, что уезжает на хостинг.
+// Полные кадры с кремовой подложкой нигде на сайте не показываются —
+// незачем возить их по 140 КБ в каждой сборке.
+const SRC = 'assets/heroes';
 const OUT = 'public/heroes/cut';
 const TOL = Number(process.argv[2] || 30);
 
