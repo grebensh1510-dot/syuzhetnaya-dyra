@@ -97,8 +97,25 @@ export async function mountTitleScene({ count = 22 } = {}) {
 }
 
 // Переход между разделами: жест из точки нажатия, потом подмена сцены.
+//
+// Две вещи здесь важнее красоты жеста.
+//
+// 1. Решение перехватить ссылку принимается СИНХРОННО. Раньше обработчик
+//    сначала ждал `await mountPetals()`, и только потом звал preventDefault —
+//    а после await он то срабатывает, то нет, в зависимости от того, успел ли
+//    браузер выполнить действие по умолчанию. Получалась ссылка, которая то
+//    переходит, то нет. Если поле лепестков ещё не поднято, ссылка остаётся
+//    обычной ссылкой и работает как обычная.
+//
+// 2. Переход не зависит от того, доиграла ли анимация. Если burst почему-то
+//    не позовёт обратный вызов — кадр не пришёл, вкладка ушла в фон, упал
+//    контекст WebGL, — страховка всё равно уведёт на страницу. Ссылка,
+//    которая не открывает страницу, потому что не долетели лепестки, хуже
+//    ссылки без лепестков.
+const BURST_FALLBACK_MS = 900;
+
 export function armSceneLinks(selector = '[data-petal-link]') {
-  document.addEventListener('click', async (e) => {
+  document.addEventListener('click', (e) => {
     const link = e.target.closest(selector);
     if (!link) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
@@ -106,13 +123,22 @@ export function armSceneLinks(selector = '[data-petal-link]') {
     const href = link.getAttribute('href');
     if (!href) return;
 
-    const f = await mountPetals();
+    // Готовое поле, уже поднятое титульной сценой. Не ждём и не поднимаем:
+    // ожидание здесь и ломало preventDefault.
+    const f = field;
     if (!f || f.kind === 'none') return;
 
     e.preventDefault();
-    const r = link.getBoundingClientRect();
-    f.burst(r.left + r.width / 2, r.top + r.height / 2, () => {
+
+    let gone = false;
+    const go = () => {
+      if (gone) return;
+      gone = true;
       window.location.href = href;
-    });
+    };
+    setTimeout(go, BURST_FALLBACK_MS);
+
+    const r = link.getBoundingClientRect();
+    f.burst(r.left + r.width / 2, r.top + r.height / 2, go);
   });
 }
