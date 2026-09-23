@@ -1,105 +1,52 @@
 ---
 /*
- * HeroTitle — заглавие рисует себя и заливается.
+ * HeroTitle — классическое начертание с блеском, проходящим по буквам.
  *
- * Эффект тот же, что в присланном компоненте: буквы набраны в SVG и
- * прочерчиваются через stroke-dashoffset. Без React и без motion — это одна
- * анимация на входе, ей нечего делать в рантайме.
+ * Приём из присланного animated-shiny-text: узкая светлая полоса едет по
+ * тексту через background-position, обрезанная по глифам background-clip.
  *
- * Две вещи, которые пришлось добавить к приёму из компонента.
+ * Сделано ДВУМЯ слоями, а не одним, как в компоненте. В компоненте текст
+ * прозрачный, а цвет и блеск даёт один градиент — значит контраст надписи
+ * зависит от кадра анимации. Здесь нижний слой — обычный непрозрачный текст
+ * в --wine-deep, он держит контраст всегда; блеск идёт отдельным слоем
+ * поверх и только добавляет свет. Верхний слой помечен aria-hidden, чтобы
+ * слово не читалось дважды.
  *
- * 1. Длина штриха. dasharray у SVG-текста отсчитывается заново на КАЖДОМ
- *    контуре, поэтому нужна длина самого длинного, а не сумма. Компонент
- *    ищет её в браузере, растрируя SVG десяток раз и сравнивая «чернила» с
- *    готовой буквой; тот же поиск я прогнал один раз для «Ионыча» в Prata
- *    200 — 1023 единицы, это 1,49 ширины строки. Ставлю 1040 с запасом на
- *    подмену версии шрифта: лишние 2 % дают микропаузу в начале, а нехватка
- *    оставила бы буквы недорисованными.
+ * Слово теперь обычный HTML, а не SVG: background-clip: text по SVG-тексту
+ * не работает, а размер и так задаётся clamp'ом.
  *
- * 2. Ход пера. Раз штрих идёт по всем контурам сразу, короткие буквы
- *    дорисовываются мгновенно и слово просто проступает целиком. Поверх
- *    наложена маска с размытым краем, которая едет слева направо: контур
- *    открывается по ходу письма, а не весь сразу.
- *
- * При другом заглавии замер повторяется тем же способом; промах не ломает
- * картинку, а лишь сбивает точность — ink по умолчанию считается из 1,49.
+ * Росчерк остался SVG и по-прежнему прочерчивается — это тот же жест, что у
+ * пометки верного ответа, и он же делает начертание «классическим», а не
+ * просто крупным.
  */
-const { text, ink } = Astro.props;
-
-const glyphs = text.trim();
-const dash = ink || Math.round(glyphs.length * 137 * 1.49);
-
-// Свои id на экземпляр: маска и градиент не должны сталкиваться, если
-// заглавие когда-нибудь окажется на странице дважды.
-const uid = `ht-${Math.random().toString(36).slice(2, 9)}`;
+const { text } = Astro.props;
+const glyphs = String(text).trim();
 ---
 
-{/*
-  data-ht и data-ht-text — зацепки для title-particles.js. Он подменяет
-  нарисованное слово холстом с частицами, но только при точном указателе:
-  эффект курсорный, а на телефоне касание заглавия — это начало прокрутки.
-  SVG остаётся в разметке всегда и показывается сам, если скрипт не встал.
-*/}
-<h1 class="ht" style={`--ht-dash: ${dash}`} data-ht data-ht-text={glyphs}>
-  <canvas class="ht__canvas" aria-hidden="true"></canvas>
+<h1 class="ht">
+  <span class="ht__word">
+    <span class="ht__base">{glyphs}</span>
+    <span class="ht__shine" aria-hidden="true">{glyphs}</span>
 
-  <svg
-    class="ht__svg"
-    viewBox="150 -10 700 195"
-    aria-hidden="true"
-    focusable="false"
-    preserveAspectRatio="xMidYMid meet"
-  >
-    <defs>
-      {/* Мягкий край пера: последние 14 % хода растворяются */}
-      <linearGradient id={`${uid}-grad`} x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" stop-color="#fff" />
-        <stop offset="0.86" stop-color="#fff" />
-        <stop offset="1" stop-color="#000" />
-      </linearGradient>
-
-      <mask id={`${uid}-mask`} maskUnits="userSpaceOnUse" x="0" y="-120" width="1100" height="440">
-        <rect
-          class="ht__wipe"
-          x="-1000"
-          y="-120"
-          width="1060"
-          height="440"
-          fill={`url(#${uid}-grad)`}
-        />
-      </mask>
-    </defs>
-
-    {/* Контур прочерчивается под пером */}
-    <g mask={`url(#${uid}-mask)`}>
-      <text class="ht__text ht__text--draw" x="500" y="152">{glyphs}</text>
-    </g>
-
-    {/* Заливка проступает следом, когда перо дошло до конца */}
-    <text class="ht__text ht__text--ink" x="500" y="152">{glyphs}</text>
-
-    {/* Росчерк — тот же жест, что у пометки верного ответа */}
-    <g class="ht__flourish">
-      {/* Росчерк держится внутри viewBox по ширине слова: в прежних
-          координатах он уезжал за кадр и перечёркивал кнопку. */}
+    <svg class="ht__flourish" viewBox="0 0 1000 150" aria-hidden="true" focusable="false">
       <path
         class="ht__stroke ht__stroke--a"
-        d="M172 148C260 86 372 60 486 82S700 152 828 166"
+        d="M8 96C140 22 330 2 520 26S862 108 992 118"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linecap="round"
+        vector-effect="non-scaling-stroke"
+      />
+      <path
+        class="ht__stroke ht__stroke--b"
+        d="M96 132C300 146 640 144 900 128"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
         stroke-linecap="round"
+        vector-effect="non-scaling-stroke"
       />
-      <path
-        class="ht__stroke ht__stroke--b"
-        d="M248 172C400 184 590 182 742 168"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.6"
-        stroke-linecap="round"
-      />
-    </g>
-  </svg>
-
-  <span class="visually-hidden">{glyphs}</span>
+    </svg>
+  </span>
 </h1>

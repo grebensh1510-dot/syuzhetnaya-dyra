@@ -1,8 +1,12 @@
-// Скользящий овал в шапке.
+// Овал в шапке стоит на активном разделе.
 //
-// Овал — единственный, а не по одному на пункт: он переезжает к тому, на
-// что навели, и возвращается на активный раздел, когда мышь ушла. Двигаем
-// transform и ширину, положение считаем один раз на кадр.
+// Раньше он ездил за курсором: наводишь на «Досье» — овал переезжает туда,
+// и на экране два разных сигнала «ты здесь» сразу, один настоящий, другой
+// от мыши. Теперь наведение подсвечивается белым (это чистый CSS), а овал
+// помечает только тот раздел, в котором человек действительно находится.
+//
+// Скрипт остался ради одного: поставить овал по месту и держать его там,
+// когда ширина пункта меняется — от resize и от доехавших шрифтов.
 
 export function mountSlideNav() {
   const list = document.querySelector('[data-slide-nav]');
@@ -15,38 +19,16 @@ export function mountSlideNav() {
 
   const home = items.find((el) => el.dataset.current === 'true') || null;
 
-  function moveTo(el, instant) {
-    if (!el) {
+  function settle() {
+    if (!home) {
       cursor.style.opacity = '0';
       return;
     }
-    const left = el.offsetLeft;
-    const width = el.offsetWidth;
-    if (instant) cursor.style.transition = 'none';
     cursor.style.opacity = '1';
-    cursor.style.width = `${width}px`;
-    cursor.style.transform = `translate3d(${left}px, 0, 0)`;
-    if (instant) {
-      // Возвращаем переход следующим кадром, иначе он съест и его.
-      requestAnimationFrame(() => {
-        cursor.style.transition = '';
-      });
-    }
+    cursor.style.width = `${home.offsetWidth}px`;
+    cursor.style.transform = `translate3d(${home.offsetLeft}px, 0, 0)`;
   }
 
-  items.forEach((el) => {
-    el.addEventListener('pointerenter', () => moveTo(el, false));
-    el.addEventListener('focus', () => moveTo(el, false));
-  });
-
-  list.addEventListener('pointerleave', () => moveTo(home, false));
-  list.addEventListener('focusout', (e) => {
-    if (!list.contains(e.relatedTarget)) moveTo(home, false);
-  });
-
-  // Стартовое положение ставим без анимации: овал не должен приезжать
-  // из левого угла при каждой загрузке страницы.
-  const settle = () => moveTo(home, true);
   settle();
   window.addEventListener('resize', settle);
 

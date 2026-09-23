@@ -373,8 +373,8 @@
   /* Тёплая волна входит слева, как и у кнопок, — одно движение на весь сайт. */
   background-image: linear-gradient(
     to right,
-    rgba(176, 141, 79, 0.14) 0 46%,
-    rgba(176, 141, 79, 0) 56%
+    rgba(176, 141, 79, 0.16) 0 40%,
+    rgba(176, 141, 79, 0) 50%
   );
   background-size: 200% 100%;
   background-position: 100% 0;
@@ -1669,189 +1669,6 @@
   color: var(--wine);
 }
 
-/* ─── Досье вокруг портрета ─── */
-
-.orbit__rows {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.orbit__row {
-  padding: 14px 0;
-  border-bottom: 1px solid var(--hair);
-}
-
-.orbit__row:last-child {
-  border-bottom: 0;
-}
-
-.orbit__key {
-  margin: 0 0 8px;
-  font-family: var(--micro);
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--gold-text);
-}
-
-/* Единственный снимок героя. Подложка вырезана, поэтому ни рамки, ни
-   заливки: коллаж стоит прямо на бумаге страницы. */
-.orbit__photo {
-  margin: 26px auto 8px;
-  width: min(78vw, 360px);
-}
-
-.orbit__photo img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-/* Появление по одной. Прячет строки только data-armed, который ставит
-   скрипт: без скрипта страница остаётся читаемой целиком. */
-.orbit[data-armed] .orbit__row {
-  opacity: 0;
-  transform: translateY(18px);
-}
-
-.orbit[data-armed] .orbit__row[data-in='true'] {
-  opacity: 1;
-  transform: none;
-  transition:
-    opacity 620ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 620ms cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-@media (min-width: 1000px) {
-  /* Три колонки: строки слева, портрет в середине, строки справа. Портрет
-     занимает всю высоту сетки и липнет, поэтому досье буквально обходит
-     его кругом, пока страница прокручивается. */
-  .orbit {
-    display: grid;
-    grid-template-columns: 1fr minmax(300px, 420px) 1fr;
-    column-gap: 44px;
-    align-items: start;
-  }
-
-  .orbit__photo {
-    grid-column: 2;
-    grid-row: 1 / -1;
-    position: sticky;
-    top: 84px;
-    margin: 0;
-    width: 100%;
-  }
-
-  .orbit__rows {
-    display: contents;
-  }
-
-  .orbit__row {
-    border-bottom: 0;
-    padding: 26px 0;
-  }
-
-  .orbit__row[data-side='left'] {
-    grid-column: 1;
-    text-align: right;
-  }
-
-  /* Волосок уходит на ту сторону, которой строка повёрнута к портрету. */
-  .orbit__row[data-side='left'] .ds-quote {
-    padding-left: 0;
-    padding-right: 14px;
-    border-left: 0;
-    border-right: 1px solid var(--gold);
-  }
-
-  .orbit__row[data-side='left'] .ds-ch {
-    padding-left: 0;
-    padding-right: 15px;
-  }
-
-  .orbit__row[data-side='left'] .ds-value {
-    margin-left: auto;
-  }
-
-  .orbit__row[data-side='right'] {
-    grid-column: 3;
-  }
-
-  /* Строки приезжают с той стороны, на которой стоят. */
-  .orbit[data-armed] .orbit__row[data-side='left'] {
-    transform: translate(-22px, 14px);
-  }
-
-  .orbit[data-armed] .orbit__row[data-side='right'] {
-    transform: translate(22px, 14px);
-  }
-
-  .orbit[data-armed] .orbit__row[data-in='true'] {
-    transform: none;
-  }
-}
-
-.ds-quote {
-  margin: 0;
-  padding-left: 14px;
-  border-left: 1px solid var(--gold);
-  font-size: 1.0625rem;
-  line-height: 1.55;
-  color: var(--ink);
-}
-
-.ds-ch {
-  margin: 7px 0 0;
-  padding-left: 15px;
-  font-family: var(--micro);
-  font-size: 0.625rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-
-.ds-ch::before,
-.ds-ch::after {
-  content: none;
-}
-
-.ds-value {
-  margin: 10px 0 0;
-  font-size: 1rem;
-  line-height: 1.55;
-  color: var(--ink-soft);
-  max-width: 52ch;
-}
-
-.ds-quote + .ds-value {
-  font-family: var(--display);
-  font-style: italic;
-}
-
-.ds-go {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 12px;
-  margin-top: 20px;
-  padding: 13px 20px;
-  background: var(--wine);
-  color: var(--ivory);
-  text-decoration: none;
-  font-family: var(--display);
-  font-size: 1.0625rem;
-  transition: background-color 160ms ease-out;
-}
-
-.ds-go__n {
-  font-family: var(--micro);
-  font-size: 0.625rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  opacity: 0.82;
-}
-
 /* ─── Сюжетный чек: выбор героя ─── */
 
 .pick__list {
@@ -2181,9 +1998,17 @@ body:not([data-screen='title']) .hdr {
   transition: color 160ms ease-out, background-color 160ms ease-out;
 }
 
-.hdr__link:hover {
-  color: var(--wine);
-  background: var(--paper);
+/* Наведение — белая подсветка и ничего больше. Овал остался знаком «ты
+   здесь» и на наведение не реагирует: два разных сигнала одновременно
+   читались как ошибка. Цвет тоже не меняем — подсветки достаточно. */
+@media (hover: hover) {
+  .hdr__link:hover {
+    background: rgba(255, 255, 255, 0.72);
+  }
+}
+
+.hdr__link:focus-visible {
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .hdr__num {
@@ -2546,9 +2371,37 @@ body:not([data-screen='title']) .hdr {
   box-shadow: 0 18px 46px -26px rgba(35, 27, 24, 0.5);
 }
 
+/*
+ * Дыхание коллажа внутри карточки.
+ *
+ * Анимируется <img>, а НЕ карточка: её transform каждый кадр пишет пружина
+ * деки (deck.js), и вторая анимация на том же свойстве просто затёрлась бы.
+ *
+ * Ход 2,5 px и период около 11 секунд — шесть карточек движутся
+ * одновременно, и на любой заметной амплитуде веер начинает рябить. Фаза
+ * сдвинута по индексу карточки (--di ставит разметка), чтобы они не дышали
+ * в унисон.
+ */
+@keyframes deck-breathe {
+  from {
+    transform: translate3d(0, 1.25px, 0);
+  }
+  to {
+    transform: translate3d(0, -1.25px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck__img {
+    animation: none !important;
+  }
+}
+
 /* contain, а не cover: у коллажа рваный край, его нельзя обрезать рамкой
    карточки. Сверху, чтобы внизу осталось место подписи. */
 .deck__img {
+  animation: deck-breathe calc(11s + var(--di, 0) * 0.7s) ease-in-out
+    calc(var(--di, 0) * -1.9s) infinite alternate;
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -2783,10 +2636,9 @@ body:not([data-screen='title']) .hdr {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 130' preserveAspectRatio='none'%3E%3Cpath d='M296 44C289 17 212 4 148 7 68 11 12 36 15 70c3 30 79 53 156 50 73-3 133-27 131-57-2-21-35-36-90-43-14-2-29-3-44-3' fill='none' stroke='%23D1352E' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  transition:
-    transform 340ms cubic-bezier(0.22, 0.9, 0.28, 1),
-    width 340ms cubic-bezier(0.22, 0.9, 0.28, 1),
-    opacity 200ms ease-out;
+  /* Овал стоит на активном разделе и не ездит, поэтому из переходов
+     остался только выход из прозрачности при загрузке. */
+  transition: opacity 260ms ease-out;
 }
 
 .hdr__link {
@@ -2804,105 +2656,71 @@ body:not([data-screen='title']) .hdr {
   }
 }
 
-/* ─── Разворот героя ─── */
 
-/*
- * Шапка разворота. Прежде это была обложка на весь экран со вторым снимком
- * героя справа; снимок остался один — в досье ниже, по центру, — поэтому
- * здесь только имя и роль. Паспорт перед делом, а не вторая афиша.
- */
-.spread {
-  width: 100%;
-  max-width: 68ch;
-  margin-inline: auto;
-  padding: 10px 16px 70px;
+/* ─── Цитата, глава и пояснение внутри строки досье ─── */
+
+/* Эти правила жили внутри блока орбиты и уехали вместе с ним; орбиты больше
+   нет, а типографика цитаты нужна — она же и в разборе тест-дыры. */
+.ds-quote {
+  margin: 0;
+  padding-left: 14px;
+  border-left: 1px solid var(--gold);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--ink);
 }
 
-/* Переопределение стоит СРАЗУ ПОСЛЕ базового правила, а не в общем блоке
-   раскладки выше: одинаковая специфичность, побеждает то, что ниже. */
-@media (min-width: 1000px) {
-  .spread {
-    max-width: 1240px;
-    padding-inline: 24px;
-  }
-}
-
-.spread__head {
-  padding: 18px 0 30px;
-  border-bottom: 1px solid var(--hair);
-}
-
-.spread__badge {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  margin-bottom: 18px;
-  border: 1px solid var(--gold);
-  font-family: var(--display);
-  font-size: 1.1875rem;
-  color: var(--gold-text);
-}
-
-.spread__label {
-  margin: 0 0 8px;
+.ds-ch {
+  margin: 7px 0 0;
+  padding-left: 15px;
   font-family: var(--micro);
   font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-soft);
 }
 
-.spread__name {
-  margin: 0;
-  max-width: 16ch;
-  font-family: var(--display);
-  font-weight: 400;
-  font-size: clamp(2.25rem, 7vw, 3.4rem);
-  line-height: 1.02;
-  letter-spacing: -0.03em;
-  color: var(--wine-deep);
-  text-wrap: balance;
+.ds-value {
+  margin: 10px 0 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 52ch;
 }
 
-.spread__aka {
-  margin: 10px 0 0;
+/* Пояснение после цитаты — курсивом: это голос разбора, а не текста. */
+.ds-quote + .ds-value {
   font-family: var(--display);
   font-style: italic;
-  font-size: 1.25rem;
-  color: var(--wine);
 }
 
-.spread__back {
+/* Кнопка «Отработать в чеке». Налив на наведение задаётся общим
+   правилом кнопок ниже, здесь — форма и типографика. */
+.ds-go {
   display: inline-flex;
-  align-items: center;
-  min-height: 48px;
-  margin-top: 8px;
+  align-items: baseline;
+  gap: 12px;
+  padding: 13px 20px;
+  color: var(--ivory);
+  text-decoration: none;
+  font-family: var(--display);
+  font-size: 1.0625rem;
+}
+/* Счётчик вопросов внутри кнопки «Отработать в чеке». */
+.ds-go__n {
   font-family: var(--micro);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink-soft);
-  text-decoration: underline;
-  text-decoration-color: var(--hair);
-  text-underline-offset: 4px;
+  opacity: 0.82;
 }
 
-.spread__back:hover {
-  color: var(--wine);
-  text-decoration-color: var(--gold);
-}
-
-.spread__foot {
-  margin-top: 10px;
-}
+/* ─── Переход к соседнему герою ─── */
 
 .sheetdoc__nav {
   display: grid;
   gap: 1px;
-  margin-top: 44px;
+  margin-top: 40px;
   background: var(--hair);
   border: 1px solid var(--hair);
 }
@@ -2941,6 +2759,373 @@ body:not([data-screen='title']) .hdr {
 @media (min-width: 620px) {
   .sheetdoc__nav {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ─── Разворот героя: портрет и досье в две колонки ─── */
+
+/*
+ * Прежде снимок стоял по центру, а строки обходили его слева и справа. От
+ * этого было две беды сразу: снимок не влезал в экран по высоте, а в
+ * колонках оставались белые поля — под каждой строкой пустовала
+ * противоположная сторона. Теперь портрет ограничен высотой экрана, а
+ * строки идут одной плотной колонкой рядом, в своём порядке.
+ */
+.spread {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding: 10px 16px 60px;
+}
+
+.spread__grid {
+  display: grid;
+  gap: 26px;
+}
+
+/* ─── Портрет ─── */
+
+/*
+ * Три уровня вложенности не от лени: transform у элемента один, а движений
+ * три. Параллакс — на обёртке, появление — на среднем слое, дыхание — на
+ * самой картинке. Иначе они затирают друг друга.
+ */
+.spread__photo {
+  /* --px/--py пишет portrait.js, от -1 до 1; --par задаёт страница. */
+  transform: translate3d(
+    calc(var(--px, 0) * var(--par, 0px)),
+    calc(var(--py, 0) * var(--par, 0px) * 0.6),
+    0
+  );
+  transition: transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.spread__photo-rev {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition: opacity 760ms ease-out, transform 900ms cubic-bezier(0.22, 0.9, 0.28, 1);
+}
+
+.spread__photo[data-seen='yes'] .spread__photo-rev {
+  opacity: 1;
+  transform: none;
+}
+
+.spread__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Портрет обязан влезать в экран целиком — это и была главная жалоба на
+     прежнюю раскладку. 128px — шапка плюс поля. */
+  max-height: calc(100svh - 128px);
+  object-fit: contain;
+  margin-inline: auto;
+  animation: portrait-breathe var(--fd, 8s) ease-in-out var(--fp, 0s) infinite alternate;
+}
+
+/* Ход маленький и период длинный: это дыхание, а не качание. Наклон
+   выдаётся не всем — у части героев --ft равен нулю. */
+@keyframes portrait-breathe {
+  from {
+    transform: translate3d(0, calc(var(--fa, 5px) * 0.5), 0) rotate(calc(var(--ft, 0deg) * -1));
+  }
+  to {
+    transform: translate3d(0, calc(var(--fa, 5px) * -0.5), 0) rotate(var(--ft, 0deg));
+  }
+}
+
+/* ─── Шапка разворота ─── */
+
+.spread__head {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.spread__badge {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 16px;
+  border: 1px solid var(--gold);
+  font-family: var(--display);
+  font-size: 1.125rem;
+  color: var(--gold-text);
+}
+
+.spread__label {
+  margin: 0 0 8px;
+  font-family: var(--micro);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.spread__name {
+  margin: 0;
+  max-width: 16ch;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(2.1rem, 5.6vw, 3.1rem);
+  line-height: 1.03;
+  letter-spacing: -0.03em;
+  color: var(--wine-deep);
+  text-wrap: balance;
+}
+
+.spread__aka {
+  margin: 9px 0 0;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.1875rem;
+  color: var(--wine);
+}
+
+.spread__hint {
+  margin: 16px 0 10px;
+  font-family: var(--micro);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+
+/* ─── Строки досье ─── */
+
+.spread__rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.spread__row {
+  border-bottom: 1px solid var(--hair);
+}
+
+/* Плашка с темой. Рамки нет — та же логика, что у вариантов ответа в чеке:
+   печатная рамка спорит с рукописным в этом мире. */
+.spread__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 56px;
+  padding: 13px 4px 13px 2px;
+  border: 0;
+  background-color: transparent;
+  background-image: linear-gradient(
+    to right,
+    rgba(176, 141, 79, 0.16) 0 40%,
+    rgba(176, 141, 79, 0) 50%
+  );
+  /* Прозрачный стоп ровно на 50 %: правая половина картинки — та, что
+     видна в покое, — обязана начинаться с полного нуля. При 56 % у левого
+     края плашки оставался еле заметный тёплый след. */
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  text-align: left;
+  cursor: pointer;
+  transition: background-position 420ms cubic-bezier(0.2, 0.74, 0.22, 1);
+}
+
+@media (hover: hover) {
+  .spread__q:hover {
+    background-position: 0 0;
+  }
+}
+
+.spread__q-text {
+  font-family: var(--micro);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+  transition: color 200ms ease-out;
+}
+
+.spread__row[data-open] .spread__q-text {
+  color: var(--wine);
+}
+
+/* Знак раскрытия: плюс из двух волосков, у открытой строки вторая палочка
+   гаснет — получается минус. Никаких шевронов: в этом мире всё чертится
+   линиями. */
+.spread__q-sign {
+  position: relative;
+  flex: none;
+  width: 13px;
+  height: 13px;
+}
+
+.spread__q-sign::before,
+.spread__q-sign::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--gold);
+  transform: translateY(-50%);
+  transition: transform 300ms cubic-bezier(0.2, 0.8, 0.25, 1), opacity 240ms ease-out;
+}
+
+.spread__q-sign::after {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.spread__row[data-open] .spread__q-sign::after {
+  transform: translateY(-50%) rotate(0deg);
+  opacity: 0;
+}
+
+/* ─── Цитата ─── */
+
+/*
+ * Закрывает строку ТОЛЬКО data-armed, который ставит rows.js. Страница без
+ * скрипта показывает все цитаты: досье без цитат бесполезно.
+ *
+ * 0fr → 1fr вместо max-height: точная высота содержимого без выдуманного
+ * потолка, за который длинная цитата могла бы вылезти.
+ */
+.spread__a {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.spread__a-in {
+  min-height: 0;
+  padding-bottom: 18px;
+}
+
+[data-armed] .spread__a {
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows 420ms cubic-bezier(0.22, 0.8, 0.25, 1), visibility 420ms;
+}
+
+[data-armed] .spread__a-in {
+  overflow: hidden;
+}
+
+[data-armed] .spread__row[data-open] .spread__a {
+  grid-template-rows: 1fr;
+  visibility: visible;
+}
+
+/* ─── Подвал разворота ─── */
+
+.spread__foot {
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+}
+
+.spread__back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  font-family: var(--micro);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-decoration-color: var(--hair);
+  text-underline-offset: 4px;
+}
+
+.spread__back:hover {
+  color: var(--wine);
+  text-decoration-color: var(--gold);
+}
+
+/* ─── Широкий экран: портрет и досье рядом ─── */
+
+@media (min-width: 900px) {
+  .spread__grid {
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+
+  .spread__photo {
+    position: sticky;
+    top: 92px;
+  }
+}
+
+@media (max-width: 899px) {
+  /* На узком экране снимок сверху, и он должен оставить место заголовку —
+     иначе на телефоне видна одна картинка. */
+  .spread__img {
+    max-height: 52svh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spread__photo,
+  .spread__photo-rev,
+  .spread__img,
+  .spread__q,
+  .spread__q-sign::before,
+  .spread__q-sign::after,
+  [data-armed] .spread__a {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .spread__photo {
+    transform: none;
+  }
+
+  .spread__photo-rev {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ─── Перекат текста в раскрытой цитате ─── */
+
+/* Слово — неразрывный кусок. Без этого буквы-inline-block позволяют
+   браузеру перенести строку посреди слова. */
+.roll-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.roll {
+  display: inline-block;
+}
+
+/* Перекат запускается раскрытием строки, а не прокруткой: цитата всё равно
+   появляется только по нажатию, и привязывать её к экрану незачем. */
+[data-armed] .spread__row:not([data-open]) .roll {
+  opacity: 0;
+  transform: perspective(700px) rotateX(-88deg) translateY(0.22em);
+  transform-origin: 50% 90%;
+}
+
+[data-armed] .spread__row[data-open] .roll {
+  opacity: 1;
+  transform: none;
+  transition: opacity 380ms ease-out, transform 520ms cubic-bezier(0.22, 1.1, 0.36, 1);
+  transition-delay: calc(140ms + var(--r) * 26ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-armed] .spread__row:not([data-open]) .roll,
+  [data-armed] .spread__row[data-open] .roll {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 
@@ -3083,88 +3268,103 @@ body:not([data-screen='title']) .hdr {
   text-transform: uppercase;
 }
 
-/* ─── Заглавие: контур прочерчивается, потом заливается ─── */
+/* ─── Заглавие: классическое начертание с проходящим блеском ─── */
 
 .ht {
-  position: relative;
   margin: 0;
   display: flex;
   justify-content: center;
   line-height: 1;
 }
 
-/* Холст с частицами лежит точно на SVG-заглавии: его размеры скрипт берёт
-   из бокса этого же SVG, поэтому росчерк остаётся на своём месте. */
-.ht__canvas {
+.ht__word {
+  position: relative;
+  display: inline-block;
+  font-family: 'Prata', 'Playfair Display', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(4.5rem, 16vw, 11.5rem);
+  line-height: 0.96;
+  letter-spacing: -0.012em;
+  white-space: nowrap;
+  animation: ht-enter 900ms cubic-bezier(0.22, 0.9, 0.28, 1) both;
+}
+
+/* Нижний слой — обычный текст. Он и держит контраст: что бы ни делал блеск
+   сверху, слово остаётся тёмным. В присланном компоненте текст прозрачный и
+   цвет даёт тот же градиент, что и блик, — там контраст надписи зависит от
+   кадра анимации, и над фотографией это не годится. */
+.ht__base {
+  display: block;
+  color: var(--wine-deep);
+}
+
+/* Верхний слой — только свет. Полоса шириной около 8 % едет по слову и
+   надолго уходит за край: блик, а не мигалка. */
+.ht__shine {
   position: absolute;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
+  inset: 0;
+  color: transparent;
+  background-image: linear-gradient(
+    104deg,
+    rgba(176, 141, 79, 0) 42%,
+    rgba(216, 180, 108, 0.95) 50%,
+    rgba(176, 141, 79, 0) 58%
+  );
+  background-size: 260% 100%;
+  background-repeat: no-repeat;
+  background-position: 260% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: ht-shine 7s cubic-bezier(0.5, 0, 0.5, 1) 1200ms infinite;
   pointer-events: none;
 }
 
-/* Пока скрипт не встал, холста нет — и заглавие это нарисованное SVG. */
-.ht:not([data-particles='on']) .ht__canvas {
-  display: none;
-}
-
-/* Скрипт встал: слово отдаётся частицам, а росчерк остаётся SVG — он
-   нарисован от руки и пылью читался бы как грязь. */
-.ht[data-particles='on'] .ht__text {
-  display: none;
-}
-
-/* Размер задаёт ширина SVG, внутри всё в единицах viewBox — значит одна
-   анимация на все экраны и никакого пересчёта штриха под брейкпоинт. */
-.ht__svg {
-  display: block;
-  width: min(92vw, 860px);
-  height: auto;
-  /* viewBox обрезан по слову, а росчерк из него выходит — ему нужно наружу. */
-  overflow: visible;
-  color: var(--wine);
-}
-
-.ht__text {
-  font-family: 'Prata', 'Playfair Display', Georgia, serif;
-  font-size: 200px;
-  letter-spacing: -0.01em;
-  text-anchor: middle;
-}
-
-.ht__text--draw {
-  fill: none;
-  stroke: var(--wine-deep);
-  stroke-width: 2;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  stroke-dasharray: var(--ht-dash) var(--ht-dash);
-  stroke-dashoffset: var(--ht-dash);
-  animation: ht-draw 1900ms cubic-bezier(0.34, 0.68, 0.28, 1) 140ms both;
-}
-
-/* Перо. Прямоугольник с размытым правым краем уезжает вправо на ширину
-   слова — по одному расписанию с прорисовкой контура. */
-.ht__wipe {
-  animation: ht-wipe 1900ms cubic-bezier(0.34, 0.68, 0.28, 1) 140ms both;
-}
-
-@keyframes ht-wipe {
+@keyframes ht-enter {
   from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(950px);
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
   }
 }
 
-/* Заливка догоняет контур к концу прорисовки: раньше — и рисовать было бы
-   нечего, позже — слово успело бы показаться пустым. */
-.ht__text--ink {
-  fill: var(--wine-deep);
-  stroke: none;
-  opacity: 0;
-  animation: ht-ink 800ms ease-out 1620ms both;
+/* Проход занимает первые 38 % цикла, остальное — пауза за краем слова. */
+@keyframes ht-shine {
+  0% {
+    background-position: 260% 0;
+  }
+  38%,
+  100% {
+    background-position: -60% 0;
+  }
+}
+
+/* Росчерк прочерчивается под словом. non-scaling-stroke в разметке значит,
+   что толщина линии не тянется вместе с viewBox и на любом экране остаётся
+   волоском. */
+.ht__flourish {
+  position: absolute;
+  left: -3%;
+  bottom: -0.08em;
+  width: 106%;
+  height: 0.4em;
+  color: var(--wine);
+  opacity: 0.6;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ht__stroke {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: ht-draw 1500ms cubic-bezier(0.32, 0.72, 0.3, 1) both;
+}
+
+.ht__stroke--a {
+  animation-delay: 520ms;
+}
+
+.ht__stroke--b {
+  animation-delay: 800ms;
+  opacity: 0.6;
 }
 
 @keyframes ht-draw {
@@ -3173,49 +3373,19 @@ body:not([data-screen='title']) .hdr {
   }
 }
 
-@keyframes ht-ink {
-  to {
-    opacity: 1;
-  }
-}
-
-/* Росчерк идёт последним — как подпись под уже написанным. */
-.ht__flourish {
-  color: var(--wine);
-  opacity: 0.62;
-}
-
-.ht__stroke {
-  stroke-dasharray: 1400;
-  stroke-dashoffset: 1400;
-  animation: ht-draw 1400ms cubic-bezier(0.32, 0.72, 0.3, 1) both;
-}
-
-.ht__stroke--a {
-  animation-delay: 1900ms;
-}
-
-.ht__stroke--b {
-  animation-delay: 2180ms;
-  opacity: 0.6;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  /* Ни прорисовки, ни проявления: сразу готовое слово. */
-  .ht__text--draw,
+  /* Блеск — движение, и гаснет целиком: слово просто стоит тёмным. */
+  .ht__word,
   .ht__stroke {
     animation: none !important;
+  }
+
+  .ht__shine {
+    display: none;
+  }
+
+  .ht__stroke {
     stroke-dashoffset: 0;
-  }
-
-  .ht__wipe {
-    animation: none !important;
-    transform: translateX(950px);
-  }
-
-  .ht__text--ink {
-    animation: none !important;
-    opacity: 1;
   }
 }
 
@@ -3449,8 +3619,8 @@ body:not([data-screen='title']) .hdr {
   /* Край налива размыт на 7 %: резкая вертикаль читалась как шов. */
   background-image: linear-gradient(
     to right,
-    var(--wine-deep) 0 46%,
-    rgba(63, 14, 20, 0) 53%
+    var(--wine-deep) 0 40%,
+    rgba(63, 14, 20, 0) 50%
   );
   background-size: 200% 100%;
   background-position: 100% 0;
@@ -3462,7 +3632,7 @@ body:not([data-screen='title']) .hdr {
 /* Стрелки веера стоят на бумаге, а не на вине: у них наливается сам цвет. */
 .deck__arrow {
   background-color: transparent;
-  background-image: linear-gradient(to right, var(--wine) 0 46%, rgba(107, 27, 36, 0) 53%);
+  background-image: linear-gradient(to right, var(--wine) 0 40%, rgba(107, 27, 36, 0) 50%);
 }
 
 .hero__cta-arrow,
@@ -3547,60 +3717,3 @@ body:not([data-screen='title']) .hdr {
   }
 }
 
-/* ─── Перекат текста ─── */
-
-/*
- * Кусок текста поворачивается по оси X с перспективой, как строка на
- * механическом табло. Разбивку на куски делает RollText.astro на сборке;
- * здесь только движение.
- *
- * Скрытие включает ТОЛЬКО data-armed, который ставит скрипт: страница без
- * скрипта обязана показывать цитаты, а не пустое место.
- */
-/* Слово — неразрывный кусок. Без этого буквы-inline-block позволяют
-   браузеру перенести строку посреди слова. */
-.roll-word {
-  display: inline-block;
-  white-space: nowrap;
-}
-
-.roll {
-  display: inline-block;
-}
-
-.orbit[data-armed] .roll-word {
-  /* Обёртка не анимируется — она только держит слово вместе. */
-  opacity: 1;
-}
-
-.orbit[data-armed] .roll {
-  opacity: 0;
-  transform: perspective(700px) rotateX(-88deg) translateY(0.22em);
-  transform-origin: 50% 90%;
-}
-
-.orbit[data-armed] .orbit__row[data-in='true'] .roll {
-  opacity: 1;
-  transform: none;
-  transition: opacity 420ms ease-out, transform 560ms cubic-bezier(0.22, 1.1, 0.36, 1);
-  /* Такт переката. Подписи набраны по буквам — им шаг мельче, чтобы строка
-     не перекатывалась дольше самой цитаты. */
-  transition-delay: calc(var(--r) * 32ms);
-}
-
-.orbit[data-armed] .orbit__key .roll {
-  transform-origin: 50% 100%;
-}
-
-.orbit[data-armed] .orbit__row[data-in='true'] .orbit__key .roll {
-  transition-delay: calc(var(--r) * 22ms);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .orbit[data-armed] .roll,
-  .orbit[data-armed] .orbit__row[data-in='true'] .roll {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
