@@ -11,10 +11,6 @@ const questionCount = Object.values(checks).reduce((n, list) => n + list.length,
 // Столько заданий действительно лежит в тест-дыре: разминка плюс сопоставление.
 const taskCount = warmup.length + matching.length;
 
-// Эпиграф сверен по подлиннику: Старцев, глава IV.
-const epigraph =
-  'Старимся, полнеем, опускаемся. День да ночь — сутки прочь, жизнь проходит тускло, без впечатлений, без мыслей…';
-
 const cast = [{ ...family, anchor: 'turkiny' }, ...heroes.map((h) => ({ ...h, anchor: h.id }))];
 ---
 
@@ -28,7 +24,9 @@ const cast = [{ ...family, anchor: 'turkiny' }, ...heroes.map((h) => ({ ...h, an
     position="center 42%"
   >
     <div class="hero">
-      <HeroTitle text={work.title} />
+      {/* ink — измеренная длина самого длинного контура «Ионыча» в Prata 200;
+          как получена, написано в HeroTitle.astro */}
+      <HeroTitle text={work.title} ink={1040} />
 
       <div class="hero__act">
         <a class="hero__cta" href="/ionych/dosye/" data-petal-link>
@@ -64,14 +62,6 @@ const cast = [{ ...family, anchor: 'turkiny' }, ...heroes.map((h) => ({ ...h, an
         </p>
       </Scrap>
     </div>
-
-    <figure class="why__quote">
-      <blockquote>{epigraph}</blockquote>
-      <figcaption>
-        <span class="why__quote-who">{work.author}</span>
-        <span class="why__quote-src">«Ионыч», глава IV</span>
-      </figcaption>
-    </figure>
   </section>
 
   <section class="cast" aria-labelledby="cast-h">

@@ -1,6 +1,7 @@
 ---
 import Shell from '../../../layouts/Shell.astro';
 import Header from '../../../components/Header.astro';
+import RollText from '../../../components/RollText.astro';
 import { family, heroes, checks, plural } from '../../../data/ionych.js';
 
 const cards = [
@@ -31,40 +32,36 @@ const next = cards[(index + 1) % cards.length];
 <Shell title={`${card.name} · Досье`} screen="hero">
   <Header active="dosye" />
 
-  <article class="cover">
-    <div class="cover__photo">
-      <img
-        src={`/heroes/${card.photo}.jpg`}
-        alt=""
-        width="820"
-        height="1230"
-        fetchpriority="high"
-        decoding="async"
-        style={`view-transition-name: hero-${card.photo}`}
-      />
-    </div>
+  {/*
+    Разворот собран вокруг одного снимка. Раньше их было два: большой на
+    обложке и липкий в досье — один и тот же герой дважды подряд. Остался
+    один, по центру, с вырезанной подложкой: коллаж стоит прямо на бумаге
+    страницы, без своего кремового прямоугольника.
 
-    <div class="cover__text">
-      <span class="cover__badge" aria-hidden="true">{roman[index]}</span>
-      <p class="cover__label">{card.group || card.role}</p>
-      <h1 class="cover__name">{card.name}</h1>
-      {card.aka && <p class="cover__aka">«{card.aka}»</p>}
-    </div>
+    На широком экране снимок держится в середине при прокрутке, а строки
+    досье обходят его слева и справа. На узком — колонка одна, снимок над
+    строками.
+  */}
+  <article class="spread">
+    <header class="spread__head">
+      <span class="spread__badge" aria-hidden="true">{roman[index]}</span>
+      <p class="spread__label">{card.group || card.role}</p>
+      <h1 class="spread__name">{card.name}</h1>
+      {card.aka && <p class="spread__aka">«{card.aka}»</p>}
+      <a class="spread__back" href="/ionych/dosye/">Вся колода</a>
+    </header>
 
-    <a class="cover__back" href="/ionych/dosye/">Вся колода</a>
-  </article>
-
-  <section class="sheetdoc">
-    {/* Досье обходит снимок кругом: на широком экране портрет стоит в центре
-        и держится при прокрутке, а строки идут по очереди то слева, то
-        справа. На узком экране колонка одна, портрет спрятан — он только что
-        был на обложке двумя экранами выше, второй раз подряд не нужен.
-        Строки проявляются по одной при прокрутке; до того, как скрипт
-        поднимется, они просто видны — без него страница не ломается. */}
     <div class="orbit" data-orbit>
-      <div class="orbit__photo" aria-hidden="true">
-        {/* Тот же файл, что на обложке: браузер берёт его из кэша. */}
-        <img src={`/heroes/${card.photo}.jpg`} alt="" width="820" height="1230" decoding="async" />
+      <div class="orbit__photo">
+        <img
+          src={`/heroes/cut/${card.photo}.webp`}
+          alt=""
+          width="820"
+          height="1230"
+          fetchpriority="high"
+          decoding="async"
+          style={`view-transition-name: hero-${card.photo}`}
+        />
       </div>
 
       <ol class="orbit__rows">
@@ -76,44 +73,51 @@ const next = cards[(index + 1) % cards.length];
               data-side={i % 2 ? 'right' : 'left'}
               style={`--i: ${i}`}
             >
-              <p class="orbit__key">{r.key}</p>
-              {r.quote && <blockquote class="ds-quote">{r.quote}</blockquote>}
+              <p class="orbit__key"><RollText text={r.key} by="char" /></p>
+              {/* Кавычки в самом тексте, а не псевдоэлементом: иначе
+                  закрывающая срывалась на отдельную строку. Сама цитата
+                  не тронута — кавычки и раньше добавлялись оформлением. */}
+              {r.quote && (
+                <blockquote class="ds-quote"><RollText text={`«${r.quote}»`} /></blockquote>
+              )}
               {r.quote && r.chapter && <p class="ds-ch">глава {r.chapter}</p>}
-              {r.value && <p class="ds-value">{r.value}</p>}
+              {r.value && <p class="ds-value"><RollText text={r.value} /></p>}
             </li>
           ))
         }
       </ol>
     </div>
 
-    {
-      !card.isFamily && checks[card.id] ? (
-        <a class="ds-go" href={`/ionych/check/?hero=${card.id}`}>
-          Отработать в чеке
-          <span class="ds-go__n">
-            {checks[card.id].length}{' '}
-            {plural(checks[card.id].length, 'вопрос', 'вопроса', 'вопросов')}
-          </span>
-        </a>
-      ) : (
-        <p class="ds-nocheck">
-          У семьи нет своего блока в чеке — её факты разобраны внутри каждого
-          из Туркиных.
-        </p>
-      )
-    }
+    <div class="spread__foot">
+      {
+        !card.isFamily && checks[card.id] ? (
+          <a class="ds-go" href={`/ionych/check/?hero=${card.id}`}>
+            Отработать в чеке
+            <span class="ds-go__n">
+              {checks[card.id].length}{' '}
+              {plural(checks[card.id].length, 'вопрос', 'вопроса', 'вопросов')}
+            </span>
+          </a>
+        ) : (
+          <p class="ds-nocheck">
+            У семьи нет своего блока в чеке — её факты разобраны внутри каждого
+            из Туркиных.
+          </p>
+        )
+      }
 
-    <nav class="sheetdoc__nav" aria-label="Соседние герои">
-      <a class="sheetdoc__step" href={`/ionych/dosye/${prev.photo}/`}>
-        <span class="sheetdoc__dir">← предыдущий</span>
-        <span class="sheetdoc__who">{prev.name}</span>
-      </a>
-      <a class="sheetdoc__step sheetdoc__step--next" href={`/ionych/dosye/${next.photo}/`}>
-        <span class="sheetdoc__dir">следующий →</span>
-        <span class="sheetdoc__who">{next.name}</span>
-      </a>
-    </nav>
-  </section>
+      <nav class="sheetdoc__nav" aria-label="Соседние герои">
+        <a class="sheetdoc__step" href={`/ionych/dosye/${prev.photo}/`}>
+          <span class="sheetdoc__dir">← предыдущий</span>
+          <span class="sheetdoc__who">{prev.name}</span>
+        </a>
+        <a class="sheetdoc__step sheetdoc__step--next" href={`/ionych/dosye/${next.photo}/`}>
+          <span class="sheetdoc__dir">следующий →</span>
+          <span class="sheetdoc__who">{next.name}</span>
+        </a>
+      </nav>
+    </div>
+  </article>
 
   <script>
     import { mountOrbit } from '../../../scripts/orbit.js';

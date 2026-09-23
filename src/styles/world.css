@@ -345,23 +345,57 @@
   margin: 0;
   padding: 0 0 22px;
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
+/*
+ * Вариант ответа — строка на бумаге, а не рамка.
+ *
+ * Рамка со всех четырёх сторон рядом с рукописным овалом читалась как две
+ * обводки сразу: одна печатная, одна от руки. Осталась одна линия слева —
+ * как отчерк на полях в рабочей тетради, — и овалу стало где развернуться.
+ * Он теперь единственное нарисованное от руки на экране, ради чего и заведён.
+ */
 .opt {
   position: relative;
   width: 100%;
   text-align: left;
   background: var(--paper);
-  border: 1px solid var(--hair);
-  padding: 17px 18px 15px;
+  border: 0;
+  /* Отчерк золотом вполсилы: --hair на светлой бумаге просто не видно. */
+  border-left: 1px solid rgba(176, 141, 79, 0.5);
+  padding: 17px 20px 15px 19px;
   cursor: pointer;
   display: block;
-  transition: border-color 160ms ease-out, background-color 160ms ease-out;
+  transition: border-left-color 220ms ease-out, background-position 420ms
+      cubic-bezier(0.2, 0.74, 0.22, 1);
+
+  /* Тёплая волна входит слева, как и у кнопок, — одно движение на весь сайт. */
+  background-image: linear-gradient(
+    to right,
+    rgba(176, 141, 79, 0.14) 0 46%,
+    rgba(176, 141, 79, 0) 56%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
 }
 
-.opt:hover:not(:disabled) {
-  border-color: var(--gold);
+@media (hover: hover) {
+  .opt:hover:not(:disabled) {
+    border-left-color: var(--gold);
+    background-position: 0 0;
+  }
+}
+
+.opt:active:not(:disabled) {
+  background-position: 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opt {
+    transition: none;
+  }
 }
 
 .opt:disabled {
@@ -388,8 +422,10 @@
 /* Рукописная пометка: овал дорисовывается поверх верного варианта. */
 .opt__mark {
   position: absolute;
-  inset: 8px -10px 36px -10px;
-  min-height: 62px;
+  /* Свес овала наружу ограничен 8 px: у страницы всего 12 px поля, и на
+     360 px правый край выносил документ за экран на 3 px. */
+  inset: 4px -8px 4px -4px;
+  min-height: 58px;
   transform: rotate(-1.4deg);
   pointer-events: none;
   opacity: 0;
@@ -412,8 +448,10 @@
 }
 
 .opt[data-state='chosen-wrong'] {
-  border-color: var(--wine);
-  background: #f6ecec;
+  border-left-color: var(--wine);
+  border-left-width: 2px;
+  padding-left: 18px;
+  background-color: #f6ecec;
 }
 
 .opt[data-state='chosen-wrong'] .opt__text {
@@ -424,7 +462,15 @@
 
 .opt[data-state='idle'],
 .opt[data-state='pending'] {
-  background: transparent;
+  background-color: transparent;
+}
+
+/* Верный ответ держит отчерк золотом — под овалом видно, что это он. */
+.opt[data-state='chosen-right'],
+.opt[data-state='right'] {
+  border-left-color: var(--gold);
+  border-left-width: 2px;
+  padding-left: 18px;
 }
 
 .opt[data-state='idle'] .opt__text,
@@ -506,10 +552,6 @@
   font-size: 1.125rem;
   cursor: pointer;
   transition: background-color 160ms ease-out;
-}
-
-.next:hover {
-  background: var(--wine-deep);
 }
 
 /* ─── Итог ─── */
@@ -1152,12 +1194,6 @@
   transition: background-color 160ms ease-out;
 }
 
-.warm__check:hover:not(:disabled),
-.match__check:hover:not(:disabled),
-.match__again:hover {
-  background: var(--wine-deep);
-}
-
 .match__check:disabled {
   background: transparent;
   color: var(--ink-soft);
@@ -1660,9 +1696,17 @@
   color: var(--gold-text);
 }
 
-/* Портрета на узком экране нет: он был на обложке двумя экранами выше. */
+/* Единственный снимок героя. Подложка вырезана, поэтому ни рамки, ни
+   заливки: коллаж стоит прямо на бумаге страницы. */
 .orbit__photo {
-  display: none;
+  margin: 26px auto 8px;
+  width: min(78vw, 360px);
+}
+
+.orbit__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 /* Появление по одной. Прячет строки только data-armed, который ставит
@@ -1686,22 +1730,18 @@
      его кругом, пока страница прокручивается. */
   .orbit {
     display: grid;
-    grid-template-columns: 1fr minmax(260px, 360px) 1fr;
-    column-gap: 48px;
+    grid-template-columns: 1fr minmax(300px, 420px) 1fr;
+    column-gap: 44px;
     align-items: start;
   }
 
   .orbit__photo {
-    display: block;
     grid-column: 2;
     grid-row: 1 / -1;
     position: sticky;
-    top: 92px;
-  }
-
-  .orbit__photo img {
+    top: 84px;
+    margin: 0;
     width: 100%;
-    height: auto;
   }
 
   .orbit__rows {
@@ -1762,14 +1802,6 @@
   color: var(--ink);
 }
 
-.ds-quote::before {
-  content: '«';
-}
-
-.ds-quote::after {
-  content: '»';
-}
-
 .ds-ch {
   margin: 7px 0 0;
   padding-left: 15px;
@@ -1810,10 +1842,6 @@
   font-family: var(--display);
   font-size: 1.0625rem;
   transition: background-color 160ms ease-out;
-}
-
-.ds-go:hover {
-  background: var(--wine-deep);
 }
 
 .ds-go__n {
@@ -1913,10 +1941,6 @@
   font-size: 1.0625rem;
 }
 
-.pick__gate-go:hover {
-  background: var(--wine-deep);
-}
-
 /* ─── Сюжетный чек: прогон ─── */
 
 .run {
@@ -1957,16 +1981,15 @@
   gap: 15px;
 }
 
-/* Снимок в волосок, как карточка в картотеке. Рваного края здесь нет
-   намеренно: на 68 px его зубцы превращаются в грязь по контуру. */
+/* Портрет с вырезанной подложкой: коллаж стоит прямо на бумаге страницы,
+   без своей кремовой плашки, — поэтому ни рамки, ни кадрирования. */
 .run__face {
   flex: none;
-  width: 68px;
-  height: 68px;
-  margin-top: 20px;
-  object-fit: cover;
-  object-position: center 18%;
-  border: 1px solid var(--hair);
+  width: 84px;
+  height: 92px;
+  margin-top: 14px;
+  object-fit: contain;
+  object-position: center top;
 }
 
 .run__hero {
@@ -2219,15 +2242,18 @@ body:not([data-screen='title']) .hdr {
 
 /* ─── Главный экран ─── */
 
+/* Кадр занимает экран целиком: белой полосы под ним быть не должно.
+   svh, а не vh: на телефоне vh считается по экрану БЕЗ адресной строки,
+   и кадр оказывался выше вьюпорта. */
 .cine {
-  min-height: min(88vh, 900px);
+  min-height: 100svh;
 }
 
 .hero {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: min(88vh, 900px);
+  min-height: 100svh;
   padding: 34px 24px 40px;
   max-width: 1400px;
   margin-inline: auto;
@@ -2276,10 +2302,6 @@ body:not([data-screen='title']) .hdr {
   font-family: var(--display);
   font-size: 1.125rem;
   transition: background-color 160ms ease-out;
-}
-
-.hero__cta:hover {
-  background: var(--wine-deep);
 }
 
 .hero__cta-arrow {
@@ -2444,11 +2466,11 @@ body:not([data-screen='title']) .hdr {
 @media (max-width: 620px) {
   .hero {
     padding: 26px 16px 32px;
-    min-height: min(84vh, 760px);
+    min-height: 100svh;
   }
 
   .cine {
-    min-height: min(84vh, 760px);
+    min-height: 100svh;
   }
 
   .hero__quote {
@@ -2524,11 +2546,15 @@ body:not([data-screen='title']) .hdr {
   box-shadow: 0 18px 46px -26px rgba(35, 27, 24, 0.5);
 }
 
+/* contain, а не cover: у коллажа рваный край, его нельзя обрезать рамкой
+   карточки. Сверху, чтобы внизу осталось место подписи. */
 .deck__img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center 22%;
+  object-fit: contain;
+  object-position: center top;
+  padding: 10px 10px 0;
+  box-sizing: border-box;
   user-select: none;
 }
 
@@ -2541,7 +2567,9 @@ body:not([data-screen='title']) .hdr {
   gap: 3px;
   padding: 14px 14px 13px;
   text-align: left;
-  background: linear-gradient(to top, rgba(251, 248, 242, 0.97) 58%, rgba(251, 248, 242, 0));
+  /* Подпись лежит на бумаге карточки, а не на снимке, — градиент-подложка
+     под неё больше не нужна. */
+  background: none;
 
   /* Подпись — только у карточки в центре. Соседей колода перекрывает на
      треть ширины, и у них от имени оставалось «…ович Туркин»: обрывок
@@ -2618,11 +2646,6 @@ body:not([data-screen='title']) .hdr {
   font-size: 1.0625rem;
   cursor: pointer;
   transition: background-color 160ms ease-out, color 160ms ease-out;
-}
-
-.deck__arrow:hover {
-  background: var(--wine);
-  color: var(--ivory);
 }
 
 .deck__counter {
@@ -2732,10 +2755,6 @@ body:not([data-screen='title']) .hdr {
   transition: background-color 160ms ease-out;
 }
 
-.deck__open:hover {
-  background: var(--wine-deep);
-}
-
 .deck__open-arrow {
   font-family: var(--micro);
   font-size: 1rem;
@@ -2787,82 +2806,57 @@ body:not([data-screen='title']) .hdr {
 
 /* ─── Разворот героя ─── */
 
-.cover {
-  position: relative;
-  display: grid;
-  align-items: center;
-  min-height: min(84vh, 820px);
-  padding: 30px 24px 40px;
+/*
+ * Шапка разворота. Прежде это была обложка на весь экран со вторым снимком
+ * героя справа; снимок остался один — в досье ниже, по центру, — поэтому
+ * здесь только имя и роль. Паспорт перед делом, а не вторая афиша.
+ */
+.spread {
   width: 100%;
-  max-width: 1400px;
+  max-width: 68ch;
   margin-inline: auto;
-  overflow: hidden;
+  padding: 10px 16px 70px;
 }
 
-/* Снимок занимает правые две трети разворота, слева остаётся поле под имя.
-   contain, а не cover: коллаж с рваным краем нельзя кадрировать. */
-.cover__photo {
-  position: absolute;
-  inset: 0 0 0 36%;
-  z-index: 0;
+/* Переопределение стоит СРАЗУ ПОСЛЕ базового правила, а не в общем блоке
+   раскладки выше: одинаковая специфичность, побеждает то, что ниже. */
+@media (min-width: 1000px) {
+  .spread {
+    max-width: 1240px;
+    padding-inline: 24px;
+  }
 }
 
-.cover__photo img {
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: contain;
-  object-position: center;
+.spread__head {
+  padding: 18px 0 30px;
+  border-bottom: 1px solid var(--hair);
 }
 
-/* Слева бумага гасит снимок, чтобы имя читалось поверх него. */
-.cover::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    linear-gradient(to right, var(--ivory) 0%, rgba(244, 238, 227, 0.86) 26%, rgba(244, 238, 227, 0) 62%),
-    linear-gradient(to bottom, rgba(244, 238, 227, 0.8) 0%, rgba(244, 238, 227, 0) 18%),
-    linear-gradient(to top, rgba(244, 238, 227, 0.9) 0%, rgba(244, 238, 227, 0) 24%);
-}
-
-/* 22ch здесь мерились шрифтом текста (16 px), а ограничивали заголовок в
-   54 px — отсюда имя было шире своего блока на 21–76 px у всех шести героев.
-   Теперь ширину колонки задаёт доля разворота, а меру имени — его
-   собственный шрифт, ниже. Правый край снимка начинается с 36 %. */
-.cover__text {
-  position: relative;
-  z-index: 2;
-  max-width: min(46ch, 52%);
-}
-
-.cover__badge {
+.spread__badge {
   display: grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
-  margin-bottom: 22px;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 18px;
   border: 1px solid var(--gold);
   font-family: var(--display);
-  font-size: 1.25rem;
+  font-size: 1.1875rem;
   color: var(--gold-text);
 }
 
-.cover__label {
-  margin: 0 0 10px;
+.spread__label {
+  margin: 0 0 8px;
   font-family: var(--micro);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--ink-soft);
 }
 
-.cover__name {
+.spread__name {
   margin: 0;
-  max-width: 14ch;
+  max-width: 16ch;
   font-family: var(--display);
   font-weight: 400;
   font-size: clamp(2.25rem, 7vw, 3.4rem);
@@ -2872,24 +2866,19 @@ body:not([data-screen='title']) .hdr {
   text-wrap: balance;
 }
 
-.cover__aka {
-  margin: 12px 0 0;
+.spread__aka {
+  margin: 10px 0 0;
   font-family: var(--display);
   font-style: italic;
   font-size: 1.25rem;
   color: var(--wine);
 }
 
-/* Подчёркивание — text-decoration, а не рамка снизу: зона нажатия высотой
-   48 px увела бы рамку на низ бокса, далеко от самих слов. */
-.cover__back {
-  position: absolute;
-  z-index: 2;
-  left: 24px;
-  bottom: 17px;
+.spread__back {
   display: inline-flex;
   align-items: center;
   min-height: 48px;
+  margin-top: 8px;
   font-family: var(--micro);
   font-size: 0.6875rem;
   font-weight: 500;
@@ -2901,25 +2890,13 @@ body:not([data-screen='title']) .hdr {
   text-underline-offset: 4px;
 }
 
-.cover__back:hover {
+.spread__back:hover {
   color: var(--wine);
   text-decoration-color: var(--gold);
 }
 
-.sheetdoc {
-  width: 100%;
-  max-width: 68ch;
-  margin-inline: auto;
-  padding: 10px 12px 70px;
-}
-
-/* На широком экране разворот раскрывается на три колонки вокруг портрета,
-   поэтому он шире обычной колонки текста. */
-@media (min-width: 1000px) {
-  .sheetdoc {
-    max-width: 1240px;
-    padding-inline: 24px;
-  }
+.spread__foot {
+  margin-top: 10px;
 }
 
 .sheetdoc__nav {
@@ -2964,46 +2941,6 @@ body:not([data-screen='title']) .hdr {
 @media (min-width: 620px) {
   .sheetdoc__nav {
     grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 760px) {
-  .cover {
-    min-height: auto;
-    padding: 20px 16px 28px;
-    /* minmax(0, 1fr) обязателен: иначе колонка растягивается под
-       натуральную ширину снимка и страница едет вбок. */
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto;
-    gap: 22px;
-  }
-
-  .cover__photo {
-    position: relative;
-    inset: auto;
-    height: 46vh;
-  }
-
-  .cover__photo img {
-    transform: none;
-    height: 100%;
-    max-width: 100%;
-    width: auto;
-  }
-
-  .cover::before {
-    background: linear-gradient(to bottom, rgba(244, 238, 227, 0) 52%, var(--ivory) 88%);
-  }
-
-  .cover__text,
-  .cover__name {
-    max-width: none;
-  }
-
-  .cover__back {
-    position: static;
-    justify-self: start;
-    margin-top: 6px;
   }
 }
 
@@ -3146,94 +3083,66 @@ body:not([data-screen='title']) .hdr {
   text-transform: uppercase;
 }
 
-/* ─── Заглавие: две половины сходятся в слово ─── */
+/* ─── Заглавие: контур прочерчивается, потом заливается ─── */
 
 .ht {
   margin: 0;
-  text-align: center;
+  display: flex;
+  justify-content: center;
   line-height: 1;
 }
 
-.ht__stage {
-  position: relative;
-  display: inline-block;
-  color: var(--wine-deep);
-}
-
-.ht__half {
+/* Размер задаёт ширина SVG, внутри всё в единицах viewBox — значит одна
+   анимация на все экраны и никакого пересчёта штриха под брейкпоинт. */
+.ht__svg {
   display: block;
-  font-family: 'Prata', 'Playfair Display', Georgia, serif;
-  font-weight: 400;
-  font-size: clamp(4.5rem, 17vw, 12rem);
-  line-height: 0.92;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-  text-shadow: 0 2px 30px rgba(244, 238, 227, 0.55);
-}
-
-/* Обе половины — один и тот же бокс, поэтому шов не виден. */
-.ht__half--l {
-  clip-path: inset(0 50% 0 0);
-  animation: ht-left 1100ms cubic-bezier(0.19, 0.9, 0.22, 1) both;
-}
-
-.ht__half--r {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  clip-path: inset(0 0 0 50%);
-  animation: ht-right 1100ms cubic-bezier(0.19, 0.9, 0.22, 1) both;
-}
-
-@keyframes ht-left {
-  from {
-    transform: translate3d(-26%, 0, 0);
-    opacity: 0;
-  }
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-
-@keyframes ht-right {
-  from {
-    transform: translate3d(26%, 0, 0);
-    opacity: 0;
-  }
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-
-/* Росчерки прочерчиваются после того, как слово сошлось. */
-.ht__flourish {
-  position: absolute;
-  left: -6%;
-  top: -12%;
-  width: 112%;
-  height: 128%;
-  pointer-events: none;
-  color: var(--wine);
-  opacity: 0.66;
+  width: min(92vw, 860px);
+  height: auto;
+  /* viewBox обрезан по слову, а росчерк из него выходит — ему нужно наружу. */
   overflow: visible;
+  color: var(--wine);
 }
 
-.ht__stroke {
-  stroke-dasharray: 1400;
-  stroke-dashoffset: 1400;
-  animation: ht-draw 1500ms cubic-bezier(0.32, 0.72, 0.3, 1) both;
+.ht__text {
+  font-family: 'Prata', 'Playfair Display', Georgia, serif;
+  font-size: 200px;
+  letter-spacing: -0.01em;
+  text-anchor: middle;
 }
 
-.ht__stroke--a {
-  animation-delay: 780ms;
+.ht__text--draw {
+  fill: none;
+  stroke: var(--wine-deep);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: var(--ht-dash) var(--ht-dash);
+  stroke-dashoffset: var(--ht-dash);
+  animation: ht-draw 1900ms cubic-bezier(0.34, 0.68, 0.28, 1) 140ms both;
 }
 
-.ht__stroke--b {
-  animation-delay: 1000ms;
-  opacity: 0.62;
+/* Перо. Прямоугольник с размытым правым краем уезжает вправо на ширину
+   слова — по одному расписанию с прорисовкой контура. */
+.ht__wipe {
+  animation: ht-wipe 1900ms cubic-bezier(0.34, 0.68, 0.28, 1) 140ms both;
+}
+
+@keyframes ht-wipe {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(950px);
+  }
+}
+
+/* Заливка догоняет контур к концу прорисовки: раньше — и рисовать было бы
+   нечего, позже — слово успело бы показаться пустым. */
+.ht__text--ink {
+  fill: var(--wine-deep);
+  stroke: none;
+  opacity: 0;
+  animation: ht-ink 800ms ease-out 1620ms both;
 }
 
 @keyframes ht-draw {
@@ -3242,64 +3151,49 @@ body:not([data-screen='title']) .hdr {
   }
 }
 
-/* ─── Цитата в блоке «Зачем это» ─── */
-
-.why__quote {
-  margin: 34px 0 0;
-  padding-left: 16px;
-  border-left: 1px solid var(--gold);
-  max-width: 52ch;
+@keyframes ht-ink {
+  to {
+    opacity: 1;
+  }
 }
 
-.why__quote blockquote {
-  margin: 0;
-  font-family: var(--display);
-  font-style: italic;
-  font-size: 1.125rem;
-  line-height: 1.5;
-  color: var(--ink);
+/* Росчерк идёт последним — как подпись под уже написанным. */
+.ht__flourish {
+  color: var(--wine);
+  opacity: 0.62;
 }
 
-.why__quote blockquote::before {
-  content: '«';
+.ht__stroke {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: ht-draw 1400ms cubic-bezier(0.32, 0.72, 0.3, 1) both;
 }
 
-.why__quote blockquote::after {
-  content: '»';
+.ht__stroke--a {
+  animation-delay: 1900ms;
 }
 
-.why__quote figcaption {
-  margin-top: 12px;
-  display: grid;
-  gap: 3px;
-}
-
-.why__quote-who {
-  font-family: var(--micro);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
-.why__quote-src {
-  font-family: var(--micro);
-  font-size: 0.625rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
+.ht__stroke--b {
+  animation-delay: 2180ms;
+  opacity: 0.6;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ht__half--l,
-  .ht__half--r,
+  /* Ни прорисовки, ни проявления: сразу готовое слово. */
+  .ht__text--draw,
   .ht__stroke {
     animation: none !important;
+    stroke-dashoffset: 0;
   }
 
-  .ht__stroke {
-    stroke-dashoffset: 0;
+  .ht__wipe {
+    animation: none !important;
+    transform: translateX(950px);
+  }
+
+  .ht__text--ink {
+    animation: none !important;
+    opacity: 1;
   }
 }
 
@@ -3397,10 +3291,6 @@ body:not([data-screen='title']) .hdr {
   font-size: 1.0625rem;
   text-decoration: none;
   transition: background-color 160ms ease-out;
-}
-
-.nf__home:hover {
-  background: var(--wine-deep);
 }
 
 /* ─── Пятно под курсором ─── */
@@ -3505,5 +3395,190 @@ body:not([data-screen='title']) .hdr {
     background-image: none;
     color: var(--wine-deep);
     animation: none;
+  }
+}
+
+/* ─── Наведение на кнопки: чернила наливаются от левого края ─── */
+
+/*
+ * Одно движение на все кнопки. Прежде это было «фон чуть потемнел» — на
+ * наведение так реагирует любая ссылка в интернете, и в мире картотеки это
+ * ничего не значит. Теперь заливка входит слева, как чернила в бумагу, и
+ * уходит обратно влево, когда курсор ушёл. Рамок и обводок здесь нет
+ * намеренно: рамка кнопки рядом с рукописным овалом читалась как две рамки
+ * одновременно — с этого и началась правка.
+ *
+ * Сделано на background-position, а не на вложенном слое: иначе подпись
+ * каждой кнопки пришлось бы оборачивать в span, чтобы она не ушла под
+ * заливку. Перерисовка тут дешёвая — площадь кнопки, один раз на наведение.
+ */
+.hero__cta,
+.ds-go,
+.deck__open,
+.pick__gate-go,
+.nf__home,
+.next,
+.done__again,
+.warm__check,
+.match__check,
+.match__again,
+.deck__arrow {
+  background-color: var(--wine);
+  /* Край налива размыт на 7 %: резкая вертикаль читалась как шов. */
+  background-image: linear-gradient(
+    to right,
+    var(--wine-deep) 0 46%,
+    rgba(63, 14, 20, 0) 53%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  transition: background-position 480ms cubic-bezier(0.2, 0.74, 0.22, 1),
+    color 240ms ease-out;
+}
+
+/* Стрелки веера стоят на бумаге, а не на вине: у них наливается сам цвет. */
+.deck__arrow {
+  background-color: transparent;
+  background-image: linear-gradient(to right, var(--wine) 0 46%, rgba(107, 27, 36, 0) 53%);
+}
+
+.hero__cta-arrow,
+.deck__open-arrow {
+  display: inline-block;
+  transition: transform 480ms cubic-bezier(0.2, 0.74, 0.22, 1);
+}
+
+@media (hover: hover) {
+  .hero__cta:hover,
+  .ds-go:hover,
+  .deck__open:hover,
+  .pick__gate-go:hover,
+  .nf__home:hover,
+  .next:hover,
+  .done__again:hover,
+  .warm__check:hover:not(:disabled),
+  .match__check:hover:not(:disabled),
+  .match__again:hover,
+  .deck__arrow:hover {
+    background-position: 0 0;
+  }
+
+  .deck__arrow:hover {
+    color: var(--ivory);
+  }
+
+  /* Стрелка уезжает вперёд — движение вслед за наливом, а не вместе с ним. */
+  .hero__cta:hover .hero__cta-arrow,
+  .deck__open:hover .deck__open-arrow {
+    transform: translateX(7px);
+  }
+}
+
+/* Нажатие: чернила уже внутри, кнопка проседает на волосок. */
+.hero__cta:active,
+.ds-go:active,
+.deck__open:active,
+.pick__gate-go:active,
+.nf__home:active,
+.next:active,
+.done__again:active,
+.warm__check:active:not(:disabled),
+.match__check:active:not(:disabled),
+.match__again:active,
+.deck__arrow:active {
+  background-position: 0 0;
+  transform: translateY(1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__cta,
+  .ds-go,
+  .deck__open,
+  .pick__gate-go,
+  .nf__home,
+  .next,
+  .done__again,
+  .warm__check,
+  .match__check,
+  .match__again,
+  .deck__arrow,
+  .hero__cta-arrow,
+  .deck__open-arrow {
+    transition: none;
+  }
+
+  /* Без движения налив бессмыслен — остаётся просто более тёмный фон. */
+  @media (hover: hover) {
+    .hero__cta:hover,
+    .ds-go:hover,
+    .deck__open:hover,
+    .pick__gate-go:hover,
+    .nf__home:hover,
+    .next:hover,
+    .done__again:hover,
+    .warm__check:hover:not(:disabled),
+    .match__check:hover:not(:disabled),
+    .match__again:hover {
+      background-color: var(--wine-deep);
+    }
+  }
+}
+
+/* ─── Перекат текста ─── */
+
+/*
+ * Кусок текста поворачивается по оси X с перспективой, как строка на
+ * механическом табло. Разбивку на куски делает RollText.astro на сборке;
+ * здесь только движение.
+ *
+ * Скрытие включает ТОЛЬКО data-armed, который ставит скрипт: страница без
+ * скрипта обязана показывать цитаты, а не пустое место.
+ */
+/* Слово — неразрывный кусок. Без этого буквы-inline-block позволяют
+   браузеру перенести строку посреди слова. */
+.roll-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.roll {
+  display: inline-block;
+}
+
+.orbit[data-armed] .roll-word {
+  /* Обёртка не анимируется — она только держит слово вместе. */
+  opacity: 1;
+}
+
+.orbit[data-armed] .roll {
+  opacity: 0;
+  transform: perspective(700px) rotateX(-88deg) translateY(0.22em);
+  transform-origin: 50% 90%;
+}
+
+.orbit[data-armed] .orbit__row[data-in='true'] .roll {
+  opacity: 1;
+  transform: none;
+  transition: opacity 420ms ease-out, transform 560ms cubic-bezier(0.22, 1.1, 0.36, 1);
+  /* Такт переката. Подписи набраны по буквам — им шаг мельче, чтобы строка
+     не перекатывалась дольше самой цитаты. */
+  transition-delay: calc(var(--r) * 32ms);
+}
+
+.orbit[data-armed] .orbit__key .roll {
+  transform-origin: 50% 100%;
+}
+
+.orbit[data-armed] .orbit__row[data-in='true'] .orbit__key .roll {
+  transition-delay: calc(var(--r) * 22ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit[data-armed] .roll,
+  .orbit[data-armed] .orbit__row[data-in='true'] .roll {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

@@ -20,7 +20,9 @@
 
 const PREVIEW = import.meta.env.PUBLIC_PREVIEW === '1';
 
-const ROOT = import.meta.env.DEV ? '/' : new URL('../', import.meta.url).href;
+// @vite-ignore — адрес и должен разрешаться в браузере, а не на сборке:
+// в этом весь смысл, иначе корень был бы зашит в бандл.
+const ROOT = import.meta.env.DEV ? '/' : new URL(/* @vite-ignore */ '../', import.meta.url).href;
 
 export function to(path) {
   if (!PREVIEW) return `/${path}`;
