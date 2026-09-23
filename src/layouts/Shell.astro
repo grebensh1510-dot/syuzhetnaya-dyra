@@ -4,8 +4,23 @@ import '../styles/base.css';
 import '../styles/world.css';
 import '../styles/cinematic.css';
 
-const { title, screen = '' } = Astro.props;
+const { title, screen = '', description } = Astro.props;
 const pageTitle = `${title} — Сюжетная дыра`;
+
+// Описание собрано из продуктовой правды (@PRODUCT.md), а не сочинено под SEO.
+const desc =
+  description ||
+  'Тренажёр задания №2 ЕГЭ по литературе на материале «Ионыча» Чехова: досье героев, сюжетный чек и тест-дыра. Цитаты с главой и говорящим.';
+
+/*
+ * Абсолютный адрес нужен только карточке ссылки: мессенджеры и соцсети не
+ * умеют относительные пути в og:image. Astro.site задаётся в astro.config,
+ * и пока он не задан, карточка просто не подставится — страница от этого не
+ * ломается.
+ */
+const origin = Astro.site ? Astro.site.origin : '';
+const shareImage = origin ? `${origin}/brand/share.jpg` : '';
+const canonical = origin ? new URL(Astro.url.pathname, origin).href : '';
 ---
 
 <!doctype html>
@@ -14,8 +29,41 @@ const pageTitle = `${title} — Сюжетная дыра`;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{pageTitle}</title>
+    <meta name="description" content={desc} />
+
+    {/*
+      noindex оставлен намеренно. Формат задания №2 пока опирается на файлы
+      заказчика, а не на сверенную демоверсию ФИПИ (см. «Открытые вопросы» в
+      STRUCTURE.md) — до сверки звать поисковый трафик рано. Прямая ссылка
+      при этом работает у любого: noindex закрывает только поиск.
+      Убрать — одна строка.
+    */}
     <meta name="robots" content="noindex" />
+
     <link rel="icon" href="/brand/logo-mark.png" type="image/png" />
+    {canonical && <link rel="canonical" href={canonical} />}
+
+    {/* Карточка ссылки: без этого в мессенджере видно голый адрес. */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Сюжетная дыра" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={desc} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {
+      shareImage && (
+        <>
+          <meta property="og:image" content={shareImage} />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content="Сюжетная дыра — тренажёр задания №2 ЕГЭ по литературе" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:image" content={shareImage} />
+        </>
+      )
+    }
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={desc} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

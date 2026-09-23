@@ -8,7 +8,20 @@ import { defineConfig } from 'astro/config';
 // scripts/build-preview.mjs.
 const preview = process.env.PUBLIC_PREVIEW === '1';
 
+/*
+ * Адрес сайта нужен ровно для одного: карточки ссылки. og:image обязан быть
+ * абсолютным — мессенджеры и соцсети относительный путь не подхватят.
+ *
+ * Берётся из переменной окружения, а не зашит: на хостинге он один, в
+ * предпросмотре другой, локально его нет вовсе. Пока переменной нет, Shell
+ * просто не выводит теги карточки — страница от этого не ломается.
+ *
+ * На Cloudflare Pages задаётся в Settings → Variables: SITE_URL.
+ */
+const site = process.env.SITE_URL || undefined;
+
 export default defineConfig({
+  site,
   server: { port: 4321 },
   devToolbar: { enabled: false },
   build: {
