@@ -1,0 +1,52 @@
+---
+/*
+ * Плашка «что разобрать следующим».
+ *
+ * Стоит там, где человек только что закончил — это момент наибольшей
+ * заинтересованности, и спрашивать имеет смысл именно здесь, а не на главной.
+ *
+ * Голос НЕ собирает личных данных: нажатие уходит целью в Метрику, и всё.
+ * Отсюда получается рейтинг произведений без единого адреса, без согласий и
+ * без ответственности за чужие данные. Контакт — отдельная кнопка на внешнюю
+ * форму, и только для тех, кто сам захочет.
+ */
+import { nextWorks, waitlistUrl } from '../data/next-works.js';
+
+const { heading = 'Что разобрать следующим?' } = Astro.props;
+---
+
+<section class="nw" data-next-work hidden>
+  <p class="nw__lead">{heading}</p>
+  <p class="nw__sub">
+    Один голос. Разберём то, что наберёт больше — так же подробно, как «Ионыча».
+  </p>
+
+  <ul class="nw__list">
+    {
+      nextWorks.map((w) => (
+        <li>
+          <button class="nw__item" type="button" data-work={w.id}>
+            <span class="nw__title">{w.title}</span>
+            <span class="nw__meta">
+              {w.author} · {w.kind}
+            </span>
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="nw__thanks" data-nw-thanks hidden>
+    Голос учтён: <span data-nw-chosen></span>. Спасибо — это правда помогает
+    выбрать.
+  </p>
+
+  {
+    waitlistUrl && (
+      <a class="nw__mail" href={waitlistUrl} target="_blank" rel="noopener" data-nw-mail hidden>
+        Написать мне, когда выйдет
+        <span aria-hidden="true">→</span>
+      </a>
+    )
+  }
+</section>

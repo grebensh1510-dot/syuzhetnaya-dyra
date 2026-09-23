@@ -4,6 +4,7 @@
 
 import { readDone, markDone, allDone } from './progress.js';
 import { goal, goalOnce } from './metrika.js';
+import { revealNextWork } from './next-work.js';
 import { to } from './paths.js';
 
 const ORDER = ['ivan', 'vera', 'kotik', 'starcev', 'sluga', 'final'];
@@ -50,6 +51,7 @@ export function mountCheck() {
     if (!left.length) {
       text.textContent = 'Все герои закрыты. Тест-дыра открыта.';
       go.hidden = false;
+      revealNextWork();
     } else {
       const names = left.map((id) => NAMES[id]).join(', ');
       text.textContent =

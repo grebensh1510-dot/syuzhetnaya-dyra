@@ -1,6 +1,7 @@
 ---
 import Shell from '../../layouts/Shell.astro';
 import Header from '../../components/Header.astro';
+import NextWork from '../../components/NextWork.astro';
 import { warmup, matching, taskFormat } from '../../data/ionych.js';
 
 const task = matching[0];
@@ -130,6 +131,10 @@ const task = matching[0];
           }
         </div>
         <button class="match__again" type="button">Пройти заново</button>
+
+        {/* Момент наибольшей заинтересованности: человек только что дошёл
+            до конца «Ионыча». Здесь и спрашиваем, что дальше. */}
+        <NextWork heading="«Ионыч» пройден. Что разобрать следующим?" />
       </div>
     </section>
   </main>
@@ -140,9 +145,11 @@ const task = matching[0];
 
   <script>
     import { mountDyra } from '../../scripts/dyra.js';
+    import { mountNextWork } from '../../scripts/next-work.js';
     
     document.addEventListener('astro:page-load', () => {
       mountDyra();
+      mountNextWork();
     });
   </script>
 </Shell>

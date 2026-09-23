@@ -1,6 +1,7 @@
 ---
 import Shell from '../../layouts/Shell.astro';
 import Header from '../../components/Header.astro';
+import NextWork from '../../components/NextWork.astro';
 import { heroes, heroById, checks, checkOrder, finalCheck, plural } from '../../data/ionych.js';
 
 const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id] }));
@@ -51,6 +52,9 @@ const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id
         <a class="pick__gate-go" href="/ionych/dyra/" data-petal-link data-gate-go hidden>
           Открыть тест-дыру № 2
         </a>
+
+        {/* Все герои закрыты — тоже конец пути по «Ионычу». */}
+        <NextWork />
       </div>
     </section>
 
@@ -132,10 +136,12 @@ const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id
   <script>
     import { mountCheck } from '../../scripts/check.js';
     import { mountGlow } from '../../scripts/glow.js';
+    import { mountNextWork } from '../../scripts/next-work.js';
 
     document.addEventListener('astro:page-load', () => {
       mountCheck();
       mountGlow('.check', '.opt, .pick__row');
+      mountNextWork();
     });
   </script>
 </Shell>
