@@ -3,6 +3,7 @@
 // из досье ведёт прямо в его блок.
 
 import { readDone, markDone, allDone } from './progress.js';
+import { goal, goalOnce } from './metrika.js';
 import { to } from './paths.js';
 
 const ORDER = ['ivan', 'vera', 'kotik', 'starcev', 'sluga', 'final'];
@@ -69,6 +70,11 @@ function mountRun(root) {
   const nextBtn = root.querySelector('.next');
   const counter = root.querySelector('[data-counter]');
   const roman = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+
+  // Прогон открылся — значит первый вопрос человек увидел. Это вторая
+  // ступень воронки: если сюда доходит меньше половины зашедших, дело в
+  // первом экране, а не в спросе.
+  goal('first-question');
 
   let index = 0;
   let score = 0;
@@ -143,6 +149,10 @@ function mountRun(root) {
   }
 
   function finish() {
+    // «Закрыл героя» — главное число воронки. Один раз на человека, а не на
+    // каждый повторный проход: интересен факт, а не счётчик повторов.
+    goalOnce('hero-closed');
+
     sections[index].hidden = true;
     foot.hidden = true;
     done.hidden = false;

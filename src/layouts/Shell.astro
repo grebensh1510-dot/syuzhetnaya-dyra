@@ -84,10 +84,14 @@ const canonical = origin ? new URL(Astro.url.pathname, origin).href : '';
 
     <script>
       import { mountSlideNav } from '../scripts/nav.js';
+      import { mountMetrika } from '../scripts/metrika.js';
 
       // astro:page-load срабатывает и на первой загрузке, и после каждого
       // перехода — модульный скрипт сам по себе второй раз не выполнится.
       document.addEventListener('astro:page-load', () => {
+        // Счётчик поднимается на каждой странице: цели ставятся в чеке и в
+        // тест-дыре, и без него они просто не отправятся.
+        mountMetrika();
         mountSlideNav();
       });
     </script>

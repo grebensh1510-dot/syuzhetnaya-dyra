@@ -5,6 +5,7 @@
 
 import { readDone } from './progress.js';
 import { to } from './paths.js';
+import { goal } from './metrika.js';
 
 const ORDER = ['ivan', 'vera', 'kotik', 'starcev', 'sluga', 'final'];
 
@@ -216,6 +217,7 @@ function mountMatching() {
     const extraLabel = task.right.find((r) => r.key === task.extra)?.label || '';
     root.querySelector('[data-extra-text]').textContent = `${task.extra} · ${extraLabel}`;
 
+    goal('task-done');
     verdict.hidden = false;
     verdict.dataset.state = allRight ? 'right' : 'wrong';
     verdict.querySelector('.verdict__word').textContent = allRight ? 'Всё верно' : 'Есть ошибки';

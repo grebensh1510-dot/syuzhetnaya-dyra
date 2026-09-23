@@ -1,0 +1,84 @@
+// Счётчик и цели воронки.
+//
+// Зачем вообще: без этого не видно, доходит ли кто-нибудь до конца. Прогресс
+// лежит в localStorage и никуда не отправляется, то есть продукт работает
+// вслепую.
+//
+// Почему Метрика, а не Cloudflare Web Analytics: последняя считает только
+// просмотры страниц. Главное число — «закрыл хотя бы одного героя» — это
+// событие ВНУТРИ страницы, адрес при нём не меняется, и просмотрами его не
+// поймать. Метрика умеет цели, бесплатна и не лимитирована.
+//
+// Номер счётчика приходит переменной окружения, а не зашит: у предпросмотра
+// и у живого сайта он разный, а локально его нет вовсе. Пока переменной нет,
+// счётчик не грузится совсем — ни запроса, ни cookies. Это важно: на своей
+// машине и в предпросмотре статистику портить нечем.
+
+const ID = import.meta.env.PUBLIC_METRIKA_ID;
+
+let ready = false;
+
+export function mountMetrika() {
+  if (!ID || ready || typeof window === 'undefined') return;
+  if (window.ym) {
+    ready = true;
+    return;
+  }
+  ready = true;
+
+  // Код счётчика в том виде, в каком его отдаёт Яндекс, но без document.write
+  // и с defer: загрузка счётчика не должна задерживать первый экран.
+  window.ym =
+    window.ym ||
+    function (...args) {
+      (window.ym.a = window.ym.a || []).push(args);
+    };
+  window.ym.l = Number(new Date());
+
+  const s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://mc.yandex.ru/metrika/tag.js';
+  document.head.appendChild(s);
+
+  window.ym(ID, 'init', {
+    // clickmap и webvisor не включаю: они пишут поведение подробно, а нам
+    // нужны четыре числа, и лишние данные о школьниках собирать незачем.
+    clickmap: false,
+    trackLinks: true,
+    accurateTrackBounce: true,
+    webvisor: false,
+  });
+}
+
+/*
+ * Цель. Имена короткие и постоянные — по ним потом строится воронка в
+ * Метрике, и переименование обнулит накопленное.
+ *
+ *   start-training  нажал «Начать тренировку» на главной
+ *   first-question  увидел первый вопрос чека
+ *   hero-closed     закрыл героя целиком          ← главное число
+ *   task-done       дошёл до разбора сопоставления
+ *   next-work-sent  оставил заявку на следующее произведение
+ */
+export function goal(name) {
+  if (!ID || typeof window === 'undefined' || !window.ym) return;
+  window.ym(ID, 'reachGoal', name);
+}
+
+/*
+ * Цель, которая должна сработать один раз на человека, а не на каждый визит:
+ * «закрыл героя» интересен как факт, а не как счётчик повторов. Отметка
+ * лежит рядом с прогрессом, в localStorage, и переживает перезагрузку.
+ */
+export function goalOnce(name) {
+  if (!ID) return;
+  const key = `goal:${name}`;
+  try {
+    if (localStorage.getItem(key)) return;
+    localStorage.setItem(key, '1');
+  } catch {
+    // Приватный режим или заблокированное хранилище: цель отправим как есть,
+    // дубль в статистике лучше, чем потерянное событие.
+  }
+  goal(name);
+}

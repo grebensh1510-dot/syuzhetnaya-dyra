@@ -98,12 +98,18 @@ const cast = [{ ...family, anchor: 'turkiny' }, ...heroes.map((h) => ({ ...h, an
 
   <script>
     import { mountTitleScene, armSceneLinks } from '../scripts/petals.js';
+    import { goal } from '../scripts/metrika.js';
     // Лепестки живут только на этом экране: здесь они играют фоном, и отсюда
     // переход в тренажёр — настоящая смена сцены (§6.3, §8). На страницах
     // заданий движок не грузится вовсе.
     document.addEventListener('astro:page-load', () => {
       mountTitleScene({ count: window.innerWidth < 760 ? 6 : 10 });
       armSceneLinks();
+
+      // Нажатие на главную кнопку — вершина воронки.
+      document
+        .querySelector('.hero__cta')
+        ?.addEventListener('click', () => goal('start-training'));
     });
   </script>
 </Shell>
