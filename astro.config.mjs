@@ -20,6 +20,19 @@ const preview = process.env.PUBLIC_PREVIEW === '1';
  */
 const site = process.env.SITE_URL || undefined;
 
+/*
+ * Номер счётчика Метрики.
+ *
+ * Лежит в репозитории, а не только в переменной панели, намеренно: проект на
+ * хостинге уже пересоздавался, и вместе с ним терялись переменные — а с ними
+ * тихо умерла бы и статистика. Секрета тут нет: номер счётчика виден в коде
+ * каждой страницы, он публичный по устройству.
+ *
+ * Переменная окружения всё равно имеет приоритет — на случай второго
+ * счётчика для отдельного стенда.
+ */
+const metrikaId = process.env.PUBLIC_METRIKA_ID || '112961250';
+
 export default defineConfig({
   site,
   server: { port: 4321 },
@@ -33,6 +46,9 @@ export default defineConfig({
     assets: preview ? 'astro' : '_astro',
   },
   vite: {
+    define: {
+      'import.meta.env.PUBLIC_METRIKA_ID': JSON.stringify(metrikaId),
+    },
     build: {
       // three.js весит своё; предупреждение о размере чанка тут не новость.
       chunkSizeWarningLimit: 900,
