@@ -34,7 +34,15 @@ const dash = ink || Math.round(glyphs.length * 137 * 1.49);
 const uid = `ht-${Math.random().toString(36).slice(2, 9)}`;
 ---
 
-<h1 class="ht" style={`--ht-dash: ${dash}`}>
+{/*
+  data-ht и data-ht-text — зацепки для title-particles.js. Он подменяет
+  нарисованное слово холстом с частицами, но только при точном указателе:
+  эффект курсорный, а на телефоне касание заглавия — это начало прокрутки.
+  SVG остаётся в разметке всегда и показывается сам, если скрипт не встал.
+*/}
+<h1 class="ht" style={`--ht-dash: ${dash}`} data-ht data-ht-text={glyphs}>
+  <canvas class="ht__canvas" aria-hidden="true"></canvas>
+
   <svg
     class="ht__svg"
     viewBox="150 -10 700 195"

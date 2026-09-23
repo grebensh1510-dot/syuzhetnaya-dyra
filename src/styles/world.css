@@ -3086,10 +3086,32 @@ body:not([data-screen='title']) .hdr {
 /* ─── Заглавие: контур прочерчивается, потом заливается ─── */
 
 .ht {
+  position: relative;
   margin: 0;
   display: flex;
   justify-content: center;
   line-height: 1;
+}
+
+/* Холст с частицами лежит точно на SVG-заглавии: его размеры скрипт берёт
+   из бокса этого же SVG, поэтому росчерк остаётся на своём месте. */
+.ht__canvas {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* Пока скрипт не встал, холста нет — и заглавие это нарисованное SVG. */
+.ht:not([data-particles='on']) .ht__canvas {
+  display: none;
+}
+
+/* Скрипт встал: слово отдаётся частицам, а росчерк остаётся SVG — он
+   нарисован от руки и пылью читался бы как грязь. */
+.ht[data-particles='on'] .ht__text {
+  display: none;
 }
 
 /* Размер задаёт ширина SVG, внутри всё в единицах viewBox — значит одна
