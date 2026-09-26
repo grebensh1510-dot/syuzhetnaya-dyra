@@ -3,6 +3,7 @@ import Shell from '../../layouts/Shell.astro';
 import Header from '../../components/Header.astro';
 import NextWork from '../../components/NextWork.astro';
 import { warmup, matching, taskFormat } from '../../data/ionych.js';
+import { to } from '../../scripts/paths.js';
 
 const task = matching[0];
 ---
@@ -123,7 +124,7 @@ const task = matching[0];
           <p class="match__extra-why">{task.extraWhy}</p>
           {
             task.extraHero && (
-              <a class="hero-link" href={`/ionych/dosye/${task.extraHero}/`}>
+              <a class="hero-link" href={to(`ionych/dosye/${task.extraHero}/`)}>
                 <span class="hero-link__t">Посмотреть героя в досье</span>
                 <span aria-hidden="true">→</span>
               </a>

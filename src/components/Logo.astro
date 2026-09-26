@@ -10,18 +10,19 @@
  * Размеры проставлены у обоих, иначе пропорции знака взялись бы от
  * начертания и он прыгал бы при загрузке.
  */
+import { asset } from '../scripts/paths.js';
 ---
 
 <picture class="logo">
   <source
     media="(max-width: 620px)"
-    srcset="/brand/logo-mark.png"
+    srcset={asset('brand/logo-mark.png')}
     width="84"
     height="96"
   />
   <img
     class="logo__img"
-    src="/brand/logo-full.png"
+    src={asset('brand/logo-full.png')}
     alt="Сюжетная дыра"
     width="292"
     height="88"

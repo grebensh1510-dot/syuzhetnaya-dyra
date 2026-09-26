@@ -2,6 +2,7 @@
 import Shell from '../../../layouts/Shell.astro';
 import Header from '../../../components/Header.astro';
 import { family, heroes } from '../../../data/ionych.js';
+import { to, asset } from '../../../scripts/paths.js';
 
 // Семья идёт первой карточкой: она объясняет всех остальных.
 const cards = [
@@ -29,7 +30,7 @@ const cards = [
           cards.map((c, i) => (
             <a
               class="deck__card"
-              href={`/ionych/dosye/${c.photo}/`}
+              href={to(`ionych/dosye/${c.photo}/`)}
               data-hero={c.photo}
               data-i={i}
               aria-label={`Открыть досье: ${c.name}`}
@@ -39,7 +40,7 @@ const cards = [
                   иначе при переходе снимок подменялся бы другим. */}
               <img
                 class="deck__img"
-                src={`/heroes/cut/${c.photo}.webp`}
+                src={asset(`heroes/cut/${c.photo}.webp`)}
                 alt=""
                 width="820"
                 height="1230"
@@ -68,7 +69,7 @@ const cards = [
       </div>
 
       <div class="deck__act">
-        <a class="deck__open" href={`/ionych/dosye/${cards[0].photo}/`} data-deck-open>
+        <a class="deck__open" href={to(`ionych/dosye/${cards[0].photo}/`)} data-deck-open>
           Открыть досье
           <span class="deck__open-arrow" aria-hidden="true">→</span>
         </a>

@@ -2,6 +2,7 @@
 import Shell from '../layouts/Shell.astro';
 import Header from '../components/Header.astro';
 import { sections } from '../data/ionych.js';
+import { to } from '../scripts/paths.js';
 
 // active задан нарочно несуществующим разделом: ни один пункт навигации не
 // помечается активным, а в левом углу встаёт «Главная», а не знак.
@@ -22,7 +23,7 @@ import { sections } from '../data/ionych.js';
       {
         sections.map((s) => (
           <li>
-            <a class="nf__row" href={s.href}>
+            <a class="nf__row" href={to(s.href)}>
               <span class="nf__num">{s.num}</span>
               <span class="nf__name">{s.name}</span>
               <span class="nf__arrow" aria-hidden="true">
@@ -34,6 +35,6 @@ import { sections } from '../data/ionych.js';
       }
     </ul>
 
-    <a class="nf__home" href="/">На главную</a>
+    <a class="nf__home" href={to('')}>На главную</a>
   </main>
 </Shell>

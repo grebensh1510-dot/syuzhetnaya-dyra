@@ -3,6 +3,7 @@ import { ClientRouter } from 'astro:transitions';
 import '../styles/base.css';
 import '../styles/world.css';
 import '../styles/cinematic.css';
+import { asset } from '../scripts/paths.js';
 
 const { title, screen = '', description } = Astro.props;
 const pageTitle = `${title} — Сюжетная дыра`;
@@ -19,7 +20,7 @@ const desc =
  * ломается.
  */
 const origin = Astro.site ? Astro.site.origin : '';
-const shareImage = origin ? `${origin}/brand/share.jpg` : '';
+const shareImage = origin ? new URL(asset('brand/share.jpg'), origin).href : '';
 const canonical = origin ? new URL(Astro.url.pathname, origin).href : '';
 ---
 
@@ -40,7 +41,7 @@ const canonical = origin ? new URL(Astro.url.pathname, origin).href : '';
     */}
     <meta name="robots" content="noindex" />
 
-    <link rel="icon" href="/brand/logo-mark.png" type="image/png" />
+    <link rel="icon" href={asset('brand/logo-mark.png')} type="image/png" />
     {canonical && <link rel="canonical" href={canonical} />}
 
     {/* Карточка ссылки: без этого в мессенджере видно голый адрес. */}

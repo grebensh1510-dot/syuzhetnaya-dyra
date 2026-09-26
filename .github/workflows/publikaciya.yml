@@ -1,0 +1,66 @@
+# Сборка и публикация сайта на GitHub Pages.
+#
+# В репозитории лежат исходники, а не готовый сайт: одиннадцать страниц
+# собираются из данных. Поэтому публикация — это не «положить файлы», а
+# «собрать и положить». Делает это GitHub сам, на каждый коммит в main.
+#
+# BASE_PATH обязателен: проектный сайт живёт в подпапке /syuzhetnaya-dyra/,
+# и без него все внутренние ссылки уйдут в корень github.io, где ничего
+# нашего нет. SITE_URL нужен только карточке ссылки в мессенджерах —
+# og:image обязан быть абсолютным.
+
+name: Публикация сайта
+
+on:
+  push:
+    branches: [main]
+  # Кнопка «собрать сейчас» во вкладке Actions — на случай, когда нужно
+  # пересобрать без коммита.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Две сборки разом подрались бы за публикацию. Побеждает последняя: она
+# собрана из более свежего кода.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  sborka:
+    name: Сборка
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Зависимости
+        run: npm ci
+
+      - name: Собрать сайт
+        run: npm run build
+        env:
+          BASE_PATH: /syuzhetnaya-dyra/
+          SITE_URL: https://grebensh1510-dot.github.io
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  publikaciya:
+    name: Публикация
+    needs: sborka
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.pages.outputs.page_url }}
+    steps:
+      - id: pages
+        uses: actions/deploy-pages@v4

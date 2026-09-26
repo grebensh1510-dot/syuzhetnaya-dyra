@@ -33,8 +33,22 @@ const site = process.env.SITE_URL || undefined;
  */
 const metrikaId = process.env.PUBLIC_METRIKA_ID || '112961250';
 
+/*
+ * Подпапка, в которой лежит сайт.
+ *
+ * На своём домене это корень. На GitHub Pages проектный сайт живёт по адресу
+ * вида /syuzhetnaya-dyra/, и каждая внутренняя ссылка обязана начинаться с
+ * неё — иначе ведёт в корень чужого домена, где ничего нашего нет.
+ *
+ * Astro кладёт это значение в import.meta.env.BASE_URL. Оттуда его берут
+ * src/scripts/paths.js и через них вся разметка; руками корень нигде не
+ * записан, поэтому переезд на другой адрес — это правка одной переменной.
+ */
+const base = process.env.BASE_PATH || '/';
+
 export default defineConfig({
   site,
+  base,
   server: { port: 4321 },
   devToolbar: { enabled: false },
   build: {

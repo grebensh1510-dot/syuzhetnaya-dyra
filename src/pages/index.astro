@@ -5,6 +5,7 @@ import CinematicPhoto from '../components/CinematicPhoto.astro';
 import HeroTitle from '../components/HeroTitle.astro';
 import Scrap from '../components/Scrap.astro';
 import { work, heroes, family, checks, warmup, matching, plural } from '../data/ionych.js';
+import { to, asset } from '../scripts/paths.js';
 
 const heroCount = heroes.length + 1;
 const questionCount = Object.values(checks).reduce((n, list) => n + list.length, 0) + 1;
@@ -18,8 +19,8 @@ const cast = [{ ...family, anchor: 'turkiny' }, ...heroes.map((h) => ({ ...h, an
   <Header />
 
   <CinematicPhoto
-    src="/hero/ionych-1680.jpg"
-    srcNarrow="/hero/ionych-900.jpg"
+    src={asset('hero/ionych-1680.jpg')}
+    srcNarrow={asset('hero/ionych-900.jpg')}
     alt=""
     position="center 42%"
   >
@@ -27,7 +28,7 @@ const cast = [{ ...family, anchor: 'turkiny' }, ...heroes.map((h) => ({ ...h, an
       <HeroTitle text={work.title} />
 
       <div class="hero__act">
-        <a class="hero__cta" href="/ionych/dosye/" data-petal-link>
+        <a class="hero__cta" href={to('ionych/dosye/')} data-petal-link>
           Начать тренировку
           <span class="hero__cta-arrow" aria-hidden="true">→</span>
         </a>
@@ -75,7 +76,7 @@ const cast = [{ ...family, anchor: 'turkiny' }, ...heroes.map((h) => ({ ...h, an
         {
           cast.map((c) => (
             <li>
-              <a class="cast__item" href={`/ionych/dosye/#${c.anchor}`}>
+              <a class="cast__item" href={to(`ionych/dosye/#${c.anchor}`)}>
                 <span class="cast__name">{c.name}</span>
                 <span class="cast__role">{c.aka ? `«${c.aka}»` : c.role}</span>
               </a>
@@ -85,7 +86,7 @@ const cast = [{ ...family, anchor: 'turkiny' }, ...heroes.map((h) => ({ ...h, an
         {
           cast.map((c) => (
             <li aria-hidden="true">
-              <a class="cast__item" href={`/ionych/dosye/#${c.anchor}`} tabindex="-1">
+              <a class="cast__item" href={to(`ionych/dosye/#${c.anchor}`)} tabindex="-1">
                 <span class="cast__name">{c.name}</span>
                 <span class="cast__role">{c.aka ? `«${c.aka}»` : c.role}</span>
               </a>

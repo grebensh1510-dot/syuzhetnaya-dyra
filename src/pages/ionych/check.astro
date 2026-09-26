@@ -3,6 +3,7 @@ import Shell from '../../layouts/Shell.astro';
 import Header from '../../components/Header.astro';
 import NextWork from '../../components/NextWork.astro';
 import { heroes, heroById, checks, checkOrder, finalCheck, plural } from '../../data/ionych.js';
+import { to, asset } from '../../scripts/paths.js';
 
 const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id] }));
 ---
@@ -22,7 +23,7 @@ const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id
         {
           blocks.map((b, i) => (
             <li>
-              <a class="pick__row" href={`/ionych/check/?hero=${b.id}`} data-hero={b.id}>
+              <a class="pick__row" href={to(`ionych/check/?hero=${b.id}`)} data-hero={b.id}>
                 <span class="pick__num">{['I', 'II', 'III', 'IV', 'V'][i]}</span>
                 <span class="pick__body">
                   <span class="pick__name">{b.hero.name}</span>
@@ -36,7 +37,7 @@ const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id
           ))
         }
         <li>
-          <a class="pick__row pick__row--final" href="/ionych/check/?hero=final" data-hero="final">
+          <a class="pick__row pick__row--final" href={to('ionych/check/?hero=final')} data-hero="final">
             <span class="pick__num">VI</span>
             <span class="pick__body">
               <span class="pick__name">Финал рассказа</span>
@@ -49,7 +50,7 @@ const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id
 
       <div class="pick__gate" data-gate>
         <p class="pick__gate-text" data-gate-text></p>
-        <a class="pick__gate-go" href="/ionych/dyra/" data-petal-link data-gate-go hidden>
+        <a class="pick__gate-go" href={to('ionych/dyra/')} data-petal-link data-gate-go hidden>
           Открыть тест-дыру № 2
         </a>
 
@@ -62,7 +63,7 @@ const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id
       [...blocks, { id: 'final', hero: { name: 'Финал рассказа' }, list: [finalCheck] }].map((b) => (
         <section class="run" data-run={b.id} data-total={b.list.length} hidden>
           <header class="run__bar">
-            <a class="run__back" href="/ionych/check/">Все герои</a>
+            <a class="run__back" href={to('ionych/check/')}>Все герои</a>
             <p class="prog-roman">
               <span class="prog-roman__now" data-counter>I</span>
               <span class="prog-roman__of">из {b.list.length}</span>
@@ -77,7 +78,7 @@ const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id
             {b.id !== 'final' && (
               <img
                 class="run__face"
-                src={`/heroes/cut/thumb/${b.id}.webp`}
+                src={asset(`heroes/cut/thumb/${b.id}.webp`)}
                 alt=""
                 width="200"
                 height="300"
@@ -119,7 +120,7 @@ const blocks = checkOrder.map((id) => ({ id, hero: heroById[id], list: checks[id
               </p>
               <div class="done__actions">
                 <button class="done__again" type="button">Пройти заново</button>
-                <a class="done__back" href="/ionych/check/">К списку героев</a>
+                <a class="done__back" href={to('ionych/check/')}>К списку героев</a>
               </div>
               <p class="done__next" data-next></p>
             </section>

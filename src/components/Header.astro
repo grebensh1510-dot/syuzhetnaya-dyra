@@ -9,6 +9,7 @@
 // и возвращается на активный (§5.4).
 import Logo from './Logo.astro';
 import { sections } from '../data/ionych.js';
+import { to } from '../scripts/paths.js';
 const { active = '' } = Astro.props;
 const isHome = !active;
 ---
@@ -20,7 +21,7 @@ const isHome = !active;
         <Logo />
       </span>
     ) : (
-      <a class="hdr__brand hdr__brand--home" href="/">
+      <a class="hdr__brand hdr__brand--home" href={to('')}>
         <span class="hdr__home-arrow" aria-hidden="true">←</span>
         <span class="hdr__home-word">Главная</span>
       </a>
@@ -34,7 +35,7 @@ const isHome = !active;
           <li>
             <a
               class="hdr__link"
-              href={s.href}
+              href={to(s.href)}
               data-slide-item
               data-current={s.id === active ? 'true' : undefined}
               aria-current={s.id === active ? 'page' : undefined}

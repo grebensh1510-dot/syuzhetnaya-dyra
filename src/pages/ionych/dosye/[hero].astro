@@ -3,6 +3,7 @@ import Shell from '../../../layouts/Shell.astro';
 import Header from '../../../components/Header.astro';
 import RollText from '../../../components/RollText.astro';
 import { family, heroes, checks, plural } from '../../../data/ionych.js';
+import { to, asset } from '../../../scripts/paths.js';
 
 const cards = [
   { ...family, isFamily: true, photo: 'turkiny' },
@@ -102,7 +103,7 @@ const right = card.rows.slice(half);
         <div class="spread__photo-rev">
           <img
             class="spread__img"
-            src={`/heroes/cut/${card.photo}.webp`}
+            src={asset(`heroes/cut/${card.photo}.webp`)}
             alt=""
             width="820"
             height="1230"
@@ -156,7 +157,7 @@ const right = card.rows.slice(half);
     <div class="spread__foot">
       {
         !card.isFamily && checks[card.id] ? (
-          <a class="ds-go" href={`/ionych/check/?hero=${card.id}`}>
+          <a class="ds-go" href={to(`ionych/check/?hero=${card.id}`)}>
             Отработать в чеке
             <span class="ds-go__n">
               {checks[card.id].length}{' '}
@@ -171,15 +172,15 @@ const right = card.rows.slice(half);
         )
       }
 
-      <a class="spread__back" href="/ionych/dosye/">Вся колода</a>
+      <a class="spread__back" href={to('ionych/dosye/')}>Вся колода</a>
     </div>
 
     <nav class="sheetdoc__nav" aria-label="Соседние герои">
-      <a class="sheetdoc__step" href={`/ionych/dosye/${prev.photo}/`}>
+      <a class="sheetdoc__step" href={to(`ionych/dosye/${prev.photo}/`)}>
         <span class="sheetdoc__dir">← предыдущий</span>
         <span class="sheetdoc__who">{prev.name}</span>
       </a>
-      <a class="sheetdoc__step sheetdoc__step--next" href={`/ionych/dosye/${next.photo}/`}>
+      <a class="sheetdoc__step sheetdoc__step--next" href={to(`ionych/dosye/${next.photo}/`)}>
         <span class="sheetdoc__dir">следующий →</span>
         <span class="sheetdoc__who">{next.name}</span>
       </a>
